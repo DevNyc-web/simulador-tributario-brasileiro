@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Nova Simulação{% endblock %}
+{% block content %}
+<section class="section">
+  <h1>Nova Simulação</h1>
+  <p class="muted">Formulário em desenvolvimento. Resultados por ano:</p>
+  <div class="grid">
+    {% for r in results %}
+    <article class="card">
+      <h3>{{ r.ano }}</h3>
+      <p class="muted">{{ r.status }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

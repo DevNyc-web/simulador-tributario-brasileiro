@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Simulador Tributário Brasileiro</h1>
+  <p class="subtitle">Simulação e comparação tributária 2026–2033</p>
+  <p class="lead">Projeto acadêmico que compara cenários de Pessoa Física e Pessoa Jurídica e mostra como as regras evoluem durante a transição da Reforma Tributária.</p>
+  <a class="btn" href="{{ url_for('simulation') }}">Nova Simulação</a>
+</section>
+
+<section id="perfis" class="section">
+  <h2>Perfis</h2>
+  <div class="grid">
+    {% for p in profiles %}
+    <article class="card">
+      <h3>{{ p }}</h3>
+      <p class="muted">[REGRA PENDENTE DE VALIDAÇÃO]</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="transicao" class="section">
+  <h2>Transição Tributária 2026–2033</h2>
+  <div class="timeline">
+    {% for y in range(2026, 2034) %}<span class="year">{{ y }}</span>{% endfor %}
+  </div>
+  <div class="chart-placeholder">Espaço reservado para gráficos</div>
+</section>
+{% endblock %}

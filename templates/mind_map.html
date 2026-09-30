@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa mental do projeto · Simulador Tributário Brasileiro</title>
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mind-map.css') }}">
+</head>
+<body>
+  {# Apresentação interativa: conteúdo resumido do relatório final. Nenhuma regra fiscal aqui. #}
+  <header class="mm-top">
+    <a class="mm-brand" href="{{ url_for('index') }}">← Simulador Tributário</a>
+    <div class="mm-progress" aria-hidden="true">
+      <span class="mm-ind"><b id="ind-num">00</b> / <span id="ind-total">16</span></span>
+      <span class="mm-bar"><i id="ind-bar"></i></span>
+    </div>
+  </header>
+
+  <div class="mm-viewport" id="viewport">
+    <div class="mm-world" id="world">
+      <div class="mm-region" style="left:-650px;top:-560px">PROJETO</div>
+      <div class="mm-region" style="left:-650px;top:2050px">MOTOR 2026</div>
+      <div class="mm-region" style="left:-650px;top:4200px">GESTÃO</div>
+      <div class="mm-region" style="left:-650px;top:5300px">QUALIDADE</div>
+      <div class="mm-region future" style="left:5000px;top:6300px">FUTURO</div>
+
+      <svg class="mm-links" id="links" aria-hidden="true" focusable="false"></svg>
+
+      <main>
+      {# 00 — Abertura #}
+      <section class="cluster c-open" id="c00" data-stop="0" data-x="0" data-y="0" style="left:0;top:0;--cw:1100px" aria-labelledby="t00">
+        <p class="eyebrow">Projeto acadêmico · versão 1.0</p>
+        <h1 id="t00">Simulador Tributário Brasileiro 2026–2033</h1>
+        <p class="sub">Sistema web educacional para simulação e comparação tributária</p>
+        <div class="duo">
+          <div class="big-year real"><b>2026</b><span>Cálculo real</span></div>
+          <div class="big-year edu"><b>2027–2033</b><span>Linha educacional / roadmap</span></div>
+        </div>
+        <p class="small">Para 2027–2033 não há motor fiscal: apenas estrutura educacional.</p>
+      </section>
+
+      {# 01 — Problema e oportunidade #}
+      <section class="cluster" id="c01" data-stop="1" data-x="1800" data-y="-250" style="left:1800px;top:-250px;--cw:980px" aria-labelledby="t01">
+        <p class="num">01</p>
+        <h2 id="t01">Problema e oportunidade</h2>
+        <div class="split">
+          <div>
+            <h3>Problema</h3>
+            <ul class="kw"><li>Regras tributárias extensas e mutáveis</li><li>Difícil comparar estruturas diferentes</li><li>Resultados sem origem visível</li></ul>
+          </div>
+          <div>
+            <h3>Oportunidade</h3>
+            <ul class="kw good"><li>Centralizar a simulação</li><li>Explicar premissas e avisos</li><li>Rastrear regras e fontes</li><li>Comparar cenários</li></ul>
+          </div>
+        </div>
+      </section>
+
+      {# 02 — Proposta de valor e objetivos #}
+      <section class="cluster" id="c02" data-stop="2" data-x="3600" data-y="0" style="left:3600px;top:0;--cw:980px" aria-labelledby="t02">
+        <p class="num">02</p>
+        <h2 id="t02">Proposta de valor e objetivos</h2>
+        <p class="quote">Simular cenários de 2026 com transparência: cálculo, premissas, avisos e diferenças entre cenários.</p>
+        <div class="chips">
+          <span>Simulação transparente</span><span>Premissas visíveis</span><span>Avisos</span><span>Comparação de cenários</span><span>Regras rastreáveis</span><span class="soft">Não substitui orientação profissional</span>
+        </div>
+        <p class="small">1 objetivo geral · 11 objetivos específicos</p>
+      </section>
+
+      {# 03 — Requisitos, MoSCoW e escopo #}
+      <section class="cluster" id="c03" data-stop="3" data-x="3600" data-y="1300" style="left:3600px;top:1300px;--cw:1080px" aria-labelledby="t03">
+        <p class="num">03</p>
+        <h2 id="t03">Requisitos, prioridades e escopo</h2>
+        <p class="lead"><b>14</b> requisitos funcionais · <b>14</b> não funcionais</p>
+        <div class="moscow" role="img" aria-label="Distribuição MoSCoW: Must 14, Should 5, Could 4, Won't 5">
+          <div style="--n:14"><b>14</b><span>Must</span></div>
+          <div style="--n:5"><b>5</b><span>Should</span></div>
+          <div style="--n:4"><b>4</b><span>Could</span></div>
+          <div style="--n:5"><b>5</b><span>Won't</span></div>
+        </div>
+        <div class="split">
+          <div>
+            <h3>Dentro</h3>
+            <p class="small">2026 · PF · MEI · Simples (serviços) · Anexos III/V · Fator R · pró-labore · dividendos · comparador · interface web</p>
+          </div>
+          <div>
+            <h3>Parcial ou não entregue</h3>
+            <ul class="kw amber"><li>Linha do tempo da Reforma: estrutura, conteúdo pendente</li><li>Gráficos comparativos</li><li>Diferença anual completa</li><li>Atalho MEI → Simples</li><li>Preservação de dados entre telas</li></ul>
+          </div>
+        </div>
+      </section>
+
+      {# 04 — Pesquisa tributária #}
+      <section class="cluster" id="c04" data-stop="4" data-x="1800" data-y="1550" style="left:1800px;top:1550px;--cw:1120px" aria-labelledby="t04">
+        <p class="num">04</p>
+        <h2 id="t04">Pesquisa tributária e rastreabilidade</h2>
+        <div class="tr-groups">
+          <div><h3>Pessoa Física</h3><span class="tr">TR-001</span><span class="tr">TR-002</span></div>
+          <div><h3>MEI</h3><span class="tr">TR-003</span><span class="tr">TR-004</span></div>
+          <div><h3>Simples</h3><span class="tr">TR-005</span><span class="tr">TR-006</span><span class="tr">TR-007</span><span class="tr">TR-008</span><span class="tr">TR-009</span></div>
+          <div><h3>PJ / comparador</h3><span class="tr">TR-010</span><span class="tr">TR-011</span></div>
+        </div>
+        <div class="pipeline">
+          <span>Pesquisada</span><i>→</i><span>Validada</span><i>→</i><span>Implementada</span><i>→</i><span>Testada</span>
+        </div>
+        <p class="small">As 11 regras percorreram as quatro etapas. Sem fonte oficial registrada, sem regra.</p>
+      </section>
+
+      {# 05 — Arquitetura #}
+      <section class="cluster" id="c05" data-stop="5" data-x="0" data-y="1300" style="left:0;top:1300px;--cw:900px" aria-labelledby="t05">
+        <p class="num">05</p>
+        <h2 id="t05">Arquitetura</h2>
+        <ol class="layers">
+          <li>Navegador</li><li>Flask (rotas)</li><li>Serviços e adaptadores de entrada</li><li>Motor tributário</li><li>Carga de regras</li><li>rules.json por ano</li>
+        </ol>
+        <div class="chips">
+          <span>Monólito modular</span><span>Decimal</span><span>Regras versionadas</span><span>Sem fórmula no frontend</span><span>Sem API externa no cálculo</span>
+        </div>
+      </section>
+
+      {# 06 — Pessoa Física #}
+      <section class="cluster" id="c06" data-stop="6" data-x="0" data-y="2700" style="left:0;top:2700px;--cw:860px" aria-labelledby="t06">
+        <p class="num">06</p>
+        <h2 id="t06">Pessoa Física / autônomo</h2>
+        <div class="flow">
+          <div class="step"><h3>Entrada</h3><p>Renda mensal<br>Plano do INSS</p></div>
+          <i>→</i>
+          <div class="step"><h3>Motor</h3><p>INSS<br>IRPF</p></div>
+          <i>→</i>
+          <div class="step"><h3>Saída</h3><p>Tributos<br>Líquido<br>Explicações</p></div>
+        </div>
+        <p class="refs"><span class="tr">TR-001</span><span class="tr">TR-002</span></p>
+      </section>
+
+      {# 07 — MEI #}
+      <section class="cluster" id="c07" data-stop="7" data-x="1800" data-y="2950" style="left:1800px;top:2950px;--cw:860px" aria-labelledby="t07">
+        <p class="num">07</p>
+        <h2 id="t07">MEI</h2>
+        <div class="flow">
+          <div class="step"><h3>Entrada</h3><p>Receita<br>Categoria<br>Meses de atividade<br>Optante SIMEI</p></div>
+          <i>→</i>
+          <div class="step"><h3>Saída</h3><p>Limite<br>DAS<br>Situação<br>Avisos</p></div>
+        </div>
+        <p class="note">Receita zero não elimina o DAS enquanto o cenário estiver enquadrado.</p>
+        <p class="refs"><span class="tr">TR-003</span><span class="tr">TR-004</span></p>
+      </section>
+
+      {# 08 — Simples Nacional #}
+      <section class="cluster" id="c08" data-stop="8" data-x="3600" data-y="2700" style="left:3600px;top:2700px;--cw:1180px" aria-labelledby="t08">
+        <p class="num">08</p>
+        <h2 id="t08">Simples Nacional</h2>
+        <div class="flow col">
+          <div class="step wide"><h3>Entrada</h3><p>Receita do mês · receitas anteriores · folhas anteriores · atividade</p></div>
+          <i>↓</i>
+          <div class="step wide"><h3>RBT12 / RBT12p &nbsp;·&nbsp; Fator R</h3></div>
+          <i>↓</i>
+          <div class="fork">
+            <div class="step"><h3>Fator R ≥ corte</h3><p class="anx">Anexo III</p></div>
+            <div class="step"><h3>Fator R &lt; corte</h3><p class="anx">Anexo V</p></div>
+          </div>
+          <i>↓</i>
+          <div class="step wide"><h3>Alíquota efetiva → DAS</h3></div>
+        </div>
+        <p class="refs"><span class="tr">TR-005</span><span class="tr">TR-006</span><span class="tr">TR-007</span><span class="tr">TR-008</span><span class="tr">TR-009</span></p>
+        <p class="small">Nove atividades validadas, sujeitas ao Fator R.</p>
+      </section>
+
+      {# 09 — Pró-labore, dividendos e comparador #}
+      <section class="cluster" id="c09" data-stop="9" data-x="3600" data-y="4400" style="left:3600px;top:4400px;--cw:1200px" aria-labelledby="t09">
+        <p class="num">09</p>
+        <h2 id="t09">Pró-labore, dividendos e comparador</h2>
+        <div class="lanes">
+          <div class="lane">
+            <h3>Pessoa Física</h3>
+            <p>INSS + IRPF</p><i>↓</i><p>Líquido pessoal</p>
+          </div>
+          <div class="center"><b>Diferenças numéricas</b><span>no cenário informado</span></div>
+          <div class="lane">
+            <h3>Pessoa Jurídica</h3>
+            <p>DAS + pró-labore + dividendos</p><i>↓</i><p>Valor recebido pela pessoa física</p>
+          </div>
+        </div>
+        <p class="refs"><span class="tr">TR-010</span><span class="tr">TR-011</span></p>
+        <p class="small">O comparador apresenta diferenças aritméticas e não indica opção alguma.</p>
+      </section>
+
+      {# 10 — Gestão do projeto #}
+      <section class="cluster" id="c10" data-stop="10" data-x="1800" data-y="4700" style="left:1800px;top:4700px;--cw:1100px" aria-labelledby="t10">
+        <p class="num">10</p>
+        <h2 id="t10">Gestão do projeto</h2>
+        <div class="mini-grid">
+          <div><b>8</b><span>pacotes na EAP</span></div>
+          <div><b>6</b><span>semanas de baseline acadêmica</span></div>
+          <div><b>14</b><span>riscos registrados</span></div>
+          <div><b>5</b><span>papéis no RACI</span></div>
+        </div>
+        <div class="critical"><span>Pesquisa</span><i>→</i><span>Arquitetura</span><i>→</i><span>Motor</span><i>→</i><span>Interface</span><i>→</i><span>Testes</span><i>→</i><span>Entrega</span></div>
+        <p class="small">Caminho crítico e plano de comunicação no relatório. A baseline de 6 semanas é planejamento, não o histórico real do Git (commits concentrados em 29 e 30/09/2026).</p>
+      </section>
+
+      {# 11 — Viabilidade econômica #}
+      <section class="cluster" id="c11" data-stop="11" data-x="0" data-y="4400" style="left:0;top:4400px;--cw:1000px" aria-labelledby="t11">
+        <p class="num">11</p>
+        <h2 id="t11">Viabilidade econômica</h2>
+        <p class="tag">Cenário acadêmico estimativo · hipótese, não receita real</p>
+        <div class="mini-grid">
+          <div><b>R$ 18.400</b><span>investimento</span></div>
+          <div><b>R$ 6.540</b><span>fluxo líquido anual</span></div>
+          <div><b>5 anos</b><span>horizonte</span></div>
+          <div><b>12%</b><span>taxa mínima de atratividade</span></div>
+        </div>
+        <div class="mini-grid results">
+          <div><b>R$ 5.175,24</b><span>VPL</span></div>
+          <div><b>22,83%</b><span>TIR</span></div>
+          <div><b>2,81 anos</b><span>payback simples</span></div>
+          <div><b>3,65 anos</b><span>payback descontado</span></div>
+        </div>
+      </section>
+
+      {# 12 — Qualidade e testes #}
+      <section class="cluster" id="c12" data-stop="12" data-x="0" data-y="5900" style="left:0;top:5900px;--cw:1100px" aria-labelledby="t12">
+        <p class="num">12</p>
+        <h2 id="t12">Qualidade e testes</h2>
+        <div class="giant">
+          <div><b>432</b><span>testes</span></div>
+          <div><b>98%</b><span>cobertura de linhas</span></div>
+        </div>
+        <div class="chips">
+          <span>Unitários</span><span>Integração</span><span>Fronteiras</span><span>Entradas hostis</span><span>HTTP</span><span>Segurança de saída</span><span>Acessibilidade básica</span><span>360 px sem overflow detectado</span>
+        </div>
+      </section>
+
+      {# 13 — Resultados #}
+      <section class="cluster" id="c13" data-stop="13" data-x="1800" data-y="6150" style="left:1800px;top:6150px;--cw:900px" aria-labelledby="t13">
+        <p class="num">13</p>
+        <h2 id="t13">Resultados</h2>
+        <ul class="checks">
+          <li>Pessoa Física</li><li>MEI</li><li>Simples Nacional</li><li>Comparador PF × PJ</li><li>Interface web</li><li>Rastreabilidade</li><li>Testes automatizados</li>
+        </ul>
+        <p class="lead"><b>2026</b> = funcional</p>
+        <p class="small">TR-001 a TR-011 implementadas e testadas.</p>
+      </section>
+
+      {# 14 — Limitações #}
+      <section class="cluster limits" id="c14" data-stop="14" data-x="3600" data-y="5900" style="left:3600px;top:5900px;--cw:1120px" aria-labelledby="t14">
+        <p class="num">14</p>
+        <h2 id="t14">Limitações: fronteiras do MVP</h2>
+        <div class="split">
+          <div>
+            <h3>Escopo</h3>
+            <ul class="kw amber"><li>Cálculo real somente em 2026</li><li>2027–2033 ainda educacionais</li><li>Sem Lucro Presumido nem Lucro Real</li><li>Sem banco, histórico ou autenticação</li><li>Sem PDF, sem API governamental</li><li>Sem atualização legislativa automática</li><li>Não substitui profissional</li></ul>
+          </div>
+          <div>
+            <h3>Planejado e não entregue</h3>
+            <ul class="kw amber"><li>Gráficos</li><li>Diferença anual completa</li><li>Atalho MEI → Simples</li><li>Dados preservados entre telas</li></ul>
+          </div>
+        </div>
+      </section>
+
+      {# 15 — Roadmap #}
+      <section class="cluster future" id="c15" data-stop="15" data-x="5900" data-y="6900" style="left:5900px;top:6900px;--cw:1040px" aria-labelledby="t15">
+        <p class="num">15</p>
+        <h2 id="t15">Roadmap e Reforma 2027–2033</h2>
+        <div class="chips">
+          <span>Lucro Presumido</span><span>Lucro Real</span><span>IBS/CBS</span><span>2027–2033 completos</span><span>Banco / histórico</span><span>PDF</span><span>Autenticação</span><span>APIs</span><span>Atualização normativa</span><span>IA explicativa</span><span>Mobile</span>
+        </div>
+        <p class="tag future-tag">Tudo acima é FUTURO · nada disso está implementado</p>
+      </section>
+
+      {# 16 — Encerramento (núcleo do mapa) #}
+      <section class="cluster c-close" id="c16" data-stop="16" data-x="1800" data-y="3700" style="left:1800px;top:3700px;--cw:1100px" aria-labelledby="t16">
+        <p class="num">16</p>
+        <h2 id="t16">Um motor tributário rastreável, testado e preparado para evoluir.</h2>
+        <div class="duo">
+          <div class="big-year real"><b>2026</b><span>funcional</span></div>
+          <div class="big-year edu"><b>2027–2033</b><span>evolução planejada</span></div>
+        </div>
+        <p class="small">Simulação educacional. Não substitui orientação profissional.</p>
+      </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="mm-hint" id="hint" aria-hidden="true">Role para percorrer o mapa</div>
+  <p class="mm-foot">Ferramenta educacional. Não substitui orientação contábil ou jurídica.</p>
+  <div class="mm-track" id="track" aria-hidden="true"></div>
+  <script src="{{ url_for('static', filename='js/mind-map.js') }}"></script>
+</body>
+</html>

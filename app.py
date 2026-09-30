@@ -30,6 +30,7 @@ PAGES = {
     "result": ("/resultado", "result.html"),
     "reform": ("/reforma", "reform.html"),
     "about": ("/sobre", "about.html"),
+    "mind_map": ("/mapa-mental", "mind_map.html"),
 }
 FORM_TEMPLATES = {"pf": "pf.html", "mei": "mei.html", "simples": "simples.html", "comparar": "compare.html"}
 

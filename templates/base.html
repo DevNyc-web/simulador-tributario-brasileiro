@@ -12,7 +12,7 @@
     <a class="brand" href="{{ url_for('index') }}">Simulador Tributário</a>
     <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">☰</button>
     <nav class="nav" id="nav" aria-label="Principal">
-      {% set links = [('simulation', 'Simulações'), ('reform', 'Reforma'), ('about', 'Sobre')] %}
+      {% set links = [('simulation', 'Simulações'), ('reform', 'Reforma'), ('about', 'Sobre'), ('mind_map', 'Mapa')] %}
       {% for ep, text in links %}
       <a href="{{ url_for(ep) }}" {% if request.path.startswith(url_for(ep)) %}aria-current="page"{% endif %}>{{ text }}</a>
       {% endfor %}

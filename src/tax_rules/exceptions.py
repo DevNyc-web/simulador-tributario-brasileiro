@@ -15,3 +15,11 @@ class InvalidRuleFileError(TaxRuleError):
 
 class InvalidDecimalValueError(TaxRuleError):
     """Valor decimal fiscal inválido (não é uma string decimal válida)."""
+
+
+class RuleNotFoundError(TaxRuleError):
+    """Regra (TR-XXX) inexistente no arquivo do ano."""
+
+
+class RuleNotCalculableError(TaxRuleError):
+    """Regra existe, mas seu status não autoriza produzir resultado fiscal."""

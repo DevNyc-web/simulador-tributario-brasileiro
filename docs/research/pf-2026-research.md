@@ -233,7 +233,7 @@ Ambos os planos são compatíveis com o cenário aprovado (autônomo, por conta 
 
 ### Fontes (TR-002)
 
-F-11, F-12, F-13, F-14, F-15, F-16, F-17, F-18, F-21, F-22 (mais F-07, F-09, F-05 para a dedutibilidade).
+F-11, F-12, F-13, F-14, F-15, F-16, F-17, F-18, F-21, F-22 (mais F-07, F-09, F-05 para a dedutibilidade; F-47 para renda mensal zero).
 
 ---
 
@@ -280,7 +280,13 @@ Fonte dos casos: página "Exemplos de Aplicação da Lei 15.270/2025" (22/12/202
 | TC-004 (Rita) | 6.000,00 | dedução legal 649,60 (contribuição) | 5.350,40 | 5.350,40 × 27,5% − 908,73 = 562,63 | 978,62 − 0,133145 × 6.000,00 = 179,75 | 382,88 |
 | TC-005 (Vera) | 7.607,20 | simplificado 607,20 | 7.000,00 | 7.000,00 × 27,5% − 908,73 = 1.016,27 | nenhuma (rendimento > 7.350,00) | 1.016,27 |
 
-Todos os valores da tabela vêm de F-02. (Conferi a aritmética dos cinco exemplos: fecham.)
+Todos os valores da tabela vêm de F-02.
+
+**Inconsistência aritmética em TC-001 (registrada, fonte preservada):** a página oficial da Receita (F-02) publica literalmente `R$ 3.036,00 − R$ 607,20 = R$ 2.428,00` (base **R$ 2.428,00**; é o valor da coluna "Base" acima, copiado da fonte). A subtração correta é **R$ 2.428,80**. O resultado tributário não muda (base ≤ R$ 2.428,80 → faixa isenta → imposto devido R$ 0,00). O teste do motor (`test_irpf_official_example_tc001_joao`) usa a base matematicamente correta R$ 2.428,80 e comenta a divergência. Os demais quatro exemplos (TC-002 a TC-005) conferem aritmeticamente.
+
+### Renda mensal zero (TR-002, decisão de implementação 4B) — fonte F-47
+
+Sem remuneração no mês, o INSS calculado é R$ 0,00 (não se aplica a base mínima de R$ 1.621,00): segundo a IN RFB nº 2.110/2022 (F-47), o contribuinte individual só poderá contribuir facultativamente, por ato volitivo. A contribuição facultativa está fora do MVP; o motor emite aviso. Vale para os dois planos. Renda positiva abaixo do mínimo segue o tratamento de Q-P6 (valor que alcança o mínimo, com aviso).
 
 ### TR-001 — exemplo de Carnê-Leão com desconto simplificado (F-07)
 

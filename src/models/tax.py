@@ -63,6 +63,30 @@ class SimulationInput:
     tipo_simulacao: str | None = None
 
 
+class PlanoINSS(str, Enum):
+    """Plano previdenciário do contribuinte individual (escolhido pelo usuário)."""
+
+    NORMAL = "NORMAL"
+    SIMPLIFICADO = "SIMPLIFICADO"
+
+
+@dataclass(frozen=True)
+class PFSimulationInput:
+    """Entrada do cenário Pessoa Física / autônomo (TR-001 + TR-002)."""
+
+    ano: int
+    renda_mensal: Decimal
+    plano_inss: PlanoINSS
+
+    def __post_init__(self):
+        if not isinstance(self.renda_mensal, Decimal) or not self.renda_mensal.is_finite():
+            raise TypeError("renda_mensal deve ser um Decimal finito (nunca float).")
+        if self.renda_mensal < 0:
+            raise ValueError("renda_mensal não pode ser negativa.")
+        if not isinstance(self.plano_inss, PlanoINSS):
+            raise TypeError("plano_inss deve ser um PlanoINSS.")
+
+
 @dataclass(frozen=True)
 class TaxItem:
     """Um tributo/contribuição individual dentro de um resultado de simulação."""

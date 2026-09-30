@@ -53,8 +53,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Entradas necessárias | ano; plano (normal ou simplificado, escolhido pelo usuário); remuneração mensal do trabalho por conta própria (base do plano normal) |
 | Saídas produzidas | contribuição previdenciária; avisos educacionais; valor dedutível para TR-001 |
 | Fórmula/regra | Ver [pf-2026-research.md](pf-2026-research.md), seções Plano normal, Plano simplificado e Limites 2026. Resumo: plano normal 20% sobre o salário de contribuição (remuneração mensal do trabalho por conta própria, entre o limite mínimo e o teto); plano simplificado 11% sobre o limite mínimo (salário mínimo). Base do plano normal: Q-P1 RESOLVIDA (Lei 8.212/1991, art. 28, III). Tratamento abaixo do limite mínimo: Q-P6 em aberto. |
-| Fonte oficial primária | INSS (F-11, F-12, F-13, F-17, F-18); Planalto (F-14 Lei 8.212/1991); Ministério da Previdência Social/DOU (F-15 Portaria MPS/MF 13/2026); Receita Federal (F-16 Agenda Tributária 2026; F-05, F-07, F-09 para dedutibilidade) |
-| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-11 a F-18 |
+| Fonte oficial primária | INSS (F-11, F-12, F-13, F-17, F-18); Planalto (F-14 Lei 8.212/1991); Ministério da Previdência Social/DOU (F-15 Portaria MPS/MF 13/2026); Receita Federal (F-47 IN RFB 2.110/2022, renda zero; F-16 Agenda Tributária 2026; F-05, F-07, F-09 para dedutibilidade) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-11 a F-18 e F-47 |
 | Base legal | Lei nº 8.212/1991 (arts. 21, 28 III e § 3º, 30 II); Portaria Interministerial MPS/MF nº 13, de 09/01/2026 (art. 2º; lida no DOU); LC nº 123/2006 e Decreto nº 6.042/2007 (citados em F-13) |
 | Artigo/item relevante | Lei 8.212/1991, art. 28, III (salário de contribuição do contribuinte individual), art. 21 (alíquotas) e art. 30, II (vencimento); Portaria MPS/MF 13/2026, art. 2º (mínimo R$ 1.621,00 e máximo R$ 8.475,55) |
 | Data da consulta | 2026-09-29 |

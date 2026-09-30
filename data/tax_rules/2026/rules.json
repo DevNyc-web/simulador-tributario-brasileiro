@@ -1,5 +1,47 @@
 {
   "schema_version": 1,
   "ano": 2026,
-  "regras": []
+  "regras": [
+    {
+      "id": "TR-001",
+      "nome": "IRPF mensal 2026",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-01", "F-02", "F-03", "F-04", "F-05", "F-06", "F-07", "F-08", "F-09", "F-10", "F-19", "F-20"],
+      "parametros": {
+        "faixas": [
+          {"limite_superior": "2428.80", "aliquota": "0", "parcela_deduzir": "0"},
+          {"limite_superior": "2826.65", "aliquota": "0.075", "parcela_deduzir": "182.16"},
+          {"limite_superior": "3751.05", "aliquota": "0.15", "parcela_deduzir": "394.16"},
+          {"limite_superior": "4664.68", "aliquota": "0.225", "parcela_deduzir": "675.49"},
+          {"limite_superior": null, "aliquota": "0.275", "parcela_deduzir": "908.73"}
+        ],
+        "desconto_simplificado_mensal": "607.20",
+        "reducao": {
+          "rendimento_limite_reducao_maxima": "5000.00",
+          "reducao_maxima": "312.89",
+          "rendimento_limite_reducao": "7350.00",
+          "formula_constante": "978.62",
+          "formula_coeficiente": "0.133145"
+        }
+      }
+    },
+    {
+      "id": "TR-002",
+      "nome": "Contribuição previdenciária do contribuinte individual",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-05", "F-07", "F-09", "F-11", "F-12", "F-13", "F-14", "F-15", "F-16", "F-17", "F-18", "F-21", "F-22", "F-47"],
+      "parametros": {
+        "salario_minimo": "1621.00",
+        "teto_previdenciario": "8475.55",
+        "aliquota_normal": "0.20",
+        "aliquota_simplificado": "0.11"
+      }
+    }
+  ]
 }

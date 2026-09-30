@@ -41,9 +41,8 @@ def test_pending_rules_produce_no_numeric_result():
 
 
 @pytest.mark.parametrize("year", SUPPORTED_YEARS)
-def test_rules_files_have_no_tax_data(year):
+def test_non_pf_scenario_stays_pending(year):
     rules = load_year_rules(year)
-    assert rules["regras"] == []
     result = calculate(rules, {})
     assert result.status == SimulationStatus.PENDENTE
     assert result.total_tributos is None

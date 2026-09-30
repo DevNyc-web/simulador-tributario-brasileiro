@@ -9,7 +9,14 @@ from decimal import Decimal
 
 import pytest
 
-from src.tax_rules import SUPPORTED_YEARS, load_year_rules, parse_decimal
+from src.tax_rules import (
+    SUPPORTED_YEARS,
+    RuleNotCalculableError,
+    RuleNotFoundError,
+    get_rule,
+    load_year_rules,
+    parse_decimal,
+)
 from src.tax_rules.exceptions import (
     InvalidDecimalValueError,
     InvalidRuleFileError,
@@ -25,10 +32,58 @@ def test_all_supported_years_load_valid_files(year):
     assert rules["schema_version"] == SCHEMA_VERSION
 
 
-@pytest.mark.parametrize("year", SUPPORTED_YEARS)
-def test_all_supported_years_have_no_rules_yet(year):
-    rules = load_year_rules(year)
-    assert rules["regras"] == []
+def test_2026_has_exactly_tr001_and_tr002():
+    ids = [r["id"] for r in load_year_rules(2026)["regras"]]
+    assert ids == ["TR-001", "TR-002"]
+
+
+@pytest.mark.parametrize("year", [y for y in SUPPORTED_YEARS if y != 2026])
+def test_years_after_2026_have_no_rules_yet(year):
+    assert load_year_rules(year)["regras"] == []
+
+
+def _walk_strings_only(node):
+    """Todo número fiscal no JSON deve ser string (nunca int/float)."""
+    if isinstance(node, dict):
+        for v in node.values():
+            _walk_strings_only(v)
+    elif isinstance(node, list):
+        for v in node:
+            _walk_strings_only(v)
+    else:
+        assert node is None or isinstance(node, str), node
+
+
+def test_2026_rules_contract():
+    from src.models.tax import RuleStatus
+
+    regras = load_year_rules(2026)["regras"]
+    assert len({r["id"] for r in regras}) == len(regras)
+    for r in regras:
+        assert r["ano"] == 2026
+        RuleStatus(r["status"])
+        assert r["fontes"]
+        _walk_strings_only(r["parametros"])
+        get_rule(2026, r["id"])  # metadados válidos e calculável
+
+
+def test_get_rule_errors():
+    with pytest.raises(RuleNotFoundError):
+        get_rule(2026, "TR-999")
+    with pytest.raises(RuleNotFoundError):
+        get_rule(2027, "TR-001")
+
+
+def test_get_rule_refuses_non_calculable_status(tmp_path, monkeypatch):
+    monkeypatch.setattr("src.tax_rules.rule_loader.DATA_DIR", tmp_path)
+    (tmp_path / "2026").mkdir()
+    regra = {"id": "TR-X", "nome": "x", "ano": 2026, "status": "VALIDADA", "vigencia_inicio": "2026-01-01",
+             "vigencia_fim": None, "fontes": ["F-00"], "parametros": {}}
+    payload = {"schema_version": SCHEMA_VERSION, "ano": 2026, "regras": [regra]}
+    (tmp_path / "2026" / "rules.json").write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(RuleNotCalculableError):
+        get_rule(2026, "TR-X")
+    assert get_rule(2026, "TR-X", require_calculable=False).metadata.id == "TR-X"
 
 
 @pytest.mark.parametrize("year", SUPPORTED_YEARS)
@@ -96,7 +151,6 @@ def test_loader_is_independent_of_cwd(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     rules = load_year_rules(2026)
     assert rules["ano"] == 2026
-    assert rules["regras"] == []
 
 
 # --- parse_decimal -----------------------------------------------------

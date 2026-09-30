@@ -1,4 +1,5 @@
-// Apenas comportamento visual e validação estrutural. Nenhuma regra fiscal aqui.
+// Apenas comportamento visual e validação estrutural de formato. Nenhuma regra fiscal aqui:
+// todo cálculo, limite, alíquota e escolha de anexo acontece no servidor (Python).
 
 // Menu mobile
 const toggle = document.querySelector(".menu-toggle");
@@ -8,72 +9,89 @@ toggle?.addEventListener("click", () => {
   toggle.setAttribute("aria-expanded", open);
 });
 
-// "1.234,56" | "1234.56" | "R$ 10" -> número, ou NaN se o formato for inválido
-function parseMoney(text) {
-  let s = text.replace(/R\$|\s/g, "");
-  if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
-  return /^\d+(\.\d{1,2})?$/.test(s) ? Number(s) : NaN;
+// "1.234,56" | "1234.56" | "R$ 10" -> true se o FORMATO for válido (o servidor converte e valida de novo)
+function validMoneyFormat(text) {
+  const s = text.replace(/R\$|\s/g, "");
+  return /^(\d{1,3}(\.\d{3})*|\d+),\d{1,2}$/.test(s) || /^\d+(\.\d{1,2})?$/.test(s) || /^\d{1,3}(\.\d{3})+$/.test(s);
 }
 
-const formatMoney = (n) =>
-  n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-function validateField(el) {
+function setError(el, error) {
   const msg = document.getElementById(`${el.id}-msg`);
-  let error = "";
-  if (el.dataset.kind === "year") {
-    if (!el.value) error = "Selecione um ano entre 2026 e 2033.";
-  } else if (el.dataset.kind === "money" && "required" in el.dataset) {
-    const n = parseMoney(el.value);
-    if (!el.value.trim()) error = "Campo obrigatório.";
-    else if (Number.isNaN(n)) error = "Informe um valor válido (ex.: 5000,00).";
-    else if (n <= 0 && !("allowZero" in el.dataset)) error = "Informe um valor maior que zero.";
-  }
   el.setAttribute("aria-invalid", error ? "true" : "false");
-  msg.textContent = error;
+  if (msg) msg.textContent = error;
   return !error;
 }
 
-// Formulários de simulação: valida estrutura e NÃO calcula
+function validateField(el) {
+  if (el.closest("[hidden]")) return true;
+  const value = el.value.trim();
+  const required = "required" in el.dataset;
+  if (el.dataset.kind === "money") {
+    if (!value) return setError(el, required ? "Campo obrigatório." : "");
+    return setError(el, validMoneyFormat(value) ? "" : "Informe um valor válido (ex.: 8.000,50).");
+  }
+  if (el.dataset.kind === "integer") {
+    if (!value) return setError(el, "Campo obrigatório.");
+    const n = Number(value);
+    const min = el.min === "" ? -Infinity : Number(el.min);
+    const max = el.max === "" ? Infinity : Number(el.max);
+    return setError(el, Number.isInteger(n) && n >= min && n <= max ? "" : "Informe um número inteiro válido.");
+  }
+  if (el.tagName === "SELECT") return setError(el, value ? "" : "Selecione uma opção.");
+  return true;
+}
+
+// Histórico mensal: mostra/oculta linhas conforme os meses desde a abertura (só interface)
+function updateHistory(form) {
+  const meses = form.querySelector("#meses_desde_abertura");
+  if (!meses) return;
+  const n = parseInt(meses.value, 10);
+  const needed = Number.isNaN(n) || n < 1 ? 0 : n < 13 ? n - 1 : 12;
+  form.querySelectorAll("[data-history-row]").forEach((row) => {
+    const visible = Number(row.dataset.historyRow) <= needed;
+    row.hidden = !visible;
+    row.querySelectorAll("[data-kind=money]").forEach((el) => {
+      if (visible) el.setAttribute("data-required", "");
+      else el.removeAttribute("data-required");
+    });
+  });
+  const box = form.querySelector("[data-history]");
+  if (box) box.hidden = needed === 0;
+}
+
+// Campo de lucro contábil só aparece com escrituração (validação real fica no servidor)
+function updateLucro(form) {
+  const modo = form.querySelector("#modo_apuracao");
+  const wrap = form.querySelector("[data-lucro-field]");
+  if (!modo || !wrap) return;
+  const show = modo.value === "COM_ESCRITURACAO";
+  wrap.hidden = !show;
+  const input = wrap.querySelector("[data-kind=money]");
+  if (show) input.setAttribute("data-required", "");
+  else input.removeAttribute("data-required");
+}
+
 document.querySelectorAll("form[data-sim]").forEach((form) => {
-  const inputs = [...form.querySelectorAll("[data-kind]")].filter((el) => !el.readOnly);
-  const status = document.querySelector("[data-status]");
+  const inputs = () => [...form.querySelectorAll("[data-kind], select")];
 
-  inputs.forEach((el) => {
-    el.addEventListener("blur", () => {
-      validateField(el);
-      if (el.dataset.kind === "money") {
-        const n = parseMoney(el.value);
-        if (!Number.isNaN(n)) el.value = formatMoney(n);
-      }
-    });
-  });
+  inputs().forEach((el) => el.addEventListener("blur", () => validateField(el)));
+  form.querySelector("#meses_desde_abertura")?.addEventListener("input", () => updateHistory(form));
+  form.querySelector("#modo_apuracao")?.addEventListener("change", () => updateLucro(form));
+  updateHistory(form);
+  updateLucro(form);
 
-  // Campos anuais espelham o mensal (exibição apenas; não é regra tributária)
-  form.querySelectorAll("input[id$='_mensal']").forEach((monthly) => {
-    const annual = form.querySelector(`#${monthly.id.replace("_mensal", "_anual")}`);
-    monthly.addEventListener("input", () => {
-      const n = parseMoney(monthly.value);
-      annual.value = Number.isNaN(n) ? "" : formatMoney(n * 12);
-    });
-  });
-
+  // Envia ao servidor; só bloqueia se o formato estiver claramente inválido
   form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const results = inputs.map(validateField);
-    if (status) status.hidden = results.includes(false);
-    const firstBad = inputs.find((el) => el.getAttribute("aria-invalid") === "true");
-    firstBad?.focus();
-  });
-
-  form.addEventListener("reset", () => {
-    inputs.forEach((el) => {
-      el.removeAttribute("aria-invalid");
-      document.getElementById(`${el.id}-msg`).textContent = "";
-    });
-    if (status) status.hidden = true;
+    const results = inputs().map(validateField);
+    if (results.includes(false)) {
+      e.preventDefault();
+      inputs().find((el) => el.getAttribute("aria-invalid") === "true")?.focus();
+    }
   });
 });
+
+// Foco no resumo de erros devolvido pelo servidor
+document.querySelector("[data-error-summary]")?.focus();
 
 // Escolha de simulação
 const choice = document.querySelector("form[data-choice]");

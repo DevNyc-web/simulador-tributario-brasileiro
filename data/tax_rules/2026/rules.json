@@ -1,5 +1,196 @@
 {
+  "schema_version": 1,
   "ano": 2026,
-  "status": "[REGRA PENDENTE DE VALIDAÇÃO]",
-  "regras": []
+  "regras": [
+    {
+      "id": "TR-001",
+      "nome": "IRPF mensal 2026",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-01", "F-02", "F-03", "F-04", "F-05", "F-06", "F-07", "F-08", "F-09", "F-10", "F-19", "F-20"],
+      "parametros": {
+        "faixas": [
+          {"limite_superior": "2428.80", "aliquota": "0", "parcela_deduzir": "0"},
+          {"limite_superior": "2826.65", "aliquota": "0.075", "parcela_deduzir": "182.16"},
+          {"limite_superior": "3751.05", "aliquota": "0.15", "parcela_deduzir": "394.16"},
+          {"limite_superior": "4664.68", "aliquota": "0.225", "parcela_deduzir": "675.49"},
+          {"limite_superior": null, "aliquota": "0.275", "parcela_deduzir": "908.73"}
+        ],
+        "desconto_simplificado_mensal": "607.20",
+        "reducao": {
+          "rendimento_limite_reducao_maxima": "5000.00",
+          "reducao_maxima": "312.89",
+          "rendimento_limite_reducao": "7350.00",
+          "formula_constante": "978.62",
+          "formula_coeficiente": "0.133145"
+        }
+      }
+    },
+    {
+      "id": "TR-002",
+      "nome": "Contribuição previdenciária do contribuinte individual",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-05", "F-07", "F-09", "F-11", "F-12", "F-13", "F-14", "F-15", "F-16", "F-17", "F-18", "F-21", "F-22", "F-47"],
+      "parametros": {
+        "salario_minimo": "1621.00",
+        "teto_previdenciario": "8475.55",
+        "aliquota_normal": "0.20",
+        "aliquota_simplificado": "0.11"
+      }
+    },
+    {
+      "id": "TR-003",
+      "nome": "Limite anual e proporcional do MEI",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-25", "F-26", "F-27", "F-28", "F-31"],
+      "parametros": {
+        "limite_anual": "81000.00",
+        "limite_proporcional_mensal": "6750.00",
+        "percentual_excesso_tolerado": "0.20"
+      }
+    },
+    {
+      "id": "TR-004",
+      "nome": "Composição e cálculo do DAS-MEI",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-24", "F-27", "F-29", "F-30", "F-31"],
+      "parametros": {
+        "salario_minimo": "1621.00",
+        "percentual_previdenciario": "0.05",
+        "parcela_icms": "1.00",
+        "parcela_iss": "5.00"
+      }
+    },
+    {
+      "id": "TR-005",
+      "nome": "Limite de receita para permanência no Simples Nacional",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-32", "F-34", "F-35", "F-36"],
+      "parametros": {
+        "limite_geral": "4800000.00",
+        "limite_proporcional_mensal": "400000.00",
+        "sublimite_icms_iss": "3600000.00"
+      }
+    },
+    {
+      "id": "TR-006",
+      "nome": "Tabela do Anexo III",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-32", "F-34"],
+      "parametros": {
+        "faixas": [
+          {"limite_superior": "180000.00", "aliquota_nominal": "0.06", "parcela_deduzir": "0"},
+          {"limite_superior": "360000.00", "aliquota_nominal": "0.112", "parcela_deduzir": "9360.00"},
+          {"limite_superior": "720000.00", "aliquota_nominal": "0.135", "parcela_deduzir": "17640.00"},
+          {"limite_superior": "1800000.00", "aliquota_nominal": "0.16", "parcela_deduzir": "35640.00"},
+          {"limite_superior": "3600000.00", "aliquota_nominal": "0.21", "parcela_deduzir": "125640.00"},
+          {"limite_superior": "4800000.00", "aliquota_nominal": "0.33", "parcela_deduzir": "648000.00"}
+        ]
+      }
+    },
+    {
+      "id": "TR-007",
+      "nome": "Tabela do Anexo V",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-32", "F-34"],
+      "parametros": {
+        "faixas": [
+          {"limite_superior": "180000.00", "aliquota_nominal": "0.155", "parcela_deduzir": "0"},
+          {"limite_superior": "360000.00", "aliquota_nominal": "0.18", "parcela_deduzir": "4500.00"},
+          {"limite_superior": "720000.00", "aliquota_nominal": "0.195", "parcela_deduzir": "9900.00"},
+          {"limite_superior": "1800000.00", "aliquota_nominal": "0.205", "parcela_deduzir": "17100.00"},
+          {"limite_superior": "3600000.00", "aliquota_nominal": "0.23", "parcela_deduzir": "62100.00"},
+          {"limite_superior": "4800000.00", "aliquota_nominal": "0.305", "parcela_deduzir": "540000.00"}
+        ]
+      }
+    },
+    {
+      "id": "TR-008",
+      "nome": "Fórmula da alíquota efetiva do Simples Nacional",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-32", "F-34"],
+      "parametros": {
+        "rbt12_substituto_quando_zero": "1"
+      }
+    },
+    {
+      "id": "TR-009",
+      "nome": "Fator R",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-32", "F-34", "F-38"],
+      "parametros": {
+        "corte": "0.28",
+        "precisao": "0.01",
+        "fator_folha_zero": "0.01",
+        "fator_folha_positiva_receita_zero": "0.28",
+        "atividades": ["DESENVOLVIMENTO_SOFTWARE", "CONSULTORIA", "ENGENHARIA", "ARQUITETURA", "MEDICINA", "ODONTOLOGIA", "PSICOLOGIA", "FISIOTERAPIA", "ACADEMIAS"]
+      }
+    },
+    {
+      "id": "TR-010",
+      "nome": "Pró-labore e contribuição previdenciária do sócio",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-40", "F-41", "F-23", "F-34", "F-18", "F-21", "F-22"],
+      "parametros": {
+        "aliquota_inss_segurado": "0.11",
+        "teto_previdenciario": "8475.55",
+        "salario_minimo": "1621.00"
+      }
+    },
+    {
+      "id": "TR-011",
+      "nome": "Distribuição de lucros relevante ao comparador PF x PJ",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-34", "F-39", "F-42", "F-43", "F-44", "F-45", "F-46", "F-48"],
+      "parametros": {
+        "percentual_presuncao_servicos": "0.32",
+        "irrf_dividendos": {
+          "limite_mensal_isencao": "50000.00",
+          "aliquota": "0.10"
+        },
+        "altas_rendas": {
+          "limite_anual": "600000.00"
+        },
+        "reparticao_irpj": {
+          "III": ["0.04", "0.04", "0.04", "0.04", "0.04", "0.35"],
+          "V": ["0.25", "0.23", "0.24", "0.21", "0.23", "0.35"]
+        },
+        "redistribuicao_iss": {
+          "III": {"faixa": "5", "aliquota_efetiva_acima_de": "0.1492537", "teto_iss": "0.05", "percentual_irpj": "0.0602"}
+        }
+      }
+    }
+  ]
 }

@@ -1,41 +1,114 @@
-{# Componentes reutilizáveis. Nenhuma regra fiscal aqui. #}
+{# Componentes reutilizáveis. Nenhuma regra fiscal aqui. Usam `form` e `errors` do contexto. #}
 
-{% macro field(id, label, kind="money", hint="", required=True, allow_zero=False, readonly=False) %}
+{% macro error_summary() %}
+{% if errors or general %}
+<div class="alert alert-error" role="alert" tabindex="-1" data-error-summary>
+  <h2>Não foi possível simular</h2>
+  <ul>
+    {% for msg in general %}<li>{{ msg }}</li>{% endfor %}
+    {% for name, msg in errors.items() %}<li><a href="#{{ name }}">{{ msg }}</a></li>{% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro _label(id, label, required) %}
+<label for="{{ id }}">{{ label }}{% if required %} <span aria-hidden="true">*</span><span class="sr-only">(obrigatório)</span>{% endif %}</label>
+{% endmacro %}
+
+{% macro _foot(id, hint) %}
+{% if hint %}<small class="hint" id="{{ id }}-hint">{{ hint }}</small>{% endif %}
+<small class="error" id="{{ id }}-msg" role="alert">{{ errors.get(id, "") }}</small>
+{% endmacro %}
+
+{% macro money_field(id, label, hint="", required=True) %}
 <div class="field" data-field>
-  <label for="{{ id }}">{{ label }}{% if required %} <span aria-hidden="true">*</span>{% endif %}</label>
-  {% if kind == "year" %}
-    <select id="{{ id }}" name="{{ id }}" data-kind="year" required aria-describedby="{{ id }}-msg">
-      <option value="">Selecione o ano</option>
-      {% for y in years %}<option value="{{ y }}">{{ y }}</option>{% endfor %}
-    </select>
-  {% elif kind == "pending-select" %}
-    <select id="{{ id }}" name="{{ id }}" disabled aria-describedby="{{ id }}-msg">
-      <option>Opções pendentes de validação</option>
-    </select>
-  {% else %}
-    <input id="{{ id }}" name="{{ id }}" type="text" inputmode="decimal" autocomplete="off"
-           placeholder="0,00" data-kind="money" {% if required %}data-required{% endif %} {% if allow_zero %}data-allow-zero{% endif %}
-           {% if readonly %}readonly tabindex="-1"{% endif %}
-           aria-describedby="{{ id }}-msg">
-  {% endif %}
-  {% if hint %}<small class="hint">{{ hint }}</small>{% endif %}
-  <small class="error" id="{{ id }}-msg" role="alert"></small>
+  {{ _label(id, label, required) }}
+  <input id="{{ id }}" name="{{ id }}" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00"
+         value="{{ form.get(id, '') }}" data-kind="money" {% if required %}data-required{% endif %}
+         {% if id in errors %}aria-invalid="true"{% endif %}
+         aria-describedby="{{ id }}-msg{% if hint %} {{ id }}-hint{% endif %}">
+  {{ _foot(id, hint) }}
 </div>
 {% endmacro %}
 
-{% macro pending_list(items) %}
-<dl class="result-list">
-  {% for item in items %}
-  <div class="result-row">
-    <dt>{{ item }}</dt>
-    <dd><span class="badge badge-pending">Pendente de validação</span></dd>
-  </div>
-  {% endfor %}
-</dl>
+{% macro int_field(id, label, minimo, maximo=none, hint="", required=True, default="") %}
+<div class="field" data-field>
+  {{ _label(id, label, required) }}
+  <input id="{{ id }}" name="{{ id }}" type="number" inputmode="numeric" step="1" min="{{ minimo }}"
+         {% if maximo %}max="{{ maximo }}"{% endif %} value="{{ form.get(id, default) }}" data-kind="integer"
+         {% if id in errors %}aria-invalid="true"{% endif %}
+         aria-describedby="{{ id }}-msg{% if hint %} {{ id }}-hint{% endif %}">
+  {{ _foot(id, hint) }}
+</div>
 {% endmacro %}
 
-{% macro status_box() %}
-<p class="status-box" data-status role="status" hidden>
-  Cálculo disponível após validação das regras tributárias.
-</p>
+{% macro select_field(id, label, options, hint="", required=True, empty="Selecione") %}
+<div class="field" data-field>
+  {{ _label(id, label, required) }}
+  <select id="{{ id }}" name="{{ id }}" {% if id in errors %}aria-invalid="true"{% endif %}
+          aria-describedby="{{ id }}-msg{% if hint %} {{ id }}-hint{% endif %}">
+    {% if empty %}<option value="">{{ empty }}</option>{% endif %}
+    {% for value, text in options %}
+    <option value="{{ value }}" {% if form.get(id) == value %}selected{% endif %}>{{ text }}</option>
+    {% endfor %}
+  </select>
+  {{ _foot(id, hint) }}
+</div>
+{% endmacro %}
+
+{% macro yes_no(id, legend, hint="") %}
+{% set current = form.get(id, "sim") %}
+<fieldset class="field radio-group" id="{{ id }}" tabindex="-1">
+  <legend>{{ legend }}</legend>
+  <label class="radio"><input type="radio" name="{{ id }}" value="sim" {% if current != "nao" %}checked{% endif %}> Sim</label>
+  <label class="radio"><input type="radio" name="{{ id }}" value="nao" {% if current == "nao" %}checked{% endif %}> Não</label>
+  {{ _foot(id, hint) }}
+</fieldset>
+{% endmacro %}
+
+{% macro history() %}
+<fieldset class="history" data-history>
+  <legend>Histórico anterior ao mês atual</legend>
+  <p class="hint">Informe os meses anteriores (1 = o mês imediatamente anterior ao atual). O número de linhas exigidas depende dos meses desde a abertura; zero é aceito.</p>
+  <div class="history-grid">
+    {% for n in range(1, 13) %}
+    <div class="history-row" data-history-row="{{ n }}">
+      <span class="history-label">Mês anterior {{ n }}</span>
+      {{ money_field("hist_receita_" ~ n, "Receita (R$)", required=False) }}
+      {{ money_field("hist_folha_" ~ n, "Folha para Fator R (R$)", required=False) }}
+    </div>
+    {% endfor %}
+  </div>
+</fieldset>
+{% endmacro %}
+
+{% macro result_row(label, value, note="") %}
+<div class="result-row"><dt>{{ label }}</dt><dd>{{ value }}{% if note %} <span class="muted">{{ note }}</span>{% endif %}</dd></div>
+{% endmacro %}
+
+{% macro notes(result) %}
+{% if result.warnings %}
+<section class="notes" aria-labelledby="avisos-titulo">
+  <h2 id="avisos-titulo">Avisos</h2>
+  {% for w in result.warnings %}
+  {# severidade vem do STATUS do resultado, não do texto do aviso #}
+  {% set kind = "attention" if result.status == OK else "unsupported" %}
+  <p class="alert alert-{{ kind }}"><span class="alert-tag">{% if kind == "attention" %}Atenção{% else %}Cenário não suportado{% endif %}</span> {{ w | humanize }}</p>
+  {% endfor %}
+</section>
+{% endif %}
+{% if result.explicacoes %}
+<section class="notes" aria-labelledby="explic-titulo">
+  <h2 id="explic-titulo">Explicação do cálculo</h2>
+  <dl class="result-list">
+    {% for e in result.explicacoes %}
+    <div class="result-row">
+      <dt>{{ e.titulo }}{% if e.rule_id %} <span class="badge">{{ e.rule_id }}</span>{% endif %}</dt>
+      <dd>{{ e.descricao | humanize }}</dd>
+    </div>
+    {% endfor %}
+  </dl>
+</section>
+{% endif %}
 {% endmacro %}

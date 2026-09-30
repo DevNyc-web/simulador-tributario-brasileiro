@@ -137,7 +137,7 @@ Tabela confirmada idêntica à indicada no pedido de pesquisa e ao texto oficial
 
 Percentual de repartição por faixa (IRPJ / CSLL / COFINS / PIS-Pasep / CPP / ISS): 1ª 25,00/15,00/14,10/3,05/28,85/14,00; 2ª 23,00/15,00/14,10/3,05/27,85/17,00; 3ª 24,00/15,00/14,92/3,23/23,85/19,00; 4ª 21,00/15,00/15,74/3,41/23,85/21,00; 5ª 23,00/12,50/14,10/3,05/23,85/23,50; 6ª 35,00/15,50/16,44/3,56/29,50/–.
 
-Mesma regra do teto de 5% do ISS aplicável (art. 18 § 1º-B, I), com redistribuição na 5ª faixa quando a alíquota efetiva superar 12,5%.
+Mesma regra do teto de 5% do ISS (art. 18 § 1º-B, I). **Correção de rastreabilidade (Fase 4E, F-48):** o Anexo V **não** traz nota de redistribuição na 5ª faixa — o limite de 12,5% citado anteriormente pertence ao Anexo IV (fora do MVP). Com a partilha do Anexo V (ISS 23,50% na 5ª faixa) o ISS efetivo não ultrapassa 5% dentro do limite de R$ 3,6 milhões, portanto nenhuma redistribuição se aplica. O valor do DAS (alíquota efetiva total) não é afetado.
 
 Casos de faixa (mesmos limites do Anexo III): 180.000,00/180.000,01; 360.000,00/360.000,01; 720.000,00/720.000,01; 1.800.000,00/1.800.000,01; 3.600.000,00/3.600.000,01; 4.800.000,00 (teto).
 

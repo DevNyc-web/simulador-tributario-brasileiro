@@ -1,6 +1,6 @@
 # Pessoa Jurídica / Comparador — 2026
 
-Status: **PESQUISADA e VALIDADA** (passagem final de validação em 2026-09-30). Implementação: **PENDENTE**. Testes: **PENDENTE**.
+Status: **PESQUISADA e VALIDADA** (passagem final de validação em 2026-09-30). Implementação e testes: **IMPLEMENTADA / TESTADA** (Fase 4E).
 
 Segue a mesma metodologia de [pf-2026-research.md](pf-2026-research.md), [mei-2026-research.md](mei-2026-research.md) e [simples-2026-research.md](simples-2026-research.md): fonte oficial primária como citação final; fonte secundária só para descoberta; toda afirmação numérica ou de fórmula remete a um ID de fonte (F-XX) em [fontes-tributarias.md](fontes-tributarias.md).
 
@@ -168,8 +168,27 @@ Sem cálculo de: tributação mínima anual de altas rendas (ver "Alternativas d
 ### Questões em aberto (TR-011)
 
 - **Q-PJ-04** (relevância jurídica real, concretamente identificada nesta passagem): existe liminar judicial específica (MS nº 5002505-76.2026.4.03.6100, 26ª Vara Cível Federal de São Paulo, 09/02/2026) suspendendo a retenção de 10% para a parte impetrante daquele processo, com base na tese de que lei ordinária não pode restringir isenção de lei complementar. Não é decisão definitiva nem de efeito geral. RFB mantém posicionamento administrativo de que a retenção se aplica ao Simples Nacional (F-45). Para o MVP, adotar o posicionamento oficial da RFB, registrando a existência da liminar como nota educacional (ver "Aplicação ao Simples Nacional").
-- **Q-PJ-05** (residual, não bloqueante): artigo exato da Resolução CGSN nº 140/2018 (art. 145) não confirmado por leitura direta do texto oficial integral nesta passagem (conteúdo obtido por fonte secundária, consistente com a leitura primária do art. 14 da LC123/2006).
+- **Q-PJ-05** (pendência documental residual de rastreabilidade; não bloqueia TR-011): texto integral do art. 145 § 1º da Resolução CGSN nº 140/2018 ainda não relido diretamente nesta sessão (conteúdo obtido por fonte secundária, consistente com a leitura primária do art. 14 da LC 123/2006, e confirmado na revisão da Fase 4E). Não há dúvida sobre a implementação nem sobre o valor (Q-PJ-07 RESOLVIDA: subtrai-se somente o IRPJ do DAS). Deverá ser revisitada na auditoria documental final.
 - **Q-PJ-06** (residual, não bloqueante): texto integral oficial da Solução de Consulta Cosit nº 244/2025 não obtido diretamente (conteúdo obtido por fonte secundária especializada, com ementa e conclusões citadas de forma consistente por múltiplas fontes independentes).
+
+## Pesquisa complementar necessária à implementação da TR-011 (Fase 4E)
+
+Para calcular o limite de distribuição sem escrituração (32% × receita − IRPJ devido no Simples) é preciso o **percentual de IRPJ na partilha do DAS**. Ele já constava da tabela de repartição de [simples-2026-research.md](simples-2026-research.md) (TR-006/TR-007); foi **reconferido contra o texto oficial da LC 123/2006** (F-48, Anexos III e V), sem divergência nas tabelas:
+
+| Faixa | IRPJ — Anexo III | IRPJ — Anexo V |
+|---|---|---|
+| 1ª | 4,00% | 25,00% |
+| 2ª | 4,00% | 23,00% |
+| 3ª | 4,00% | 24,00% |
+| 4ª | 4,00% | 21,00% |
+| 5ª | 4,00% (ver nota) | 23,00% |
+| 6ª (fora do MVP) | 35,00% | 35,00% |
+
+- **Anexo III, 5ª faixa**: quando a alíquota efetiva for superior a 14,92537%, o ISS fica fixo em 5% e o IRPJ passa a ser (alíquota efetiva − 5%) × 6,02% (texto literal da nota do Anexo III).
+- **Anexo V**: o texto oficial não traz nota de redistribuição. A menção anterior a "12,5% no Anexo V" (simples-2026-research.md / catálogo) era erro de atribuição: o limite de 12,5% é do Anexo IV (fora do MVP). Corrigido nesta fase; não altera nenhuma fórmula de TR-006/TR-007.
+- IRPJ dentro do DAS = receita do PA × alíquota efetiva × percentual de repartição (ou a fórmula da nota, no caso citado). Os percentuais ficam em `rules.json` (TR-011, `reparticao_irpj` e `redistribuicao_iss`).
+
+**Q-PJ-07 (RESOLVIDA por decisão de revisão, Fase 4E):** o texto literal do art. 14 § 1º da LC 123/2006 é amplo ("subtraído do valor devido na forma do Simples Nacional no período"). Conforme confirmado na revisão da Fase 4E, o art. 145 § 1º da Resolução CGSN nº 140/2018 especifica que a subtração corresponde ao valor relativo ao **IRPJ**, e a interpretação administrativa oficial da Receita Federal confirma o uso da parcela de IRPJ. **Decisão do motor: subtrair somente o IRPJ contido no DAS.** Ressalva de rastreabilidade: essa confirmação foi informada na revisão; o texto oficial integral do art. 145 ainda não foi relido nesta pesquisa (Q-PJ-05 permanece como pendência de citação, não de valor).
 
 ## Alternativas de escopo do comparador
 

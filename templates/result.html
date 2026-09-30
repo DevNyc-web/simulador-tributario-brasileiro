@@ -1,19 +1,127 @@
 {% extends "base.html" %}
+{% from "_macros.html" import result_row, notes with context %}
 {% block title %}Resultado{% endblock %}
 {% block content %}
 <section class="section">
   <h1>Resultado</h1>
+  {% if not outcome %}
   <div class="panel empty-state">
     <h2>Nenhuma simulação disponível.</h2>
     <p class="muted">Faça uma simulação para ver o resultado aqui.</p>
     <a class="btn" href="{{ url_for('simulation') }}">Nova Simulação</a>
   </div>
+  {% else %}
+  {% set r = outcome.result %}
+  {% set e = outcome.entrada %}
+  {% set d = outcome.detail %}
+  <p class="lead-left">
+    {% if outcome.tipo == "pf" %}Pessoa Física / Autônomo
+    {% elif outcome.tipo == "mei" %}MEI
+    {% elif outcome.tipo == "simples" %}Simples Nacional
+    {% else %}Comparador PF x PJ{% endif %}
+    · ano-calendário {{ r.ano }} · estimativa no cenário informado
+  </p>
 
-  <h2>Estrutura do resultado</h2>
-  <div class="grid">
-    {% for title in ["Resumo", "Tributos", "Carga efetiva", "Líquido", "Explicação", "Fontes utilizadas"] %}
-    <article class="card"><h3>{{ title }}</h3><span class="badge badge-pending">Pendente de validação</span></article>
-    {% endfor %}
+  {% if r.status != OK %}
+  <div class="alert alert-unsupported" role="status">
+    <h2>{{ r.status | label_status }}</h2>
+    <p>Nenhum valor foi calculado para este cenário.</p>
   </div>
+  {% endif %}
+
+  {% if r.status == OK and outcome.tipo == "pf" %}
+  <div class="panel">
+    <h2>Resumo mensal</h2>
+    <dl class="result-list">
+      {{ result_row("Renda informada", e.renda_mensal | brl) }}
+      {{ result_row("Plano previdenciário", e.plano_inss | label_plano) }}
+      {{ result_row("INSS", r.itens[0].valor | brl, "base " ~ (r.itens[0].base_calculo | brl) ~ " · alíquota " ~ (r.itens[0].aliquota | pct)) }}
+      {{ result_row("IRPF", r.itens[1].valor | brl, "base " ~ (r.itens[1].base_calculo | brl) ~ " · alíquota da faixa " ~ (r.itens[1].aliquota | pct)) }}
+      {{ result_row("Total de tributos", r.total_tributos | brl) }}
+      {{ result_row("Líquido estimado", r.liquido_estimado | brl) }}
+    </dl>
+  </div>
+
+  {% elif r.status == OK and outcome.tipo == "mei" %}
+  {% set lim, das = d %}
+  <div class="panel">
+    <h2>Resumo</h2>
+    <dl class="result-list">
+      {{ result_row("Categoria", e.categoria | label_categoria) }}
+      {{ result_row("Receita acumulada no ano", e.receita_acumulada | brl) }}
+      {{ result_row("Limite aplicável", lim.limite_aplicavel | brl, e.meses_atividade_no_ano ~ " mês(es) de atividade no ano") }}
+      {{ result_row("Parcela do limite utilizada", lim.percentual_utilizado | pct) }}
+      {{ result_row("Situação do limite", lim.status | label_limite) }}
+      {{ result_row("DAS mensal (valor fixo)", r.total_tributos | brl) }}
+      {{ result_row("Previdência", das.previdencia | brl) }}
+      {% if das.icms %}{{ result_row("ICMS", das.icms | brl) }}{% endif %}
+      {% if das.iss %}{{ result_row("ISS", das.iss | brl) }}{% endif %}
+    </dl>
+  </div>
+
+  {% elif r.status == OK and outcome.tipo == "simples" %}
+  <div class="panel">
+    <h2>Resumo mensal</h2>
+    <dl class="result-list">
+      {{ result_row("Atividade", e.atividade | label_atividade) }}
+      {{ result_row("Receita do mês (base do DAS)", e.receita_pa | brl) }}
+      {{ result_row("RBT12p (proporcionalizada)" if d.rbt.proporcionalizada else "RBT12", d.rbt.valor | brl) }}
+      {{ result_row("Fator R", d.fator.fator | decimal_br) }}
+      {{ result_row("Anexo", d.fator.anexo | label_anexo) }}
+      {{ result_row("Faixa", d.faixa.numero ~ "ª") }}
+      {{ result_row("Alíquota nominal", d.faixa.aliquota_nominal | pct) }}
+      {{ result_row("Parcela a deduzir", d.faixa.parcela_deduzir | brl) }}
+      {{ result_row("Alíquota efetiva", d.eficaz.aliquota | pct(4)) }}
+      {{ result_row("DAS estimado", r.itens[0].valor | brl) }}
+      {{ result_row("Total de tributos", r.total_tributos | brl) }}
+    </dl>
+  </div>
+
+  {% elif r.status == OK and outcome.tipo == "comparar" %}
+  <div class="versus">
+    <article class="panel side">
+      <h2>Pessoa Física</h2>
+      <dl class="result-list">
+        {{ result_row("Receita", d.pf.receita | brl) }}
+        {{ result_row("INSS", d.pf.inss | brl) }}
+        {{ result_row("IRPF", d.pf.irpf | brl) }}
+        {{ result_row("Total de tributos", d.pf.total_tributos | brl) }}
+        {{ result_row("Líquido pessoal", d.pf.liquido_pessoal | brl) }}
+      </dl>
+    </article>
+    <div class="vs" aria-hidden="true">e</div>
+    <article class="panel side">
+      <h2>Pessoa Jurídica</h2>
+      <dl class="result-list">
+        {{ result_row("Faturamento", d.pj.faturamento | brl) }}
+        {{ result_row("DAS", d.pj.das | brl) }}
+        {{ result_row("INSS do pró-labore", d.pj.inss_prolabore | brl) }}
+        {{ result_row("IRPF do pró-labore", d.pj.irpf_prolabore | brl) }}
+        {{ result_row("IRRF sobre dividendos", d.pj.irrf_dividendos | brl) }}
+        {{ result_row("Total de tributos", d.pj.total_tributos | brl) }}
+        {{ result_row("Pró-labore líquido", d.pj.prolabore_liquido | brl) }}
+        {{ result_row("Dividendos líquidos", d.pj.dividendos_liquidos | brl) }}
+        {{ result_row("Valor recebido pela pessoa física no cenário PJ", d.pj.recebido_pela_pf | brl) }}
+      </dl>
+    </article>
+  </div>
+  <div class="panel">
+    <h2>Diferenças numéricas</h2>
+    <dl class="result-list">
+      {{ result_row("Diferença de tributos (PJ menos PF)", d.diferenca_tributos | brl) }}
+      {{ result_row("Diferença no valor recebido pela pessoa física (PJ menos PF)", d.diferenca_recebimento_pessoal | brl) }}
+    </dl>
+    <p class="muted">Valores no cenário informado, sem juízo de valor. O valor recebido pela pessoa física no cenário PJ não é o lucro da empresa: podem existir lucro retido, despesas e caixa.</p>
+  </div>
+  {% endif %}
+
+  {{ notes(r) }}
+
+  <p class="notice">Simulação educacional baseada nas premissas informadas. Não substitui orientação contábil ou tributária profissional.</p>
+  <div class="actions">
+    <a class="btn" href="{{ url_for('simulation') }}">Nova Simulação</a>
+    <a class="btn btn-outline" href="{{ url_for(outcome.tipo if outcome.tipo != 'comparar' else 'compare') }}">Alterar dados</a>
+  </div>
+  {% endif %}
 </section>
 {% endblock %}

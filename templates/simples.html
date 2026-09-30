@@ -1,29 +1,35 @@
 {% extends "base.html" %}
-{% from "_macros.html" import field, pending_list, status_box with context %}
+{% from "_macros.html" import error_summary, money_field, int_field, select_field, yes_no, history with context %}
 {% block title %}Simulação Simples Nacional{% endblock %}
 {% block content %}
 <section class="section">
   <h1>Simples Nacional</h1>
-  <p class="lead-left">Prestação de serviços. Campos com * são obrigatórios.</p>
-  <div class="two-col">
-    <form class="panel" data-sim novalidate>
-      {{ field("ano", "Ano da simulação", "year") }}
-      {{ field("faturamento_mensal", "Faturamento mensal (R$)") }}
-      {{ field("rbt12", "Receita bruta acumulada nos últimos 12 meses – RBT12 (R$)", hint="Zero é aceito.", allow_zero=True) }}
-      {{ field("folha_12m", "Folha de salários dos últimos 12 meses (R$)", hint="Zero é aceito.", allow_zero=True) }}
-      {{ field("pro_labore", "Pró-labore mensal (R$)", hint="Zero é aceito.", allow_zero=True) }}
-      {{ field("categoria", "Categoria de serviço", "pending-select", hint="Opções aguardam validação.") }}
-      <div class="actions">
-        <button class="btn" type="submit">Simular</button>
-        <button class="btn btn-outline" type="reset">Limpar</button>
-        <a class="btn btn-ghost" href="{{ url_for('simulation') }}">Voltar</a>
+  <p class="lead-left">Prestação de serviços no mercado interno, sujeita ao Fator R, ano-calendário 2026. Campos com * são obrigatórios.</p>
+  {{ error_summary() }}
+  <form class="panel" method="post" action="{{ url_for('result') }}" data-sim novalidate>
+    <input type="hidden" name="tipo_simulacao" value="simples">
+    <fieldset class="form-section">
+      <legend>Mês de apuração</legend>
+      <div class="form-grid">
+        {{ money_field("receita_pa", "Receita do mês atual (R$)", hint="Base de cálculo do DAS.") }}
+        {{ money_field("folha_pa", "Folha do mês atual para o Fator R (R$)", hint="Inclui o pró-labore. Zero é aceito.") }}
+        {{ money_field("receita_acumulada_ano", "Receita acumulada no ano, incluindo o mês atual (R$)") }}
+        {{ select_field("atividade", "Atividade", choices.atividades) }}
       </div>
-    </form>
-    <aside class="panel" aria-label="Resultado">
-      <h2>Resultado</h2>
-      {{ status_box() }}
-      {{ pending_list(["Fator R", "Anexo", "Faixa", "Alíquota nominal", "Parcela a deduzir", "Alíquota efetiva", "DAS", "Contribuição relacionada ao pró-labore", "Carga tributária", "Líquido", "Explicação"]) }}
-    </aside>
-  </div>
+    </fieldset>
+    <fieldset class="form-section">
+      <legend>Tempo de atividade</legend>
+      <div class="form-grid">
+        {{ int_field("meses_desde_abertura", "Meses desde a abertura, contando o mês atual", 1, hint="1 = primeiro mês de atividade.") }}
+        {{ int_field("meses_atividade_no_ano", "Meses de atividade no ano", 1, 12, hint="12 se a empresa já existia em janeiro; no ano de abertura, meses até dezembro.") }}
+      </div>
+      {{ yes_no("optante_simples", "A empresa é optante pelo Simples Nacional?") }}
+    </fieldset>
+    {{ history() }}
+    <div class="actions">
+      <button class="btn" type="submit">Simular</button>
+      <a class="btn btn-ghost" href="{{ url_for('simulation') }}">Voltar</a>
+    </div>
+  </form>
 </section>
 {% endblock %}

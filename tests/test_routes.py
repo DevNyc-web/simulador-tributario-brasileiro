@@ -1,9 +1,10 @@
 import pytest
 
 from app import create_app
+from src.models.tax import SimulationStatus
 from src.services import simulate_transition
 from src.tax_engine import calculate
-from src.tax_rules import PENDING, SUPPORTED_YEARS, load_year_rules
+from src.tax_rules import SUPPORTED_YEARS, load_year_rules
 
 ROUTES = [
     "/", "/simulacao", "/simulacao/pf", "/simulacao/mei", "/simulacao/simples",
@@ -33,14 +34,18 @@ def test_result_without_simulation(client):
 def test_pending_rules_produce_no_numeric_result():
     results = simulate_transition({})
     assert len(results) == len(SUPPORTED_YEARS)
-    assert all(r["status"] == PENDING and r["resultado"] is None for r in results)
+    assert all(
+        r.status == SimulationStatus.PENDENTE and r.total_tributos is None
+        for r in results
+    )
 
 
 @pytest.mark.parametrize("year", SUPPORTED_YEARS)
-def test_rules_files_have_no_tax_data(year):
+def test_non_pf_scenario_stays_pending(year):
     rules = load_year_rules(year)
-    assert rules["regras"] == [] and rules["status"] == PENDING
-    assert calculate(rules, {})["resultado"] is None
+    result = calculate(rules, {})
+    assert result.status == SimulationStatus.PENDENTE
+    assert result.total_tributos is None
 
 
 def test_comparison_page_has_no_verdict(client):

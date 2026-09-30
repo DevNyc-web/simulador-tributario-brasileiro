@@ -37,9 +37,9 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Casos especiais | Ver seção Casos especiais fora do MVP em [pf-2026-research.md](pf-2026-research.md) |
 | Questões em aberto | Q-01 e Q-03 RESOLVIDAS. Abertas: Q-02 (arredondamento, QUESTÃO EM ABERTO), Q-04 (texto da IN 1.500) e itens de baixa prioridade Q-05 a Q-08. Detalhes em [pf-2026-research.md](pf-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de validação | VALIDADA |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-002 — Contribuição previdenciária do contribuinte individual
 
@@ -53,8 +53,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Entradas necessárias | ano; plano (normal ou simplificado, escolhido pelo usuário); remuneração mensal do trabalho por conta própria (base do plano normal) |
 | Saídas produzidas | contribuição previdenciária; avisos educacionais; valor dedutível para TR-001 |
 | Fórmula/regra | Ver [pf-2026-research.md](pf-2026-research.md), seções Plano normal, Plano simplificado e Limites 2026. Resumo: plano normal 20% sobre o salário de contribuição (remuneração mensal do trabalho por conta própria, entre o limite mínimo e o teto); plano simplificado 11% sobre o limite mínimo (salário mínimo). Base do plano normal: Q-P1 RESOLVIDA (Lei 8.212/1991, art. 28, III). Tratamento abaixo do limite mínimo: Q-P6 em aberto. |
-| Fonte oficial primária | INSS (F-11, F-12, F-13, F-17, F-18); Planalto (F-14 Lei 8.212/1991); Ministério da Previdência Social/DOU (F-15 Portaria MPS/MF 13/2026); Receita Federal (F-16 Agenda Tributária 2026; F-05, F-07, F-09 para dedutibilidade) |
-| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-11 a F-18 |
+| Fonte oficial primária | INSS (F-11, F-12, F-13, F-17, F-18); Planalto (F-14 Lei 8.212/1991); Ministério da Previdência Social/DOU (F-15 Portaria MPS/MF 13/2026); Receita Federal (F-47 IN RFB 2.110/2022, renda zero; F-16 Agenda Tributária 2026; F-05, F-07, F-09 para dedutibilidade) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-11 a F-18 e F-47 |
 | Base legal | Lei nº 8.212/1991 (arts. 21, 28 III e § 3º, 30 II); Portaria Interministerial MPS/MF nº 13, de 09/01/2026 (art. 2º; lida no DOU); LC nº 123/2006 e Decreto nº 6.042/2007 (citados em F-13) |
 | Artigo/item relevante | Lei 8.212/1991, art. 28, III (salário de contribuição do contribuinte individual), art. 21 (alíquotas) e art. 30, II (vencimento); Portaria MPS/MF 13/2026, art. 2º (mínimo R$ 1.621,00 e máximo R$ 8.475,55) |
 | Data da consulta | 2026-09-29 |
@@ -63,9 +63,9 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Casos especiais | Prestação de serviço a empresa (responsabilidade da empresa desde 04/2003, F-12); MEI 5%; facultativo baixa renda 5% |
 | Questões em aberto | Q-P1, Q-P2 e Q-P4 RESOLVIDAS. Q-P3 FORA DO CÁLCULO DO MVP 1.0 / AVISO EDUCACIONAL. Abertas: Q-P6 (remuneração abaixo do limite mínimo; decisão de produto). Registrada: Q-P5. Detalhes em [pf-2026-research.md](pf-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de validação | VALIDADA |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-003 — Limite anual e proporcional do MEI
 
@@ -90,8 +90,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-MEI-01, Q-MEI-02 RESOLVIDAS. Q-MEI-03 resolvida quanto à existência/função do Anexo XI; conteúdo linha a linha segue em aberto (não bloqueia validação). Detalhes em [mei-2026-research.md](mei-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-004 — Composição e cálculo do DAS-MEI
 
@@ -116,8 +116,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-MEI-06, Q-MEI-07 RESOLVIDAS. Q-MEI-05 parcialmente resolvida: o dia 20 está confirmado em fonte oficial; o número exato do artigo da Resolução CGSN 140/2018 segue incerto (fontes secundárias divergentes) e não é mais citado neste catálogo. Detalhes em [mei-2026-research.md](mei-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-005 — Limite de receita para permanência no Simples Nacional
 
@@ -142,8 +142,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-SN-01 (ABERTA, baixa relevância): confirmar se algum ato do CGSN cita literalmente R$ 400.000,00/mês, ou se é sempre aritmética de conferência. Detalhes em [simples-2026-research.md](simples-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-006 — Tabela do Anexo III
 
@@ -167,8 +167,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Casos especiais | Redistribuição do percentual de ISS quando a alíquota efetiva superar 14,92537% na 5ª faixa |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-007 — Tabela do Anexo V
 
@@ -189,11 +189,11 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Data da consulta | 2026-09-30 |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
 | Limitações do MVP | Redistribuição de percentuais na 6ª faixa/casos de ISS acima de 5% documentada, não implementada nesta fase; 6ª faixa legalmente vigente, mas fora do cálculo completo do MVP (RBT12 acima do sublimite efetivo de 2026, R$ 3.600.000,00 — ver TR-005) |
-| Casos especiais | Redistribuição do percentual de ISS quando a alíquota efetiva superar 12,5% na 5ª faixa |
+| Casos especiais | Anexo V: sem redistribuição na 5ª faixa (o texto legal não traz nota; o limite de 12,5% pertence ao Anexo IV, fora do MVP — F-48) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-008 — Fórmula da alíquota efetiva do Simples Nacional
 
@@ -218,8 +218,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-SN-04 (pendência técnica, não legal): nenhuma regra de arredondamento confirmada por fonte oficial para a fórmula geral da alíquota efetiva/DAS mensal (distinta do truncamento específico do fator r, esse sim confirmado — ver TR-009). Análoga a Q-02 de TR-001 |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-009 — Fator R
 
@@ -244,8 +244,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-SN-02 (estagiários não entram na FS12 — inferência sistemática, sem Solução de Consulta específica localizada) e Q-SN-03 (MEI contratado nas hipóteses do art. 18-B) são pendências residuais irrelevantes ao MVP. Detalhes em [simples-2026-research.md](simples-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-010 — Pró-labore e contribuição previdenciária do sócio
 
@@ -270,8 +270,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-PJ-01 **RESOLVIDA** nesta passagem: distinguidos (A) valor do pró-labore, sem piso legal — decisão de produto — de (B) limite mínimo do salário de contribuição/complementação previdenciária, normatizado (F-18/F-21/F-22). Q-PJ-02 (artigo exato da IN RFB 2.110/2022) e Q-PJ-03 (múltiplas fontes de contribuição) são pendências residuais não bloqueantes. Detalhes em [pj-comparator-2026-research.md](pj-comparator-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-011 — Distribuição de lucros relevante ao comparador PF x PJ
 
@@ -296,5 +296,5 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-PJ-04 (liminar judicial concretamente identificada — MS 5002505-76.2026.4.03.6100, 26ª Vara Cível Federal de SP, 09/02/2026 — suspende a retenção apenas para a parte impetrante; RFB mantém posição oficial de aplicação ao Simples Nacional, adotada como base do MVP); Q-PJ-05/Q-PJ-06 (textos oficiais de Resolução CGSN art.145 e Solução Cosit 244/2025 obtidos via fonte secundária, pendências residuais). Detalhes em [pj-comparator-2026-research.md](pj-comparator-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field, pending_list, status_box with context %}
+{% block title %}Simulação Pessoa Física{% endblock %}
+{% block content %}
+<section class="section">
+  <h1>Pessoa Física / Autônomo</h1>
+  <p class="lead-left">Informe os dados abaixo. Campos com * são obrigatórios.</p>
+  <div class="two-col">
+    <form class="panel" data-sim novalidate>
+      {{ field("ano", "Ano da simulação", "year") }}
+      {{ field("renda_mensal", "Renda mensal (R$)", hint="Use vírgula ou ponto nos centavos.") }}
+      {{ field("renda_anual", "Renda anual (R$)", hint="Preenchida automaticamente a partir da renda mensal.", required=False, readonly=True) }}
+      {{ field("perfil", "Tipo de recebimento / perfil", "pending-select", hint="Opções aguardam validação.") }}
+      <div class="actions">
+        <button class="btn" type="submit">Simular</button>
+        <button class="btn btn-outline" type="reset">Limpar</button>
+        <a class="btn btn-ghost" href="{{ url_for('simulation') }}">Voltar</a>
+      </div>
+    </form>
+    <aside class="panel" aria-label="Resultado">
+      <h2>Resultado</h2>
+      {{ status_box() }}
+      {{ pending_list(["Renda bruta", "Base considerada", "IRPF estimado", "Contribuição previdenciária", "Total de tributos", "Carga efetiva", "Renda líquida", "Explicação do cálculo"]) }}
+    </aside>
+  </div>
+</section>
+{% endblock %}

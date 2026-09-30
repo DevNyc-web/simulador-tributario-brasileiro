@@ -4,25 +4,30 @@
   <h1>Simulador Tributário Brasileiro</h1>
   <p class="subtitle">Simulação e comparação tributária 2026–2033</p>
   <p class="lead">Projeto acadêmico que compara cenários de Pessoa Física e Pessoa Jurídica e mostra como as regras evoluem durante a transição da Reforma Tributária.</p>
-  <a class="btn" href="{{ url_for('simulation') }}">Nova Simulação</a>
+  <div class="cta-row">
+    <a class="btn" href="{{ url_for('simulation') }}">Nova Simulação</a>
+    <a class="btn btn-outline" href="{{ url_for('compare') }}">Comparar PF x PJ</a>
+    <a class="btn btn-outline" href="{{ url_for('reform') }}">Entender a Reforma</a>
+  </div>
 </section>
 
-<section id="perfis" class="section">
-  <h2>Perfis</h2>
+<section id="modulos" class="section">
+  <h2>Módulos</h2>
   <div class="grid">
-    {% for p in profiles %}
-    <article class="card">
-      <h3>{{ p }}</h3>
-      <p class="muted">[REGRA PENDENTE DE VALIDAÇÃO]</p>
-    </article>
-    {% endfor %}
+    <a class="card card-link" href="{{ url_for('pf') }}"><h3>Pessoa Física</h3><p class="muted">Autônomo e renda de pessoa física.</p></a>
+    <a class="card card-link" href="{{ url_for('mei') }}"><h3>MEI</h3><p class="muted">Situação frente ao limite e DAS.</p></a>
+    <a class="card card-link" href="{{ url_for('simples') }}"><h3>Simples Nacional</h3><p class="muted">Prestação de serviços e Fator R.</p></a>
+    <a class="card card-link" href="{{ url_for('compare') }}"><h3>Comparar PF x PJ</h3><p class="muted">Cenários lado a lado.</p></a>
+    <a class="card card-link" href="{{ url_for('reform') }}"><h3>Reforma Tributária 2026–2033</h3><p class="muted">Linha do tempo educacional.</p></a>
+    <div class="card card-soon"><h3>Lucro Presumido</h3><span class="badge">Em breve</span></div>
+    <div class="card card-soon"><h3>Lucro Real</h3><span class="badge">Planejado</span></div>
   </div>
 </section>
 
 <section id="transicao" class="section">
   <h2>Transição Tributária 2026–2033</h2>
   <div class="timeline">
-    {% for y in range(2026, 2034) %}<span class="year">{{ y }}</span>{% endfor %}
+    {% for y in years %}<a class="year" href="{{ url_for('reform') }}">{{ y }}</a>{% endfor %}
   </div>
   <div class="chart-placeholder">Espaço reservado para gráficos</div>
 </section>

@@ -1,0 +1,13 @@
+{
+  "_aviso": "DADOS FICTÍCIOS PARA TESTE DE INFRAESTRUTURA. Não é uma regra tributária real; não usar como referência fiscal.",
+  "id": "TR-000",
+  "nome": "Regra fictícia de exemplo (apenas estrutura)",
+  "ano": 2026,
+  "status": "VALIDADA",
+  "vigencia_inicio": "2026-01-01",
+  "vigencia_fim": null,
+  "fontes": ["F-00"],
+  "parametros": {
+    "aliquota_exemplo": "0.1100"
+  }
+}

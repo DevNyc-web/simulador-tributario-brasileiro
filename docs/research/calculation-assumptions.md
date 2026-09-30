@@ -26,6 +26,16 @@ Decisões aprovadas para o MVP 1.0. Mudanças exigem aprovação e atualização
 
 **Limitação deliberada:** dependentes, pensão alimentícia e Livro Caixa **existem legalmente** como deduções do Carnê-Leão (Lei 9.250/1995, art. 4º; Receita Federal, página Deduções). Ficam fora da primeira versão por escolha de escopo, não por inexistência; a interface deve informar essa limitação ao usuário.
 
+## Escopo MEI aprovado (premissa 13)
+
+| # | Decisão | Motivo |
+|---|---------|--------|
+| 13 | O módulo MEI 1.0 representa o **MEI comum**, com três categorias tributárias suportadas: (1) Comércio/Indústria — ICMS; (2) Serviços — ISS; (3) Comércio e Serviços — ICMS + ISS. | Cobre o DAS-MEI (TR-004) e o acompanhamento do limite (TR-003); ver [mei-2026-research.md](mei-2026-research.md). |
+| 14 | **Pressuposto de ocupação permitida:** o MVP pressupõe que a ocupação informada pelo usuário seja uma ocupação permitida para MEI (Anexo XI da Resolução CGSN nº 140/2018). O sistema **não verifica automaticamente** essa condição nesta versão; deve exibir aviso educacional informando que a atividade concreta precisa constar da lista oficial. | As três categorias tributárias (acima) definem apenas a incidência de ICMS/ISS para o DAS, não a elegibilidade de ocupação — são coisas distintas (ver "Distinção explícita" em [mei-2026-research.md](mei-2026-research.md)). |
+| 15 | **MEI Caminhoneiro / Transportador Autônomo de Cargas fica fora do MVP 1.0.** É um regime especial legalmente existente (limite anual R$ 251.600,00; contribuição previdenciária de 12% do salário mínimo — LC 123/2006, art. 18-F), apenas **mencionado** na interface, não calculado. | Regras e alíquotas diferentes do MEI comum; exigiria módulo de cálculo separado. |
+
+**Limitações registradas do módulo MEI (ver [mei-2026-research.md](mei-2026-research.md) para detalhes):** sem cálculo após desenquadramento retroativo por excesso de receita; sem parcelamentos, multas e juros por atraso do DAS; sem restituições; sem baixa do MEI; sem múltiplas atividades com situações especiais; sem obrigações estaduais/municipais fora do DAS.
+
 ## Regras de uso de fontes
 
 1. Só fonte oficial primária (Receita Federal, Portal do Simples Nacional, CGSN, Planalto, INSS, Ministério da Fazenda, Ministério do Empreendedorismo, Diário Oficial quando necessário).

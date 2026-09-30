@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Sobre / Metodologia{% endblock %}
+{% block content %}
+<section class="section prose">
+  <h1>Sobre / Metodologia</h1>
+  <p class="notice">Este simulador possui finalidade educacional e não substitui orientação contábil, fiscal ou jurídica.</p>
+
+  <h2>Objetivo educacional</h2>
+  <p>Projeto acadêmico de Engenharia de Software e Gestão de Projetos que ajuda a entender e comparar cenários tributários de Pessoa Física e Pessoa Jurídica durante a transição da Reforma Tributária.</p>
+
+  <h2>Arquitetura</h2>
+  <p>A interface (HTML, CSS e JavaScript) não contém regras tributárias. As telas chamam a camada de serviços, que aciona o motor de cálculo, que consulta as regras de cada ano.</p>
+  <p class="flow">Interface → Serviços → Motor de cálculo → Regras → Dados por ano</p>
+
+  <h2>Separação entre interface e regras</h2>
+  <p>As regras ficam em arquivos de dados versionados por ano (2026 a 2033), separados do código. Isso permite auditar e atualizar uma regra sem alterar a interface.</p>
+
+  <h2>Fontes oficiais</h2>
+  <p>Nenhuma regra é usada sem fonte oficial registrada e status de validação. Enquanto isso não ocorre, o valor aparece como “Pendente de validação” e nenhum número é calculado.</p>
+
+  <h2>Limitações do MVP</h2>
+  <ul>
+    <li>Cálculos ainda não disponíveis: aguardam validação das regras.</li>
+    <li>Sem Lucro Presumido, Lucro Real, login ou armazenamento de dados.</li>
+    <li>Resultados são estimativas educacionais.</li>
+  </ul>
+
+  <h2>Foco em 2026 e preparação para 2027–2033</h2>
+  <p>Os primeiros cálculos terão como base as regras de 2026. A estrutura já está pronta para receber as regras de 2027 a 2033.</p>
+</section>
+{% endblock %}

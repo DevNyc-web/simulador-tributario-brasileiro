@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Resultado{% endblock %}
+{% block content %}
+<section class="section">
+  <h1>Resultado</h1>
+  <div class="panel empty-state">
+    <h2>Nenhuma simulação disponível.</h2>
+    <p class="muted">Faça uma simulação para ver o resultado aqui.</p>
+    <a class="btn" href="{{ url_for('simulation') }}">Nova Simulação</a>
+  </div>
+
+  <h2>Estrutura do resultado</h2>
+  <div class="grid">
+    {% for title in ["Resumo", "Tributos", "Carga efetiva", "Líquido", "Explicação", "Fontes utilizadas"] %}
+    <article class="card"><h3>{{ title }}</h3><span class="badge badge-pending">Pendente de validação</span></article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

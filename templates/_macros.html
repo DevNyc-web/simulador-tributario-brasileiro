@@ -1,0 +1,41 @@
+{# Componentes reutilizáveis. Nenhuma regra fiscal aqui. #}
+
+{% macro field(id, label, kind="money", hint="", required=True, allow_zero=False, readonly=False) %}
+<div class="field" data-field>
+  <label for="{{ id }}">{{ label }}{% if required %} <span aria-hidden="true">*</span>{% endif %}</label>
+  {% if kind == "year" %}
+    <select id="{{ id }}" name="{{ id }}" data-kind="year" required aria-describedby="{{ id }}-msg">
+      <option value="">Selecione o ano</option>
+      {% for y in years %}<option value="{{ y }}">{{ y }}</option>{% endfor %}
+    </select>
+  {% elif kind == "pending-select" %}
+    <select id="{{ id }}" name="{{ id }}" disabled aria-describedby="{{ id }}-msg">
+      <option>Opções pendentes de validação</option>
+    </select>
+  {% else %}
+    <input id="{{ id }}" name="{{ id }}" type="text" inputmode="decimal" autocomplete="off"
+           placeholder="0,00" data-kind="money" {% if required %}data-required{% endif %} {% if allow_zero %}data-allow-zero{% endif %}
+           {% if readonly %}readonly tabindex="-1"{% endif %}
+           aria-describedby="{{ id }}-msg">
+  {% endif %}
+  {% if hint %}<small class="hint">{{ hint }}</small>{% endif %}
+  <small class="error" id="{{ id }}-msg" role="alert"></small>
+</div>
+{% endmacro %}
+
+{% macro pending_list(items) %}
+<dl class="result-list">
+  {% for item in items %}
+  <div class="result-row">
+    <dt>{{ item }}</dt>
+    <dd><span class="badge badge-pending">Pendente de validação</span></dd>
+  </div>
+  {% endfor %}
+</dl>
+{% endmacro %}
+
+{% macro status_box() %}
+<p class="status-box" data-status role="status" hidden>
+  Cálculo disponível após validação das regras tributárias.
+</p>
+{% endmacro %}

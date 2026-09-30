@@ -1,16 +1,27 @@
 {% extends "base.html" %}
-{% block title %}Nova Simulação{% endblock %}
+{% block title %}Escolha de Simulação{% endblock %}
 {% block content %}
 <section class="section">
   <h1>Nova Simulação</h1>
-  <p class="muted">Formulário em desenvolvimento. Resultados por ano:</p>
-  <div class="grid">
-    {% for r in results %}
-    <article class="card">
-      <h3>{{ r.ano }}</h3>
-      <p class="muted">{{ r.status }}</p>
-    </article>
-    {% endfor %}
-  </div>
+  <p class="lead-left">Escolha o que deseja simular.</p>
+  <form data-choice>
+    <fieldset class="choice-grid">
+      <legend class="sr-only">Tipo de simulação</legend>
+      {% for value, title, text in [
+        (url_for('pf'), 'Pessoa Física / Autônomo', 'Estima tributos sobre a renda de uma pessoa física.'),
+        (url_for('mei'), 'MEI', 'Verifica a situação do faturamento frente ao limite do MEI.'),
+        (url_for('simples'), 'Simples Nacional', 'Simula uma prestação de serviços no Simples, incluindo o Fator R.'),
+        (url_for('compare'), 'Comparador PF x PJ', 'Mostra os mesmos ganhos como PF e como PJ, lado a lado.')] %}
+      <label class="card choice">
+        <input type="radio" name="perfil" value="{{ value }}">
+        <h3>{{ title }}</h3>
+        <p class="muted">{{ text }}</p>
+      </label>
+      {% endfor %}
+    </fieldset>
+    <p class="error" data-choice-msg role="alert"></p>
+    <button class="btn" type="submit">Continuar</button>
+  </form>
+  <noscript><p class="muted">Sem JavaScript, acesse diretamente: <a href="{{ url_for('pf') }}">PF</a>, <a href="{{ url_for('mei') }}">MEI</a>, <a href="{{ url_for('simples') }}">Simples</a>, <a href="{{ url_for('compare') }}">Comparador</a>.</p></noscript>
 </section>
 {% endblock %}

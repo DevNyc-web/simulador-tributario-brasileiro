@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field, pending_list, status_box with context %}
+{% block title %}Simulação MEI{% endblock %}
+{% block content %}
+<section class="section">
+  <h1>MEI</h1>
+  <p class="lead-left">Informe os dados abaixo. Campos com * são obrigatórios.</p>
+  <div class="two-col">
+    <form class="panel" data-sim novalidate>
+      {{ field("ano", "Ano da simulação", "year") }}
+      {{ field("faturamento_mensal", "Faturamento mensal (R$)", hint="Use vírgula ou ponto nos centavos.") }}
+      {{ field("faturamento_anual", "Faturamento anual (R$)", hint="Preenchido automaticamente a partir do faturamento mensal.", required=False, readonly=True) }}
+      {{ field("atividade", "Categoria / atividade", "pending-select", hint="Opções aguardam validação.") }}
+      <div class="actions">
+        <button class="btn" type="submit">Simular</button>
+        <button class="btn btn-outline" type="reset">Limpar</button>
+        <a class="btn btn-ghost" href="{{ url_for('simulation') }}">Voltar</a>
+      </div>
+    </form>
+    <aside class="panel" aria-label="Resultado">
+      <h2>Resultado</h2>
+      {{ status_box() }}
+      {{ pending_list(["Limite utilizado", "DAS", "Situação", "Alertas", "Líquido estimado"]) }}
+      <p class="muted">Se o cenário ultrapassar o limite ou for incompatível com o MEI, esta área oferecerá a simulação no Simples Nacional.</p>
+      <a class="btn btn-outline" href="{{ url_for('simples') }}">Simular no Simples Nacional</a>
+    </aside>
+  </div>
+</section>
+{% endblock %}

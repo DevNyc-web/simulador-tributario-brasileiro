@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Reforma Tributária 2026–2033{% endblock %}
+{% block content %}
+<section class="section">
+  <h1>Reforma Tributária 2026–2033</h1>
+  <p class="lead-left">Selecione um ano para ver o conteúdo educacional da transição.</p>
+
+  <div class="timeline" role="group" aria-label="Anos da transição" data-timeline>
+    {% for y in years %}
+    <button type="button" class="year" data-year="{{ y }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ y }}</button>
+    {% endfor %}
+  </div>
+
+  <article class="panel" aria-live="polite">
+    <h2>Ano <span data-year-title>{{ years[0] }}</span></h2>
+    <dl class="result-list">
+      {% for label in ["Principais mudanças", "Tributos envolvidos", "Fase da transição", "Impacto geral", "Fonte oficial"] %}
+      <div class="result-row">
+        <dt>{{ label }}</dt>
+        <dd><span class="badge badge-pending">[CONTEÚDO PENDENTE DE VALIDAÇÃO]</span></dd>
+      </div>
+      {% endfor %}
+    </dl>
+  </article>
+</section>
+{% endblock %}

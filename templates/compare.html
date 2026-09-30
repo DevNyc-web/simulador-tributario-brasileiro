@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field, pending_list, status_box with context %}
+{% block title %}Comparador PF x PJ{% endblock %}
+{% block content %}
+<section class="section">
+  <h1>Comparador PF x PJ</h1>
+  <p class="lead-left">Informe um cenário e veja os números de Pessoa Física e Pessoa Jurídica lado a lado. A ferramenta apresenta diferenças; a interpretação é sua.</p>
+
+  <form class="panel" data-sim novalidate>
+    <div class="form-grid">
+      {{ field("ano", "Ano da simulação", "year") }}
+      {{ field("valor_mensal", "Renda / faturamento mensal (R$)") }}
+      {{ field("rbt12", "RBT12 da PJ (R$)", allow_zero=True) }}
+      {{ field("folha_12m", "Folha dos últimos 12 meses (R$)", allow_zero=True) }}
+      {{ field("pro_labore", "Pró-labore mensal (R$)", allow_zero=True) }}
+      {{ field("perfil", "Perfil de recebimento (PF)", "pending-select") }}
+      {{ field("atividade", "Atividade / categoria (PJ)", "pending-select") }}
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Comparar</button>
+      <button class="btn btn-outline" type="reset">Limpar</button>
+      <a class="btn btn-ghost" href="{{ url_for('simulation') }}">Voltar</a>
+    </div>
+  </form>
+
+  <div class="status-wrap">{{ status_box() }}</div>
+
+  <div class="versus">
+    <article class="panel side">
+      <h2>Pessoa Física</h2>
+      {{ pending_list(["Renda bruta", "Tributos", "Carga efetiva", "Líquido"]) }}
+    </article>
+    <div class="vs" aria-hidden="true">vs.</div>
+    <article class="panel side">
+      <h2>Pessoa Jurídica</h2>
+      {{ pending_list(["Faturamento", "Tributos", "Carga efetiva", "Líquido"]) }}
+    </article>
+  </div>
+
+  <div class="grid diff">
+    <article class="card"><h3>Diferença mensal</h3><span class="badge badge-pending">Pendente de validação</span></article>
+    <article class="card"><h3>Diferença anual</h3><span class="badge badge-pending">Pendente de validação</span></article>
+  </div>
+
+  <div class="chart-placeholder">Espaço reservado para gráfico comparativo</div>
+  <p class="muted note">Esta tela compara números e explica diferenças. Não indica qual opção deve ser escolhida.</p>
+</section>
+{% endblock %}

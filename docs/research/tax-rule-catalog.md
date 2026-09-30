@@ -254,20 +254,21 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | ID | TR-010 |
 | Nome | Pró-labore e contribuição previdenciária do sócio |
 | Módulo | Pessoa Jurídica |
-| Ano de vigência | Alvo do MVP: 2026. Vigência legal: PENDENTE |
-| Objetivo da regra | Determinar a contribuição previdenciária (e eventual IRPF) associada ao pró-labore. |
-| Entradas necessárias | ano; pró-labore |
-| Saídas produzidas | contribuição previdenciária do pró-labore; eventual IRPF do pró-labore |
-| Fórmula/regra | PENDENTE |
-| Fonte oficial primária | PENDENTE (órgão prioritário: INSS / Receita Federal / Planalto) |
-| URL | PENDENTE |
-| Base legal | PENDENTE |
-| Artigo/item relevante | PENDENTE |
-| Data da consulta | PENDENTE |
-| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | PENDENTE |
-| Casos especiais | PENDENTE |
-| Status de pesquisa | PENDENTE |
+| Ano de vigência | 2026 (mecânica de retenção vigente desde 2003, Lei nº 10.666/2003; limites de 2026 já validados em TR-002) |
+| Objetivo da regra | Determinar a contribuição previdenciária (INSS) e o IRPF associados ao pró-labore do sócio que trabalha na empresa. |
+| Entradas necessárias | ano; valor do pró-labore mensal |
+| Saídas produzidas | contribuição previdenciária do segurado (11%, limitada ao teto); IRPF do pró-labore (via TR-001); valor líquido do pró-labore |
+| Fórmula/regra | Ver [pj-comparator-2026-research.md](pj-comparator-2026-research.md), seção TR-010. Resumo: sócio que trabalha na empresa é contribuinte individual obrigatório (Decreto 3.048/1999 art. 9º V "e" 4, condicionado a receber remuneração pelo trabalho); a empresa desconta 11% do pró-labore (limitado ao teto de R$ 8.475,55) e recolhe junto com sua própria contribuição até o dia 2 do mês seguinte (Lei 10.666/2003 art. 4º); a CPP patronal já está no DAS para Anexo III/V (LC123 art. 13 VI) — não somar 20% adicional; o IRPF segue a tabela progressiva mensal de TR-001. |
+| Fonte oficial primária | Decreto nº 3.048/1999, art. 9º V "e" 4 (F-40); Lei nº 10.666/2003, art. 4º (F-41); Lei Complementar nº 123/2006, art. 13 VI e art. 14 (F-23/F-34); Lei nº 8.212/1991 (F-14, já validada em TR-002) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23/F-34, F-40, F-41 |
+| Base legal | Decreto nº 3.048/1999, art. 9º, V, "e", item 4; Lei nº 10.666/2003, art. 4º; LC 123/2006, art. 13, VI, e art. 14; Lei nº 8.212/1991, arts. 21/22/28/30 (já citados em TR-002) |
+| Artigo/item relevante | Decreto 3.048/1999 art. 9º V "e" 4 (classificação como contribuinte individual, condicionada a remuneração pelo trabalho); Lei 10.666/2003 art. 4º (responsabilidade de desconto/recolhimento pela empresa); LC123 art. 13 VI (CPP incluída no DAS, exceto Anexo IV) |
+| Data da consulta | 2026-09-30 |
+| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md); sócio único, sem outras fontes de contribuição, sem outra empresa |
+| Limitações do MVP | Sem tratamento de múltiplas fontes de contribuição do sócio; sem pró-labore mínimo imposto pelo motor (Q-PJ-01); artigo exato da IN RFB 2.110/2022 não confirmado (Q-PJ-02, não bloqueia o valor de 11%, já bem corroborado) |
+| Casos especiais | Pró-labore = R$ 0,00 (sem contribuinte individual, por ausência de remuneração pelo trabalho); pró-labore acima do teto (contribuição limitada ao teto, sem limite para o valor do pró-labore em si) |
+| Questões em aberto | Q-PJ-01 (ausência de pró-labore mínimo legal — decisão de produto); Q-PJ-02 (artigo exato da IN RFB 2.110/2022); Q-PJ-03 (múltiplas fontes de contribuição, fora do MVP). Detalhes em [pj-comparator-2026-research.md](pj-comparator-2026-research.md) |
+| Status de pesquisa | PESQUISADA |
 | Status de validação | PENDENTE |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
@@ -279,20 +280,21 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | ID | TR-011 |
 | Nome | Distribuição de lucros relevante ao comparador PF x PJ |
 | Módulo | Pessoa Jurídica |
-| Ano de vigência | Alvo do MVP: 2026. Vigência legal: PENDENTE |
-| Objetivo da regra | Definir o tratamento tributário da distribuição de lucros que afete o comparador. |
-| Entradas necessárias | ano; faturamento; resultado distribuível (a definir) |
-| Saídas produzidas | tratamento da distribuição de lucros no cenário PJ |
-| Fórmula/regra | PENDENTE |
-| Fonte oficial primária | PENDENTE (órgão prioritário: Receita Federal / Ministério da Fazenda / Planalto) |
-| URL | PENDENTE |
-| Base legal | PENDENTE |
-| Artigo/item relevante | PENDENTE |
-| Data da consulta | PENDENTE |
-| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | PENDENTE |
-| Casos especiais | PENDENTE |
-| Status de pesquisa | PENDENTE |
+| Ano de vigência | 2026 (regra geral da LC123 art. 14 desde 2007; alterações relevantes da Lei nº 15.270/2025 com efeitos a partir de janeiro/2026) |
+| Objetivo da regra | Definir o tratamento tributário da distribuição de lucros que afete o comparador (isenção limitada, retenção de 10% acima de R$ 50 mil/mês, tributação mínima anual). |
+| Entradas necessárias | ano; receita bruta (mensal/anual); IRPJ devido no Simples; valor distribuído ao sócio no mês; (opcional) lucro contábil informado, se houver escrituração |
+| Saídas produzidas | limite de distribuição isenta (sem escrituração); IRRF retido (10%, se aplicável); indicação de tributação mínima anual não suportada, quando acima de R$ 600.000,00/ano |
+| Fórmula/regra | Ver [pj-comparator-2026-research.md](pj-comparator-2026-research.md), seção TR-011. Resumo: sem escrituração contábil, limite isento = 32% da receita bruta (Lei 9.249/1995 art. 15 §1º III "a", atividades de serviços do MVP) menos o IRPJ devido no Simples; com escrituração contábil regular e balanços intermediários mensais, o limite pode ser maior (Solução de Consulta Cosit 244/2025); a partir de 2026, retenção de 10% sobre o total de lucros/dividendos pagos por uma mesma PJ a uma mesma PF que superem R$ 50.000,00 no mês (Lei 9.250/1995 art. 6º-A, incluído pela Lei 15.270/2025), **aplicável também ao Simples Nacional** conforme posição oficial da Receita Federal; tributação mínima anual (art. 16-A) para renda anual > R$ 600.000,00, a partir do ano-calendário 2026. |
+| Fonte oficial primária | LC 123/2006, art. 14 (F-23/F-34); Lei nº 9.249/1995, art. 15 (F-43); Lei nº 9.250/1995, arts. 6º-A/16-A/16-B, incluídos pela Lei nº 15.270/2025 (F-39); Receita Federal, Perguntas e Respostas — Tributação de Altas Rendas (F-45); Resolução CGSN nº 140/2018 art. 145 (F-42, fonte secundária); Solução de Consulta Cosit nº 244/2025 (F-44, fonte secundária) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23/F-34, F-39, F-42, F-43, F-44, F-45 |
+| Base legal | LC 123/2006, art. 14; Lei nº 9.249/1995, art. 15; Lei nº 9.250/1995, arts. 6º-A, 16-A, 16-B (incluídos pela Lei nº 15.270/2025); Resolução CGSN nº 140/2018, art. 145 |
+| Artigo/item relevante | LC123 art. 14 §§1º/2º (limite sem/com escrituração); Lei 9.249/1995 art.15 §1º III "a" (32% para serviços); Lei 9.250/1995 art. 6º-A (retenção de 10%, >R$50.000,00/mês); art. 16-A (tributação mínima anual, >R$600.000,00/ano) |
+| Data da consulta | 2026-09-30 |
+| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md); MVP considera somente lucro gerado no próprio ano-calendário de 2026, sem lucros acumulados de 2025 ou anteriores |
+| Limitações do MVP | Sem cálculo de tributação mínima anual (art. 16-A) nem do redutor (art. 16-B) nesta fase — ver "Alternativas de escopo" em [pj-comparator-2026-research.md](pj-comparator-2026-research.md); sem capitalização de lucros; sem devolução de capital social; sem lucros de 2025 ou anteriores |
+| Casos especiais | Distribuição exatamente R$ 50.000,00 (sem retenção); R$ 50.000,01 (retenção de 10% sobre o total); múltiplos pagamentos no mês somados para o cálculo do gatilho |
+| Questões em aberto | Q-PJ-04 (controvérsia judicial sobre aplicação da retenção de 10% ao Simples Nacional — relevância jurídica real); Q-PJ-05/Q-PJ-06 (textos oficiais de Resolução CGSN art.145 e Solução Cosit 244/2025 obtidos via fonte secundária). Detalhes em [pj-comparator-2026-research.md](pj-comparator-2026-research.md) |
+| Status de pesquisa | PESQUISADA |
 | Status de validação | PENDENTE |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |

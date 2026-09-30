@@ -47,6 +47,17 @@ Decisões aprovadas para o MVP 1.0. Mudanças exigem aprovação e atualização
 
 **Limitações registradas do módulo Simples Nacional (ver [simples-2026-research.md](simples-2026-research.md) para detalhes):** sem cálculo de excesso de receita/desenquadramento retroativo (limite geral ou sublimite); sem redistribuição de percentuais de ICMS/ISS acima do sublimite ou do teto de 5%; sem Anexo I, II ou IV; sem cálculo de INSS/IRPF do sócio sobre pró-labore; sem cálculo completo para RBT12 acima de R$ 3.600.000,00 (premissa 18).
 
+## Escopo do comparador PF x PJ — pró-labore e distribuição de lucros (premissa 20)
+
+| # | Decisão | Motivo |
+|---|---------|--------|
+| 20 | O simulador **não impõe um valor mínimo de pró-labore**. O usuário informa livremente o valor (inclusive R$ 0,00); nenhuma norma oficial pesquisada fixa um piso legal — a referência ao salário mínimo é prática de mercado/contábil, não exigência normativa. | Confirmado em TR-010; evita criar regra por costume contábil sem base legal. Ver [pj-comparator-2026-research.md](pj-comparator-2026-research.md). |
+| 21 | Para os cenários Anexo III/V (únicos suportados), o motor **não soma 20% de CPP patronal** sobre o pró-labore, pois essa contribuição já está incluída no DAS (LC123 art. 13 VI). O único desconto adicional sobre o pró-labore é a contribuição do segurado (11%, retida pela empresa). | Evita dupla tributação no simulador; ver TR-010 em [pj-comparator-2026-research.md](pj-comparator-2026-research.md). |
+| 22 | O comparador considera **somente lucro gerado no próprio ano-calendário de 2026**. Lucros acumulados de 2025 ou anteriores, e a regra de transição correspondente (Lei nº 15.270/2025), ficam **fora do MVP 1.0**. | Evita a complexidade das condições de transição (aprovação até 31/12/2025, balanço intermediário, pagamento até 2028); ver TR-011. |
+| 23 | O simulador **não presume** "lucro contábil = faturamento − DAS − pró-labore". Duas alternativas de escopo (informar lucro contábil manualmente vs. calcular só o limite fiscal presumido de 32%) ficam registradas para decisão futura, não decididas nesta pesquisa. | Ver "Não inventar lucro contábil" e "Alternativas de escopo do comparador" em [pj-comparator-2026-research.md](pj-comparator-2026-research.md). |
+
+**Limitações registradas do comparador PJ (ver [pj-comparator-2026-research.md](pj-comparator-2026-research.md) para detalhes):** sem tributação mínima anual de altas rendas (art. 16-A) nem redutor (art. 16-B) nesta fase — decisão de escopo pendente entre 3 alternativas documentadas; sem capitalização de lucros; sem devolução de capital social; sem múltiplas fontes de contribuição do sócio; sem obrigação acessória EFD-Reinf (apenas informação operacional).
+
 ## Regras de uso de fontes
 
 1. Só fonte oficial primária (Receita Federal, Portal do Simples Nacional, CGSN, Planalto, INSS, Ministério da Fazenda, Ministério do Empreendedorismo, Diário Oficial quando necessário).

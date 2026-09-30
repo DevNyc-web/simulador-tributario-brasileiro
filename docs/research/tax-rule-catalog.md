@@ -79,17 +79,17 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Entradas necessárias | ano; faturamento mensal; faturamento anual; mês de início de atividade; categoria/atividade |
 | Saídas produzidas | situação (compatível / excesso ≤ 20% / excesso > 20% / incompatível); % do limite utilizado; alertas de incompatibilidade |
 | Fórmula/regra | Ver [mei-2026-research.md](mei-2026-research.md), seções "Limite anual", "Ano de abertura / Limite proporcional" e "Excesso de receita — regra dos 20%". Resumo: limite anual R$ 81.000,00; no ano de abertura, limite proporcional = R$ 6.750,00 × número de meses (fração de mês = mês completo); excesso não superior a 20% → efeitos a partir de 1º de janeiro do ano-calendário subsequente; excesso superior a 20% em MEI já existente → efeitos retroativos a 1º de janeiro do ano do excesso; excesso superior a 20% no ano de abertura → efeitos retroativos ao início da atividade. Arredondamento/implementação: não decidido nesta pesquisa. |
-| Fonte oficial primária | Lei Complementar nº 123/2006, art. 18-A (F-23); Portal do Empreendedor, "Teto do MEI" (F-25); Resolução CGSN nº 140/2018, art. 100 (F-26, texto não confirmado verbatim contra fonte oficial — ver Q-MEI-02) |
-| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-25, F-26, F-27 |
-| Base legal | Lei Complementar nº 123, de 14/12/2006 (art. 18-A, §§ 1º, 2º, 4º, 7º, 10; art. 18-C; art. 18-F) |
+| Fonte oficial primária | Lei Complementar nº 123/2006, art. 18-A (F-23); Portal do Empreendedor, "Teto do MEI" (F-25); Portal Empresas & Negócios, "Verifique se você atende as condições para ser MEI" (F-28); Receita Federal/CGSN, "Perguntas e Respostas MEI e Simei" (F-31) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-25, F-26, F-27, F-28, F-31 |
+| Base legal | Lei Complementar nº 123, de 14/12/2006 (art. 18-A, §§ 1º, 2º, 4º, 7º, 10; art. 18-C; art. 18-F); Resolução CGSN nº 140/2018 (art. 100, inciso I; art. 101; art. 112) |
 | Artigo/item relevante | Art. 18-A § 1º (limite anual R$ 81.000,00); § 2º (limite proporcional); § 7º, incisos III e IV (desenquadramento por excesso, regra dos 20%); § 10 (complementação do DAS) |
-| Data da consulta | 2026-09-29 |
+| Data da consulta | 2026-09-29 (pesquisa); 2026-09-29 (validação) |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md); MVP pressupõe ocupação permitida (Anexo XI da Resolução CGSN 140/2018) |
 | Limitações do MVP | Sem MEI Caminhoneiro; sem verificação automática de ocupação permitida; sem cálculo de tributos após desenquadramento retroativo; sem parcelamentos, multas, baixa |
 | Casos especiais | MEI Caminhoneiro (regime especial, limite R$ 251.600,00, alíquota previdenciária 12%) mencionado, não calculado (F-23 art. 18-F) |
-| Questões em aberto | Q-MEI-01 (caso-limite de exatamente 20% de excesso), Q-MEI-02 (texto integral do art. 100 da Resolução CGSN 140/2018), Q-MEI-03 (conteúdo do Anexo XI). Detalhes em [mei-2026-research.md](mei-2026-research.md) |
+| Questões em aberto | Q-MEI-01, Q-MEI-02 RESOLVIDAS. Q-MEI-03 resolvida quanto à existência/função do Anexo XI; conteúdo linha a linha segue em aberto (não bloqueia validação). Detalhes em [mei-2026-research.md](mei-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
+| Status de validação | VALIDADA |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
 
@@ -105,17 +105,17 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Entradas necessárias | ano; categoria/atividade (Comércio/Indústria, Serviços, ou Comércio e Serviços) |
 | Saídas produzidas | DAS estimado (valor fixo mensal); vencimento educacional |
 | Fórmula/regra | Ver [mei-2026-research.md](mei-2026-research.md), seções "Previdência", "ICMS", "ISS" e "Valores de 2026". Resumo: DAS = valor fixo mensal, independente do faturamento do mês, composto por 5% do salário mínimo (previdência, R$ 81,05 em 2026) + R$ 1,00 (ICMS, se contribuinte) + R$ 5,00 (ISS, se contribuinte). Totais 2026: Comércio/Indústria R$ 82,05; Serviços R$ 86,05; Comércio e Serviços R$ 87,05. O faturamento mensal **não** é multiplicado por alíquota do DAS-MEI. |
-| Fonte oficial primária | Lei Complementar nº 123/2006, art. 18-A § 3º V (F-23); Receita Federal / Portal do Simples Nacional, "MEI - atualização de valores devidos em 2026" (F-24); Decreto nº 12.797/2025 (salário mínimo, F-27); Resolução CGSN nº 140/2018, art. 104 (F-26, texto não confirmado verbatim — ver Q-MEI-05) |
-| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-24, F-26, F-27 |
+| Fonte oficial primária | Lei Complementar nº 123/2006, art. 18-A § 3º V (F-23); Receita Federal / Portal do Simples Nacional, "MEI - atualização de valores devidos em 2026" (F-24); Decreto nº 12.797/2025 (salário mínimo, F-27); Portal Empresas & Negócios, "Qual o valor das contribuições mensais [...] 2026?" (F-30, tabela oficial dos três totais); "Como pagar seu DAS?" (F-29, vencimento) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-24, F-27, F-29, F-30, F-31 |
 | Base legal | Lei Complementar nº 123, de 14/12/2006 (art. 18-A, § 3º, V; § 11); Decreto nº 12.797, de 23/12/2025 |
 | Artigo/item relevante | Art. 18-A, § 3º, V, alíneas a/b/c (composição do valor fixo); § 11 (reajuste anual da parcela previdenciária, mantendo equivalência com 5% do salário mínimo) |
-| Data da consulta | 2026-09-29 |
+| Data da consulta | 2026-09-29 (pesquisa); 2026-09-29 (validação) |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md); MVP pressupõe ocupação permitida (Anexo XI) |
 | Limitações do MVP | Sem MEI Caminhoneiro (alíquota previdenciária de 12%, não 5%); sem vencimento em atraso/multas/juros; sem cálculo do tributo devido após desenquadramento retroativo |
-| Casos especiais | MEI Caminhoneiro: R$ 194,52 de contribuição previdenciária em 2026 (12% do salário mínimo), mencionado, não calculado (F-24, F-23 art. 18-F) |
-| Questões em aberto | Q-MEI-05 (texto integral do art. 104 da Resolução CGSN 140/2018), Q-MEI-06 (totais por categoria em página única oficial), Q-MEI-07 (receita mensal zero — DAS fixo continua devido?). Detalhes em [mei-2026-research.md](mei-2026-research.md) |
+| Casos especiais | MEI Caminhoneiro: R$ 194,52 de contribuição previdenciária em 2026 (12% do salário mínimo), mencionado, não calculado (F-24, F-30, F-23 art. 18-F) |
+| Questões em aberto | Q-MEI-06, Q-MEI-07 RESOLVIDAS. Q-MEI-05 parcialmente resolvida: o dia 20 está confirmado em fonte oficial; o número exato do artigo da Resolução CGSN 140/2018 segue incerto (fontes secundárias divergentes) e não é mais citado neste catálogo. Detalhes em [mei-2026-research.md](mei-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
+| Status de validação | VALIDADA |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
 

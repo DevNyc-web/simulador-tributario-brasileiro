@@ -1,7 +1,7 @@
 # MEI — 2026
 
 Pesquisa de TR-003 (Limite anual e proporcional do MEI) e TR-004 (Composição e cálculo do DAS-MEI).
-Data da consulta: **2026-09-29**. Status: **PESQUISADA** (não **VALIDADA**; validação segue PENDENTE — revisão independente ainda não realizada nesta primeira passagem).
+Data da consulta: **2026-09-29** (primeira pesquisa) e **2026-09-29** (passagem final de validação). Status: **PESQUISADA** e **VALIDADA** (revisão independente concluída nesta passagem; ver "Revisão independente final"). Pendências residuais que não bloqueiam a validação: o número exato do artigo da Resolução CGSN nº 140/2018 que regula o vencimento do DAS-MEI (Q-MEI-05, parcial) e o conteúdo linha a linha do Anexo XI (Q-MEI-03, parcial — a lista completa de ocupações não é necessária para a regra de cálculo, apenas para a futura verificação automática de elegibilidade, já fora de escopo do MVP).
 
 > Todo número deste documento foi copiado de fonte oficial listada em "Fontes" (IDs `F-xx`) ou é marcado como *aritmética de conferência* (não é fonte).
 > Nada aqui está implementado. Nenhum valor entrou em `data/tax_rules/`.
@@ -90,27 +90,38 @@ Não presumido: a distinção entre os três cenários acima está sustentada li
 
 ### Cálculo de referência dos 20% (aritmética de conferência — não é fonte)
 
-- Limite anual: R$ 81.000,00. Limite + 20%: R$ 81.000,00 × 1,20 = **R$ 97.200,00**.
+- Limite anual: R$ 81.000,00. 20% do limite: R$ 81.000,00 × 0,20 = **R$ 16.200,00**. Limite + 20%: R$ 81.000,00 + R$ 16.200,00 = **R$ 97.200,00**.
 - Para o ano de abertura: `limite_20 = limite_proporcional × 1,20` (ex.: início em julho, limite proporcional R$ 40.500,00 → limite + 20% = R$ 48.600,00).
 
-**Q-MEI-01 (aberta):** o texto legal usa a redação "não ter ultrapassado o referido limite **em mais de** 20%" (F-23). Isso indica que um excesso **exatamente igual** a 20% (ex.: receita de exatamente R$ 97.200,00) ainda se enquadra em "não superior a 20%" — a norma não diz "20% ou mais", diz "mais de 20%". Esta leitura textual não foi confirmada por exemplo oficial numérico (Receita Federal ou CGSN); registrada como leitura do texto legal, não como fato validado por segunda fonte.
+**Q-MEI-01 (RESOLVIDA):** o texto legal usa, em quatro ocorrências (art. 18-A, § 7º, incisos III e IV, alíneas *a* e *b*), a redação "não ter ultrapassado o referido limite **em mais de** 20%" / "ter ultrapassado o referido limite **em mais de** 20%" (F-23). A mesma redação é repetida, verbatim, no material oficial "Perguntas e Respostas MEI e Simei" (F-31, perguntas 6.4 e 6.8), o que confirma que a leitura não é uma inferência isolada do texto da lei, mas a própria formulação usada pela administração tributária. Consequência numérica, para o limite anual (R$ 81.000,00, MEI já existente no início do ano):
+
+| Receita anual | Excesso sobre R$ 81.000,00 | Enquadramento |
+|---|---|---|
+| até R$ 81.000,00 | — | dentro do limite |
+| de R$ 81.000,01 até **R$ 97.200,00** | até 20% | **NÃO superior a 20%** — efeitos a partir de 1º/jan do ano-calendário subsequente |
+| a partir de **R$ 97.200,01** | mais de 20% | **superior a 20%** — efeitos retroativos a 1º/jan do ano-calendário do excesso |
+
+Ou seja: uma receita de **exatamente R$ 97.200,00** ainda se enquadra em "não superior a 20%" (o excesso é de exatamente 20%, não "mais de" 20%); só a partir de **R$ 97.200,01** o excesso passa a ser "superior a 20%". A mesma lógica se aplica, proporcionalmente, ao limite do ano de abertura (§ 2º combinado com o § 7º, IV).
 
 Estas fórmulas são **documentadas, não implementadas**.
 
 ### Condições básicas para ser MEI (elegibilidade — distinta de regra de cálculo)
 
-Registradas como **validações de elegibilidade**, não como fórmula tributária:
+Registradas como **validações de elegibilidade**, não como fórmula tributária. Confirmadas, cumulativamente, pelo material oficial "Perguntas e Respostas MEI e Simei" (F-31, Secretaria-Executiva do CGSN, atualizado 29/04/2025, Pergunta 1.2 — "Base legal: art. 18-A da Lei Complementar nº 123, de 2006"), que reproduz e detalha as condições já confirmadas em texto legal (F-23) e na página oficial "Verifique se você atende as condições para ser MEI" (F-28, que cita "Arts. 100, Inciso I e 101" da Resolução CGSN nº 140/2018):
 
 | Condição | Fonte |
 |---|---|
-| Ocupação deve estar entre as permitidas no **Anexo XI da Resolução CGSN nº 140/2018** | F-26 |
-| Não pode ser titular, sócio ou administrador de outra empresa | F-23 (art. 18-A, § 4º, III); F-26 (art. 100) |
-| Não pode possuir filial (só um estabelecimento) | F-23 (art. 18-A, § 4º, II); F-26 (art. 100) |
+| Exercer ocupação entre as permitidas no **Anexo XI da Resolução CGSN nº 140/2018** (ou atividades de comercialização/processamento extrativista, ou industrialização/comercialização/prestação de serviços no âmbito rural) | F-23 (art. 18-A, § 1º, incisos I a III); F-28 (Anexo XI, arts. 100 I e 101); F-31 (Pergunta 1.2) |
+| Auferir receita bruta dentro do limite anual (R$ 81.000,00) ou proporcional | F-23 (art. 18-A, §§ 1º e 2º); F-31 (Pergunta 1.2) |
+| Possuir um único estabelecimento (sem filial) | F-23 (art. 18-A, § 4º, II); F-28; F-31 (Pergunta 1.2) |
+| Não participar de outra empresa como titular, sócio ou administrador | F-23 (art. 18-A, § 4º, III); F-28; F-31 (Pergunta 1.2) |
+| Não ser constituído na forma de startup | F-23 (art. 18-A, § 4º, V); F-31 (Pergunta 1.2) |
 | Atividade não pode ser tributada pelos Anexos V ou VI do Simples Nacional, salvo autorização isolada do CGSN | F-23 (art. 18-A, § 4º, I) |
-| Não pode ser constituído como startup | F-23 (art. 18-A, § 4º, V) |
-| Máximo de um empregado | F-23 (art. 18-C, caput); F-26 (art. 100) |
-| O empregado do MEI deve receber exclusivamente um salário mínimo ou o piso salarial da categoria profissional | F-23 (art. 18-C, caput) |
-| Demais requisitos previstos no art. 100 da Resolução CGSN nº 140/2018 | F-26 (não obtido texto integral verbatim — ver Q-MEI-02) |
+| Máximo de um empregado, que só pode receber 1 salário mínimo (federal ou estadual) ou o piso salarial da categoria | F-23 (art. 18-C, caput); F-31 (Pergunta 1.2, citando art. 18-C da LC 123/2006) |
+| Não guardar, cumulativamente, com o contratante do serviço, relação de pessoalidade, subordinação e habitualidade | F-31 (Pergunta 1.2) |
+| Não realizar suas atividades mediante cessão ou locação de mão de obra | F-31 (Pergunta 1.2, citando art. 112, caput, da Resolução CGSN nº 140/2018) |
+| Não pode ser Eireli nem qualquer tipo de sociedade — só empresário individual (art. 966 do Código Civil) | F-31 (Pergunta 1.2, nota 1 e 2, citando art. 18-A § 1º da LC 123/2006) |
+| Não pode ser salão-parceiro da Lei nº 12.592/2012 | F-31 (Pergunta 1.2, nota 3, citando art. 100, § 7º, da Resolução CGSN nº 140/2018) |
 
 **Distinção explícita:** as condições acima são **regras de elegibilidade** (permitem ou não o enquadramento como MEI) e não fazem parte da **regra de cálculo** do DAS (TR-004). O MVP não terá, nesta fase, um sistema completo de validação societária — apenas o registro das condições e avisos educacionais.
 
@@ -118,14 +129,14 @@ Registradas como **validações de elegibilidade**, não como fórmula tributár
 
 | # | Questão | Situação |
 |---|---------|----------|
-| Q-MEI-01 | Excesso exatamente igual a 20% do limite (anual ou proporcional): a redação legal usa "em mais de 20%", o que sugere que exatamente 20% ainda conta como "não superior a 20%". | Aberta. Leitura textual do art. 18-A § 7º (F-23); sem exemplo oficial numérico que confirme o caso-limite. |
-| Q-MEI-02 | Texto integral do art. 100 da Resolução CGSN nº 140/2018 (condições de elegibilidade do MEI). | Aberta. Conteúdo obtido apenas via fonte secundária (F-26, LegisWeb) para descoberta; o portal `normas.receita.fazenda.gov.br` e o portal `in.gov.br` não entregaram o texto navegável nesta pesquisa (mesma limitação técnica já registrada para F-10 em TR-001). |
-| Q-MEI-03 | Conteúdo integral do Anexo XI da Resolução CGSN nº 140/2018 (lista de ocupações permitidas). | Aberta. O PDF oficial foi localizado em `www8.receita.fazenda.gov.br` (F-26), 43 páginas, mas seu conteúdo não pôde ser extraído pela ferramenta usada nesta pesquisa (arquivo binário/comprimido). A existência e a URL oficial do documento estão confirmadas; o conteúdo linha a linha não foi lido. |
-| Q-MEI-04 | Reingresso do MEI e possível parcelamento de débitos do excesso retroativo (>20%). | Fora do escopo desta pesquisa; ver "Casos fora do MVP 1.0". |
+| Q-MEI-01 | Excesso exatamente igual a 20% do limite (anual ou proporcional): a redação legal usa "em mais de 20%", o que sugere que exatamente 20% ainda conta como "não superior a 20%". | **RESOLVIDA** — confirmado pelo texto legal (F-23, art. 18-A § 7º) e pelo material oficial "Perguntas e Respostas MEI e Simei" (F-31, perguntas 6.4 e 6.8), que repete a mesma redação. Exatamente R$ 97.200,00 (81.000 + 20%) ainda é "não superior a 20%"; a partir de R$ 97.200,01 o excesso é "superior a 20%". Ver seção "Cálculo de referência dos 20%" acima. |
+| Q-MEI-02 | Texto integral do art. 100 da Resolução CGSN nº 140/2018 (condições de elegibilidade do MEI). | **RESOLVIDA** — confirmado por duas fontes oficiais primárias: a página "Verifique se você atende as condições para ser MEI" do Portal Empresas & Negócios (F-28, que cita explicitamente "Arts. 100, Inciso I e 101") e o material "Perguntas e Respostas MEI e Simei" da Secretaria-Executiva do CGSN (F-31, Pergunta 1.2, que lista as condições cumulativas com base legal e cita também art. 100 §§ 1º e 7º e art. 112). O portal `normas.receita.fazenda.gov.br` continua sem entregar o texto navegável do artigo isolado (mesma limitação de F-10), mas o conteúdo do artigo está confirmado por essas duas fontes primárias convergentes, sem divergência entre si ou com F-23. |
+| Q-MEI-03 | Conteúdo integral do Anexo XI da Resolução CGSN nº 140/2018 (lista de ocupações permitidas). | **RESOLVIDA quanto à existência, título e função do Anexo XI** — confirmado por F-31 (citado nominalmente 4 vezes, inclusive como "Anexo XI da Resolução CGSN nº 140, de 2018 – Ocupações Permitidas ao MEI") e F-28. **Aberta quanto ao conteúdo linha a linha**: o PDF oficial (43 páginas, `www8.receita.fazenda.gov.br/simplesnacional/arquivos/manual/anexo_xi.pdf`) não pôde ser extraído pela ferramenta usada nesta pesquisa. Isso não bloqueia a validação da regra de cálculo do MVP, pois a verificação automática de ocupação está deliberadamente fora de escopo (premissa 14 em [calculation-assumptions.md](calculation-assumptions.md)); só afeta uma futura funcionalidade de verificação automática. |
+| Q-MEI-04 | Reingresso do MEI e possível parcelamento de débitos do excesso retroativo (>20%). | Fora do escopo desta pesquisa; ver "Casos fora do MVP 1.0". Confirmado por F-31 (capítulo 4) que existe parcelamento convencional (até 60 parcelas) para débitos do MEI, incluindo os do excesso de receita — não implementado nem detalhado aqui. |
 
 ### Fontes (TR-003)
 
-F-23, F-25, F-26, F-27 — ver [fontes-tributarias.md](fontes-tributarias.md).
+F-23, F-25, F-26, F-27, F-28, F-31 — ver [fontes-tributarias.md](fontes-tributarias.md).
 
 ---
 
@@ -161,23 +172,29 @@ Valor oficial de 2026, conforme Receita Federal / Portal do Simples Nacional (F-
 
 ### Valores de 2026
 
+Tabela **oficial**, publicada pelo Portal Empresas & Negócios (F-30, "Qual o valor das contribuições mensais (Carnê do MEI - DAS) para o ano de 2026?"):
+
 | Categoria | Composição | Total |
 |---|---|---|
-| Comércio / Indústria | 81,05 (INSS) + 1,00 (ICMS) | **R$ 82,05** |
-| Serviços | 81,05 (INSS) + 5,00 (ISS) | **R$ 86,05** |
-| Comércio e Serviços | 81,05 (INSS) + 1,00 (ICMS) + 5,00 (ISS) | **R$ 87,05** |
+| Comércio / Indústria (ICMS) | R$ 81,05 (INSS) + R$ 1,00 (ICMS) | **R$ 82,05** |
+| Serviços (ISS) | R$ 81,05 (INSS) + R$ 5,00 (ISS) | **R$ 86,05** |
+| Comércio e Serviços | R$ 81,05 (INSS) + R$ 1,00 (ICMS) + R$ 5,00 (ISS) | **R$ 87,05** |
 
-*Aritmética de conferência (não é fonte):* 81,05 + 1,00 = 82,05; 81,05 + 5,00 = 86,05; 81,05 + 1,00 + 5,00 = 87,05. A fonte oficial (F-24) confirma os três componentes individuais (81,05 / 1,00 / 5,00) e, separadamente, cita os totais de R$ 82,05 / R$ 86,05 / R$ 87,05 em páginas complementares de imprensa oficial (F-24, notícias relacionadas) e em múltiplas fontes contábeis independentes que reproduzem a mesma soma sem divergência.
+A mesma fonte (F-30) traz, para referência (fora do escopo do MVP), os totais do **MEI Caminhoneiro** em 2026: R$ 195,52 (Comércio), R$ 199,52 (Serviços) e R$ 200,52 (Comércio e Serviços) — compostos por R$ 194,52 de INSS (12% do salário mínimo) + R$ 1,00/R$ 5,00/R$ 6,00 de ICMS/ISS.
+
+*Aritmética de conferência (não é fonte, apenas verificação):* 81,05 + 1,00 = 82,05; 81,05 + 5,00 = 86,05; 81,05 + 1,00 + 5,00 = 87,05 — todos batem com a tabela oficial de F-30, sem divergência.
 
 ### Vencimento
 
-"O DAS é devido até o dia 20 de cada mês" — vencimento do DAS-MEI: **dia 20 do mês subsequente** à competência (F-26, Resolução CGSN nº 140/2018, art. 104, citado via fonte secundária de descoberta). Quando o dia 20 recai em final de semana ou feriado, o vencimento é **prorrogado para o próximo dia útil** (F-26). Informação educacional; não faz parte do valor calculado inicialmente.
+Confirmado na página oficial "Como pagar seu DAS?" (F-29, Portal Empresas & Negócios): **"Fique atento ao prazo de pagamento: dia 20 de cada mês."** — vencimento do DAS-MEI: dia 20 do mês subsequente à competência. Informação educacional; não faz parte do valor calculado inicialmente.
 
-**Ressalva de fonte:** o número exato do artigo (art. 104) e a redação verbatim não foram confirmados diretamente no portal oficial `normas.receita.fazenda.gov.br` (mesma limitação técnica de Q-04/F-10 em TR-001) nem em `in.gov.br` (falha de conexão nesta pesquisa). A regra do dia 20 e a prorrogação para dia útil são corroboradas por múltiplas fontes secundárias convergentes (LegisWeb, páginas contábeis, Agência Sebrae) sem divergência entre si — suficiente para status **PESQUISADA**, mas o texto literal do artigo permanece pendência de confirmação para VALIDADA (Q-MEI-02).
+**Prorrogação em fim de semana/feriado:** corroborada por múltiplas fontes secundárias convergentes, sem divergência entre si (não encontrada, nesta pesquisa, uma página oficial que declare isso explicitamente com o mesmo nível de certeza da regra do "dia 20"). Registrada como informação de alta confiança, mas não como fato 100% confirmado em fonte primária.
+
+**Ressalva de nomenclatura (revisão desta passagem):** a versão anterior deste documento citava "art. 104 da Resolução CGSN nº 140/2018" para o vencimento, com base apenas em mirror privado (LegisWeb). Nesta passagem, ao buscar confirmação em fonte oficial, foram encontradas **citações de artigo divergentes** em diferentes fontes secundárias (art. 40, art. 104, art. 105) para o mesmo dispositivo, e nenhuma delas foi confirmada contra o texto oficial da Resolução (o portal `normas.receita.fazenda.gov.br` continua sem entregar o texto navegável — mesma limitação de F-10/Q-04 em TR-001). **Correção:** a citação "art. 104" foi removida deste documento por falta de confirmação; o fato do "dia 20" permanece registrado com base na fonte oficial F-29 (sem número de artigo), e a prorrogação em dia não útil permanece como informação corroborada, não como citação legal verbatim. Nenhuma ocorrência de "Resolução 100" ou "Resolução 104" (sem o número 140) foi encontrada nos arquivos de pesquisa — não há risco de confusão com as antigas Resoluções CGSN nº 100/2012 e nº 104/2012.
 
 ### Relação entre faturamento e DAS
 
-Confirmado: **o SIMEI utiliza valores fixos mensais** e o DAS **não varia proporcionalmente com o faturamento mensal**, desde que o contribuinte permaneça enquadrado nas condições do MEI (F-23, art. 18-A, caput: "valores fixos mensais, **independentemente da receita bruta** por ele auferida no mês"; F-26, art. 104).
+Confirmado: **o SIMEI utiliza valores fixos mensais** e o DAS **não varia proporcionalmente com o faturamento mensal**, desde que o contribuinte permaneça enquadrado nas condições do MEI (F-23, art. 18-A, caput: "valores fixos mensais, **independentemente da receita bruta** por ele auferida no mês").
 
 **Consequência para o motor futuro (documentada, não implementada):** o **faturamento mensal não é multiplicado por alíquota** do DAS-MEI. O faturamento será utilizado principalmente para:
 
@@ -193,13 +210,43 @@ Ver "Casos fora do MVP 1.0" na seção de escopo, acima. Em particular: MEI Cami
 
 | # | Questão | Situação |
 |---|---------|----------|
-| Q-MEI-05 | Texto integral do art. 104 da Resolução CGSN nº 140/2018 (vencimento do DAS-MEI). | Aberta. Mesma limitação de Q-MEI-02: conteúdo obtido só via fonte secundária de descoberta (F-26). |
-| Q-MEI-06 | Somatório oficial explícito dos totais por categoria (R$ 82,05 / R$ 86,05 / R$ 87,05) em página única da Receita Federal, em vez de conferência aritmética a partir dos três componentes. | Registrada, baixa prioridade — os três componentes individuais estão confirmados na fonte oficial (F-24); os totais coincidem em todas as fontes secundárias consultadas, sem divergência. |
-| Q-MEI-07 | Receita mensal zero com MEI ativo: o DAS fixo continua devido? | Aberta. Decorre diretamente da regra "valores fixos mensais, independentemente da receita bruta" (F-23, art. 18-A caput), que não distingue receita zero de receita positiva — mas nenhuma fonte oficial consultada trata explicitamente do caso de receita zero. Ver TC-MEI-104 abaixo. |
+| Q-MEI-05 | Texto integral do artigo da Resolução CGSN nº 140/2018 que trata do vencimento do DAS-MEI (dia 20). | **PARCIALMENTE RESOLVIDA.** O fato "vencimento dia 20 de cada mês" está confirmado em fonte oficial primária (F-29, Portal Empresas & Negócios: "Fique atento ao prazo de pagamento: dia 20 de cada mês"). A prorrogação para dia útil seguinte permanece corroborada apenas por fontes secundárias convergentes. O **número exato do artigo** da Resolução CGSN nº 140/2018 permanece **aberto**: fontes secundárias divergem entre si (art. 40, art. 104, art. 105) e nenhuma foi confirmada contra o texto oficial nesta pesquisa (mesma limitação de acesso de F-10/Q-04). A citação "art. 104", presente em versão anterior deste documento, foi removida por falta de confirmação — ver "Ressalva de nomenclatura" acima. Isso não afeta o valor do DAS (TR-004 é sobre composição/valor, não sobre prazo), apenas a informação educacional do vencimento. |
+| Q-MEI-06 | Somatório oficial explícito dos totais por categoria (R$ 82,05 / R$ 86,05 / R$ 87,05) em página única da Receita Federal, em vez de conferência aritmética a partir dos três componentes. | **RESOLVIDA** — a página oficial "Qual o valor das contribuições mensais (Carnê do MEI - DAS) para o ano de 2026?" (F-30, Portal Empresas & Negócios) traz uma tabela única com os três totais por categoria (R$ 82,05 / R$ 86,05 / R$ 87,05) e também os totais do MEI Caminhoneiro, sem necessidade de somar os componentes manualmente. |
+| Q-MEI-07 | Receita mensal zero com MEI ativo: o DAS fixo continua devido? | **RESOLVIDA** — confirmado verbatim pelo material oficial "Perguntas e Respostas MEI e Simei" (F-31, Pergunta 3.5): "O MEI inativo está desobrigado de pagar o valor fixo mensal? E se tiver receita zero? **Não.** De qualquer modo, o MEI está obrigado a pagar o valor mensal previsto pelo Simei, porque esse valor é fixo e independe do exercício de atividade e do volume de receita. [...] ainda que esteja inativo ou que tenha receita zero." (Base legal: art. 18-A, "caput", da Lei Complementar nº 123, de 2006 — já confirmado em F-23). Ver TC-MEI-104 abaixo. |
 
 ### Fontes (TR-004)
 
-F-23, F-24, F-26, F-27 — ver [fontes-tributarias.md](fontes-tributarias.md).
+F-23, F-24, F-27, F-29, F-30, F-31 — ver [fontes-tributarias.md](fontes-tributarias.md).
+
+---
+
+## Revisão independente final (2026-09-29)
+
+Conferência cruzada de TR-003 e TR-004 contra as fontes abaixo, sem divergência de valores encontrada.
+
+### TR-003 — conferido contra
+
+- Lei Complementar nº 123/2006, texto compilado (F-23) — art. 18-A confirma limite anual R$ 81.000,00, proporcional R$ 6.750,00 × meses, fração de mês = mês completo, vedações do § 4º e regra dos 20% do § 7º (III e IV).
+- Portal do Empreendedor, "Teto do MEI" (F-25) — confere com F-23 em linguagem de página de serviço.
+- Resolução CGSN nº 140/2018, condições de elegibilidade (art. 100, inciso I, e art. 101) — **confirmado nesta passagem** por duas fontes oficiais primárias (F-28, F-31), não mais apenas por mirror privado.
+- "Perguntas e Respostas MEI e Simei" (F-31, nova nesta passagem) — confirma, com a mesma redação de F-23, a regra dos 20% (resolve Q-MEI-01) e as condições cumulativas de elegibilidade (resolve Q-MEI-02 e, quanto à existência/função, Q-MEI-03).
+
+### TR-004 — conferido contra
+
+- Lei Complementar nº 123/2006, art. 18-A § 3º (F-23) — composição do DAS (INSS 5% do salário mínimo + ICMS R$ 1,00 + ISS R$ 5,00, quando aplicáveis).
+- Decreto nº 12.797/2025 (F-27) — salário mínimo de 2026, R$ 1.621,00.
+- Receita Federal / Portal do Simples Nacional, "MEI - atualização de valores devidos em 2026" (F-24) — confirma os três componentes individuais.
+- Portal Empresas & Negócios, "Qual o valor das contribuições mensais [...] 2026?" (F-30, nova nesta passagem) — **tabela oficial única** com os três totais por categoria; resolve Q-MEI-06.
+- Portal Empresas & Negócios, "Como pagar seu DAS?" (F-29, nova nesta passagem) — confirma o vencimento no dia 20.
+- "Perguntas e Respostas MEI e Simei" (F-31, nova nesta passagem, Pergunta 3.5) — confirma que o DAS fixo é devido mesmo com receita zero ou inatividade; resolve Q-MEI-07.
+
+### Correção de nomenclatura aplicada nesta passagem
+
+A citação "art. 104 da Resolução CGSN nº 140/2018" (vencimento do DAS-MEI), presente na versão anterior deste documento e baseada apenas em mirror privado (LegisWeb), foi **removida** por não ter sido confirmada contra o texto oficial e por existirem citações divergentes entre fontes secundárias (art. 40, art. 104, art. 105). O fato em si (vencimento dia 20) permanece registrado, agora com base em fonte oficial (F-29), sem número de artigo. Não foi encontrada, em nenhum arquivo de pesquisa, referência a "Resolução 100" ou "Resolução 104" (sem o número 140) que pudesse ser confundida com as antigas Resoluções CGSN nº 100/2012 e nº 104/2012 — todas as ocorrências de "art. 100" já continham a referência completa "Resolução CGSN nº 140/2018".
+
+### Resultado
+
+Nenhuma dúvida normativa nova surgiu nesta revisão que exija reverter a validação. As pendências residuais (Q-MEI-05 quanto ao número exato do artigo de vencimento; Q-MEI-03 quanto ao conteúdo linha a linha do Anexo XI) são de natureza educacional/de implementação futura, não afetam os valores numéricos de TR-003 (limites) nem de TR-004 (composição do DAS), e por isso não bloqueiam a validação.
 
 ---
 
@@ -213,20 +260,20 @@ Somente **propostas**; nenhum código de teste foi escrito. Os valores esperados
 |------|---------|----------------------------------------------|
 | TC-MEI-001 | Receita anual R$ 70.000,00 (MEI o ano todo) | Dentro do limite anual (R$ 81.000,00) |
 | TC-MEI-002 | Receita anual exatamente R$ 81.000,00 | No limite (não excedido) |
-| TC-MEI-003 | Receita anual R$ 81.000,01 | Excedido; dentro da faixa "não superior a 20%" (Q-MEI-01 para o caso-limite) |
-| TC-MEI-004 | Receita anual exatamente R$ 97.200,00 (81.000 × 1,20) | Ver Q-MEI-01: pela redação "em mais de 20%", ainda não seria "superior a 20%" |
+| TC-MEI-003 | Receita anual R$ 81.000,01 | Excedido; dentro da faixa "não superior a 20%" |
+| TC-MEI-004 | Receita anual exatamente R$ 97.200,00 (81.000 × 1,20) | Ainda "não superior a 20%" (Q-MEI-01 RESOLVIDA); efeitos a partir de 1º/jan do ano subsequente |
 | TC-MEI-005 | Receita anual R$ 97.200,01 | Excesso superior a 20%; efeitos retroativos a 1º de janeiro do ano do excesso (empresa já existente) |
 | TC-MEI-006 | Abertura em julho (6 meses), limite proporcional R$ 40.500,00 | Regra proporcional |
 | TC-MEI-007 | Abertura em dezembro (1 mês), limite proporcional R$ 6.750,00 | Regra proporcional, fração de mês = mês completo |
 
 ### TR-004 — DAS-MEI
 
-| Caso | Entrada | Esperado (fonte F-24, sujeito a validação) |
+| Caso | Entrada | Esperado (fonte F-30) |
 |------|---------|---------------------------------------------|
 | TC-MEI-101 | DAS Comércio/Indústria, 2026 | R$ 82,05 |
 | TC-MEI-102 | DAS Serviços, 2026 | R$ 86,05 |
 | TC-MEI-103 | DAS Comércio e Serviços, 2026 | R$ 87,05 |
-| TC-MEI-104 | Receita mensal zero, MEI ativo | A pesquisar antes de implementar: DAS fixo permanece devido (decorre do texto legal, Q-MEI-07), mas nenhum exemplo oficial trata explicitamente do caso |
+| TC-MEI-104 | Receita mensal zero, MEI ativo e optante pelo SIMEI | DAS mensal continua devido conforme categoria (Q-MEI-07 RESOLVIDA, F-31 Pergunta 3.5) |
 
 ### Integração MEI (TR-003 + TR-004)
 

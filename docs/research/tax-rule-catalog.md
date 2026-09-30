@@ -189,7 +189,7 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Data da consulta | 2026-09-30 |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
 | Limitações do MVP | Redistribuição de percentuais na 6ª faixa/casos de ISS acima de 5% documentada, não implementada nesta fase; 6ª faixa legalmente vigente, mas fora do cálculo completo do MVP (RBT12 acima do sublimite efetivo de 2026, R$ 3.600.000,00 — ver TR-005) |
-| Casos especiais | Redistribuição do percentual de ISS quando a alíquota efetiva superar 12,5% na 5ª faixa |
+| Casos especiais | Anexo V: sem redistribuição na 5ª faixa (o texto legal não traz nota; o limite de 12,5% pertence ao Anexo IV, fora do MVP — F-48) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
 | Status de implementação | IMPLEMENTADA |
@@ -270,8 +270,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-PJ-01 **RESOLVIDA** nesta passagem: distinguidos (A) valor do pró-labore, sem piso legal — decisão de produto — de (B) limite mínimo do salário de contribuição/complementação previdenciária, normatizado (F-18/F-21/F-22). Q-PJ-02 (artigo exato da IN RFB 2.110/2022) e Q-PJ-03 (múltiplas fontes de contribuição) são pendências residuais não bloqueantes. Detalhes em [pj-comparator-2026-research.md](pj-comparator-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-011 — Distribuição de lucros relevante ao comparador PF x PJ
 
@@ -296,5 +296,5 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-PJ-04 (liminar judicial concretamente identificada — MS 5002505-76.2026.4.03.6100, 26ª Vara Cível Federal de SP, 09/02/2026 — suspende a retenção apenas para a parte impetrante; RFB mantém posição oficial de aplicação ao Simples Nacional, adotada como base do MVP); Q-PJ-05/Q-PJ-06 (textos oficiais de Resolução CGSN art.145 e Solução Cosit 244/2025 obtidos via fonte secundária, pendências residuais). Detalhes em [pj-comparator-2026-research.md](pj-comparator-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |

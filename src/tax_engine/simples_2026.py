@@ -161,7 +161,23 @@ def _pendente(status: SimulationStatus, warnings: tuple[str, ...]) -> Simulation
     )
 
 
-def calculate_simples_2026(entrada: SimplesSimulationInput) -> SimulationResult:
+@dataclass(frozen=True)
+class SimplesComputation:
+    """Resultado intermediário suportado (reutilizado pelo comparador/TR-011)."""
+
+    rbt: RBTResult
+    limite: LimiteSimplesResult
+    folha: Decimal
+    receita_fator_r: Decimal
+    fator: FatorRResult
+    faixa: FaixaResult
+    eficaz: AliquotaEfetivaResult
+    das: Decimal
+
+
+def run_simples_2026(entrada: SimplesSimulationInput) -> "SimplesComputation | SimulationResult":
+    """Executa o cálculo; devolve SimplesComputation (suportado) ou o SimulationResult
+    não-OK (NAO_SUPORTADO/INCOMPATIVEL) que explica por que não há cálculo."""
     if entrada.ano != ANO:
         raise ValueError(f"calculate_simples_2026 só suporta {ANO}.")
     if not entrada.optante_simples:
@@ -189,12 +205,22 @@ def calculate_simples_2026(entrada: SimplesSimulationInput) -> SimulationResult:
         fator = calculate_fator_r_2026(folha, receita_fr, primeiro_mes=primeiro_mes)
     except FatorRIndefinidoError as exc:
         return _pendente(SimulationStatus.NAO_SUPORTADO, (
-            f"{exc} A pesquisa validada não define esse caso; o anexo não pode ser escolhido.",
+            f"{exc} O Fator R não está definido para essa combinação no primeiro mês (Resolução CGSN "
+            "140/2018, art. 26); o MVP não atribui 0,01 nem 0,28 por inferência e, sem o Fator R, o "
+            "anexo não pode ser escolhido.",
         ))
 
     faixa = select_tax_bracket(rbt.valor, _anexo_faixas(fator.anexo))
     eficaz = calculate_effective_rate(rbt.valor, faixa)
-    das = entrada.receita_pa * eficaz.aliquota
+    return SimplesComputation(rbt, limite, folha, receita_fr, fator, faixa, eficaz, entrada.receita_pa * eficaz.aliquota)
+
+
+def calculate_simples_2026(entrada: SimplesSimulationInput) -> SimulationResult:
+    comp = run_simples_2026(entrada)
+    if isinstance(comp, SimulationResult):
+        return comp
+    rbt, limite, folha, receita_fr = comp.rbt, comp.limite, comp.folha, comp.receita_fator_r
+    fator, faixa, eficaz, das = comp.fator, comp.faixa, comp.eficaz, comp.das
 
     nome_rbt = "RBT12p (proporcionalizada, empresa com menos de 13 meses)" if rbt.proporcionalizada else "RBT12"
     return SimulationResult(

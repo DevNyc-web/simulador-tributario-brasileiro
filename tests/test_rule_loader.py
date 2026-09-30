@@ -32,9 +32,9 @@ def test_all_supported_years_load_valid_files(year):
     assert rules["schema_version"] == SCHEMA_VERSION
 
 
-def test_2026_has_exactly_tr001_to_tr009():
+def test_2026_has_exactly_tr001_to_tr011():
     ids = [r["id"] for r in load_year_rules(2026)["regras"]]
-    assert ids == [f"TR-00{i}" for i in range(1, 10)]
+    assert ids == [f"TR-{i:03d}" for i in range(1, 12)]
 
 
 @pytest.mark.parametrize("year", [y for y in SUPPORTED_YEARS if y != 2026])

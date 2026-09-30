@@ -151,6 +151,46 @@
         "fator_folha_positiva_receita_zero": "0.28",
         "atividades": ["DESENVOLVIMENTO_SOFTWARE", "CONSULTORIA", "ENGENHARIA", "ARQUITETURA", "MEDICINA", "ODONTOLOGIA", "PSICOLOGIA", "FISIOTERAPIA", "ACADEMIAS"]
       }
+    },
+    {
+      "id": "TR-010",
+      "nome": "Pró-labore e contribuição previdenciária do sócio",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-40", "F-41", "F-23", "F-34", "F-18", "F-21", "F-22"],
+      "parametros": {
+        "aliquota_inss_segurado": "0.11",
+        "teto_previdenciario": "8475.55",
+        "salario_minimo": "1621.00"
+      }
+    },
+    {
+      "id": "TR-011",
+      "nome": "Distribuição de lucros relevante ao comparador PF x PJ",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-34", "F-39", "F-42", "F-43", "F-44", "F-45", "F-46", "F-48"],
+      "parametros": {
+        "percentual_presuncao_servicos": "0.32",
+        "irrf_dividendos": {
+          "limite_mensal_isencao": "50000.00",
+          "aliquota": "0.10"
+        },
+        "altas_rendas": {
+          "limite_anual": "600000.00"
+        },
+        "reparticao_irpj": {
+          "III": ["0.04", "0.04", "0.04", "0.04", "0.04", "0.35"],
+          "V": ["0.25", "0.23", "0.24", "0.21", "0.23", "0.35"]
+        },
+        "redistribuicao_iss": {
+          "III": {"faixa": "5", "aliquota_efetiva_acima_de": "0.1492537", "teto_iss": "0.05", "percentual_irpj": "0.0602"}
+        }
+      }
     }
   ]
 }

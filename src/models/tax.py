@@ -235,6 +235,85 @@ class SimplesSimulationInput:
             raise ValueError("receita_acumulada_ano deve incluir a receita do PA.")
 
 
+class ModoApuracaoLucro(str, Enum):
+    """Como a PJ sustenta a distribuição de lucros isenta (LC 123/2006, art. 14)."""
+
+    SEM_ESCRITURACAO = "SEM_ESCRITURACAO"
+    COM_ESCRITURACAO = "COM_ESCRITURACAO"
+
+
+def _opt_money(name, value):
+    if value is not None:
+        _money(name, value)
+
+
+@dataclass(frozen=True)
+class ProLaboreInput:
+    """Pró-labore mensal do sócio único (TR-010)."""
+
+    ano: int
+    valor: Decimal
+
+    def __post_init__(self):
+        _money("valor", self.valor)
+
+
+@dataclass(frozen=True)
+class DividendosInput:
+    """Distribuição de lucros do mês (TR-011), referente a resultados de 2026.
+
+    valor_distribuido: TOTAL do mês pago pela mesma PJ à mesma PF (soma dos pagamentos).
+    lucro_contabil_disponivel: informado pelo usuário; obrigatório com escrituração e
+    proibido sem escrituração (o simulador não calcula lucro contábil).
+    renda_anual_relevante_informada: opcional; só dispara aviso de altas rendas.
+    """
+
+    ano: int
+    valor_distribuido: Decimal
+    modo_apuracao: ModoApuracaoLucro
+    lucro_contabil_disponivel: Decimal | None = None
+    renda_anual_relevante_informada: Decimal | None = None
+
+    def __post_init__(self):
+        _money("valor_distribuido", self.valor_distribuido)
+        _opt_money("lucro_contabil_disponivel", self.lucro_contabil_disponivel)
+        _opt_money("renda_anual_relevante_informada", self.renda_anual_relevante_informada)
+        if not isinstance(self.modo_apuracao, ModoApuracaoLucro):
+            raise TypeError("modo_apuracao deve ser um ModoApuracaoLucro.")
+        com = self.modo_apuracao is ModoApuracaoLucro.COM_ESCRITURACAO
+        if com and self.lucro_contabil_disponivel is None:
+            raise ValueError("COM_ESCRITURACAO exige lucro_contabil_disponivel.")
+        if not com and self.lucro_contabil_disponivel is not None:
+            raise ValueError("lucro_contabil_disponivel só se aplica a COM_ESCRITURACAO.")
+
+
+@dataclass(frozen=True)
+class ComparatorSimulationInput:
+    """Mesma receita mensal sob duas estruturas: PF autônomo x PJ (Simples, sócio único, sem empregados)."""
+
+    pf_input: PFSimulationInput
+    simples_input: SimplesSimulationInput
+    prolabore: Decimal
+    dividendos: DividendosInput
+
+    def __post_init__(self):
+        for name, cls in (("pf_input", PFSimulationInput), ("simples_input", SimplesSimulationInput),
+                          ("dividendos", DividendosInput)):
+            if not isinstance(getattr(self, name), cls):
+                raise TypeError(f"{name} deve ser {cls.__name__}.")
+        _money("prolabore", self.prolabore)
+        if len({self.pf_input.ano, self.simples_input.ano, self.dividendos.ano}) != 1:
+            raise ValueError("Todos os modelos do comparador devem ter o mesmo ano.")
+        if self.pf_input.renda_mensal != self.simples_input.receita_pa:
+            raise ValueError("pf_input.renda_mensal deve ser igual a simples_input.receita_pa (mesma receita bruta).")
+        if self.simples_input.folha_pa != self.prolabore:
+            raise ValueError("No cenário sem empregados, simples_input.folha_pa deve ser igual ao pró-labore.")
+
+    @property
+    def ano(self) -> int:
+        return self.pf_input.ano
+
+
 @dataclass(frozen=True)
 class TaxItem:
     """Um tributo/contribuição individual dentro de um resultado de simulação."""

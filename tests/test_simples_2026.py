@@ -173,7 +173,10 @@ def test_fator_r_first_month_both_zero_undefined():
         calculate_fator_r_2026(D(0), D(0), primeiro_mes=True)
     e = entrada(meses_desde_abertura=1, receitas_anteriores=(), folhas_anteriores=(),
                 receita_pa=D(0), folha_pa=D(0), receita_acumulada_ano=D(0), meses_atividade_no_ano=12)
-    assert calculate_simples_2026(e).status == SimulationStatus.NAO_SUPORTADO
+    r = calculate_simples_2026(e)
+    assert r.status == SimulationStatus.NAO_SUPORTADO and r.total_tributos is None and not r.itens
+    assert "não está definido" in r.warnings[0]
+    assert "não atribui 0,01 nem 0,28 por inferência" in r.warnings[0]
 
 
 def test_fator_r_first_month_uses_pa_values():

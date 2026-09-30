@@ -1,20 +1,28 @@
 """Núcleo de cálculo tributário (independente de Flask/interface).
 
-Calcula apenas os cenários PF e MEI 2026 (TR-001 a TR-004); qualquer outro cenário
+Calcula apenas os cenários PF, MEI e Simples 2026 (TR-001 a TR-009); qualquer outro cenário
 devolve um SimulationResult pendente (sem inventar valores).
 """
-from src.models.tax import MEISimulationInput, PFSimulationInput, SimulationResult, SimulationStatus
+from src.models.tax import (
+    MEISimulationInput,
+    PFSimulationInput,
+    SimplesSimulationInput,
+    SimulationResult,
+    SimulationStatus,
+)
 
 from .mei_2026 import ANO as MEI_ANO
 from .mei_2026 import calculate_mei_2026
 from .pf_2026 import ANO as PF_ANO
 from .pf_2026 import calculate_pf_2026
+from .simples_2026 import ANO as SIMPLES_ANO
+from .simples_2026 import calculate_simples_2026
 
 
 def calculate(rules: dict, scenario: dict) -> SimulationResult:
     """Calcula um cenário com as regras de um ano.
 
-    Cenários: {"tipo_simulacao": "pf"|"mei", "entrada": PFSimulationInput|MEISimulationInput}.
+    Cenários: {"tipo_simulacao": "pf"|"mei"|"simples", "entrada": <modelo do cenário>}.
     Qualquer outro caso retorna status PENDENTE (total_tributos e
     liquido_estimado permanecem None, nunca zero).
     """
@@ -31,6 +39,12 @@ def calculate(rules: dict, scenario: dict) -> SimulationResult:
         and entrada.ano == rules["ano"] == MEI_ANO
     ):
         return calculate_mei_2026(entrada)
+    if (
+        scenario.get("tipo_simulacao") == "simples"
+        and isinstance(entrada, SimplesSimulationInput)
+        and entrada.ano == rules["ano"] == SIMPLES_ANO
+    ):
+        return calculate_simples_2026(entrada)
     return SimulationResult(
         status=SimulationStatus.PENDENTE,
         ano=rules["ano"],

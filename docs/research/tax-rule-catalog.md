@@ -142,8 +142,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-SN-01 (ABERTA, baixa relevância): confirmar se algum ato do CGSN cita literalmente R$ 400.000,00/mês, ou se é sempre aritmética de conferência. Detalhes em [simples-2026-research.md](simples-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-006 — Tabela do Anexo III
 
@@ -167,8 +167,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Casos especiais | Redistribuição do percentual de ISS quando a alíquota efetiva superar 14,92537% na 5ª faixa |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-007 — Tabela do Anexo V
 
@@ -192,8 +192,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Casos especiais | Redistribuição do percentual de ISS quando a alíquota efetiva superar 12,5% na 5ª faixa |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-008 — Fórmula da alíquota efetiva do Simples Nacional
 
@@ -218,8 +218,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-SN-04 (pendência técnica, não legal): nenhuma regra de arredondamento confirmada por fonte oficial para a fórmula geral da alíquota efetiva/DAS mensal (distinta do truncamento específico do fator r, esse sim confirmado — ver TR-009). Análoga a Q-02 de TR-001 |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-009 — Fator R
 
@@ -244,8 +244,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-SN-02 (estagiários não entram na FS12 — inferência sistemática, sem Solução de Consulta específica localizada) e Q-SN-03 (MEI contratado nas hipóteses do art. 18-B) são pendências residuais irrelevantes ao MVP. Detalhes em [simples-2026-research.md](simples-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-010 — Pró-labore e contribuição previdenciária do sócio
 

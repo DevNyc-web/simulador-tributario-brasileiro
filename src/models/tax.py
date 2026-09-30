@@ -134,6 +134,107 @@ class MEISimulationInput:
             raise TypeError("optante_simei deve ser bool.")
 
 
+class AnexoSimples(str, Enum):
+    """Anexo do Simples Nacional suportado (serviços sujeitos ao Fator R)."""
+
+    III = "III"
+    V = "V"
+
+
+class AtividadeSimples(str, Enum):
+    """As 9 atividades do MVP, todas sujeitas ao Fator R (simples-2026-research.md)."""
+
+    DESENVOLVIMENTO_SOFTWARE = "DESENVOLVIMENTO_SOFTWARE"
+    CONSULTORIA = "CONSULTORIA"
+    ENGENHARIA = "ENGENHARIA"
+    ARQUITETURA = "ARQUITETURA"
+    MEDICINA = "MEDICINA"
+    ODONTOLOGIA = "ODONTOLOGIA"
+    PSICOLOGIA = "PSICOLOGIA"
+    FISIOTERAPIA = "FISIOTERAPIA"
+    ACADEMIAS = "ACADEMIAS"
+
+
+class StatusSimples(str, Enum):
+    """Situação frente aos limites do Simples Nacional (distinta de SimulationStatus)."""
+
+    COMPATIVEL = "COMPATIVEL"
+    ACIMA_SUBLIMITE_MVP = "ACIMA_SUBLIMITE_MVP"
+    FORA_LIMITE_SIMPLES = "FORA_LIMITE_SIMPLES"
+
+
+def _money_tuple(name, values):
+    if not isinstance(values, tuple):
+        raise TypeError(f"{name} deve ser uma tupla de Decimal.")
+    for v in values:
+        _money(name, v)
+
+
+def _money(name, value):
+    if not isinstance(value, Decimal) or not value.is_finite():
+        raise TypeError(f"{name} deve ser Decimal finito (nunca float).")
+    if value < 0:
+        raise ValueError(f"{name} não pode ser negativo.")
+
+
+@dataclass(frozen=True)
+class SimplesSimulationInput:
+    """Entrada do cenário Simples Nacional (TR-005 a TR-009), mês de apuração (PA).
+
+    receitas_anteriores / folhas_anteriores: meses anteriores ao PA, em ordem
+    cronológica. Empresa com menos de 13 meses: exatamente meses_desde_abertura - 1
+    valores; com 13+ meses: pelo menos 12 (só os 12 mais recentes são usados).
+    meses_desde_abertura: 1 = mês de abertura (o próprio PA).
+    meses_atividade_no_ano: meses de atividade no ano-calendário até 31/12 (fração
+    = mês inteiro); 12 para empresa já existente. Abaixo de 12 indica que a empresa
+    abriu no próprio ano e o limite de permanência é proporcional.
+    receita_acumulada_ano: receita bruta do ano-calendário, inclusive o PA.
+    """
+
+    ano: int
+    receita_pa: Decimal
+    receitas_anteriores: tuple[Decimal, ...]
+    folha_pa: Decimal
+    folhas_anteriores: tuple[Decimal, ...]
+    receita_acumulada_ano: Decimal
+    meses_desde_abertura: int
+    meses_atividade_no_ano: int
+    atividade: AtividadeSimples
+    optante_simples: bool = True
+
+    def __post_init__(self):
+        _money("receita_pa", self.receita_pa)
+        _money("folha_pa", self.folha_pa)
+        _money("receita_acumulada_ano", self.receita_acumulada_ano)
+        _money_tuple("receitas_anteriores", self.receitas_anteriores)
+        _money_tuple("folhas_anteriores", self.folhas_anteriores)
+        for name in ("meses_desde_abertura", "meses_atividade_no_ano"):
+            v = getattr(self, name)
+            if isinstance(v, bool) or not isinstance(v, int):
+                raise TypeError(f"{name} deve ser int.")
+        if self.meses_desde_abertura < 1:
+            raise ValueError("meses_desde_abertura deve ser >= 1.")
+        if not 1 <= self.meses_atividade_no_ano <= 12:
+            raise ValueError("meses_atividade_no_ano deve estar entre 1 e 12.")
+        if not isinstance(self.atividade, AtividadeSimples):
+            raise TypeError("atividade deve ser uma AtividadeSimples.")
+        if not isinstance(self.optante_simples, bool):
+            raise TypeError("optante_simples deve ser bool.")
+
+        n = len(self.receitas_anteriores)
+        if len(self.folhas_anteriores) != n:
+            raise ValueError("receitas_anteriores e folhas_anteriores devem ter o mesmo tamanho.")
+        if self.meses_desde_abertura < 13:
+            if n != self.meses_desde_abertura - 1:
+                raise ValueError("Histórico incompatível: esperado meses_desde_abertura - 1 meses anteriores.")
+        elif n < 12:
+            raise ValueError("Histórico incompatível: empresa com 13+ meses exige ao menos 12 meses anteriores.")
+        if self.meses_atividade_no_ano < 12 and self.meses_desde_abertura > self.meses_atividade_no_ano:
+            raise ValueError("meses_atividade_no_ano inconsistente com meses_desde_abertura.")
+        if self.receita_acumulada_ano < self.receita_pa:
+            raise ValueError("receita_acumulada_ano deve incluir a receita do PA.")
+
+
 @dataclass(frozen=True)
 class TaxItem:
     """Um tributo/contribuição individual dentro de um resultado de simulação."""

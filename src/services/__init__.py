@@ -1,3 +1,3 @@
-from .simulation_service import simulate_transition
+from .simulation_service import SimulationOutcome, simulate, simulate_transition
 
-__all__ = ["simulate_transition"]
+__all__ = ["SimulationOutcome", "simulate", "simulate_transition"]

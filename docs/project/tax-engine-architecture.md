@@ -1,5 +1,7 @@
 # Motor Tributário
 
+> **Status posterior (MVP final):** este documento registra a arquitetura da **Fase 4A** (fundação do motor) e foi preservado como histórico. Nas fases seguintes, TR-001 a TR-011 foram implementadas e testadas (`pf_2026.py`, `mei_2026.py`, `simples_2026.py`, `prolabore_2026.py`, `dividendos_2026.py`, `comparator_2026.py`), o `calculator.py` passou a despachar os cenários `pf`, `mei`, `simples` e `comparar` para 2026, e o `rules.json` de 2026 contém TR-001 a TR-011 com status `TESTADA` (2027–2033 seguem com `regras: []`). Onde este texto diz "hoje", "nesta fase" ou "fase futura", leia-se o estado da Fase 4A. Visão final: [relatório acadêmico](../academic/relatorio-final.md), seção 14.
+
 Documento técnico da infraestrutura do motor de cálculo. Não contém nenhuma
 fórmula, alíquota, faixa ou limite fiscal — apenas a arquitetura que permitirá
 implementar TR-001 a TR-011 (ver [tax-rule-catalog.md](../research/tax-rule-catalog.md))
@@ -28,7 +30,7 @@ rules.json (data/tax_rules/<ano>/rules.json)
   entrada do usuário, chama o carregamento de regras por ano e o motor de
   cálculo, devolve o resultado. Não decide nenhuma regra fiscal.
 - **Tax Engine** (`src/tax_engine/calculator.py`): núcleo de cálculo,
-  independente de Flask — pode ser testado isoladamente. Hoje devolve
+  independente de Flask — pode ser testado isoladamente. *(Estado na Fase 4A; hoje despacha os motores de 2026.)* Devolvia
   sempre um `SimulationResult` com status `PENDENTE`, pois nenhuma regra
   está validada para uso em cálculo real.
 - **Tax Rules** (`src/tax_rules/`): carrega e valida a *forma* do arquivo de

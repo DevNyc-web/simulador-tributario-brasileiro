@@ -1,5 +1,7 @@
 # Matriz MoSCoW do MVP
 
+> **Status posterior (MVP final):** matriz original, preservada como histórico. Entregues: todos os itens Must, exceto que na "Timeline 2026–2033" foi entregue a **estrutura** (conteúdo por ano pendente de validação). Não entregues: itens Should (gráficos comparativos, indicador de carga efetiva, atalhos entre simulações) e Could (exportação, histórico temporário, Lucro Presumido simplificado). A priorização consolidada da entrega final (com dividendos como Should) está em [../academic/relatorio-final.md](../academic/relatorio-final.md), seção 10, e prevalece para a versão entregue.
+
 ## Must have
 | Item | Justificativa |
 |------|---------------|

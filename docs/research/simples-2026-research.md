@@ -2,6 +2,8 @@
 
 Status: **PESQUISADA e VALIDADA** (passagem final de validação em 2026-09-30). Implementação: **PENDENTE**. Testes: **PENDENTE**.
 
+> **Status posterior (MVP final):** os valores desta pesquisa foram implementados e testados (`TR-001` a `TR-011`; ver `tax-rule-matrix.md`) e constam em `data/tax_rules/2026/rules.json`. As frases abaixo sobre implementação pendente descrevem a fase de pesquisa.
+
 Esta passagem cobre TR-005 (limite de permanência), TR-006 (Anexo III), TR-007 (Anexo V), TR-008 (alíquota efetiva) e TR-009 (Fator R). Segue a mesma metodologia de [pf-2026-research.md](pf-2026-research.md) e [mei-2026-research.md](mei-2026-research.md): fonte oficial primária como citação final; fonte secundária só para descoberta; toda afirmação numérica ou de fórmula remete a um ID de fonte (F-XX) em [fontes-tributarias.md](fontes-tributarias.md).
 
 ## Snapshot normativo do Simples Nacional em 2026

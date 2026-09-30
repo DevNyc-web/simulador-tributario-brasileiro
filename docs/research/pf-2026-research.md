@@ -5,6 +5,7 @@ Data da consulta: **2026-09-29** (primeira pesquisa), **2026-09-29** (ajustes da
 
 > Todo número deste documento foi copiado de fonte oficial listada em "Fontes" (IDs `F-xx`) ou é marcado como *aritmética de conferência* (não é fonte).
 > Nada aqui está implementado. Nenhum valor entrou em `data/tax_rules/`.
+> **Status posterior (MVP final):** os valores desta pesquisa foram implementados e testados (`TR-001` a `TR-011`; ver `tax-rule-matrix.md`) e constam em `data/tax_rules/2026/rules.json`. As frases abaixo sobre implementação pendente descrevem a fase de pesquisa.
 
 ## Escopo
 

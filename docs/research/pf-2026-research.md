@@ -1,7 +1,7 @@
 # Pessoa Física / Autônomo — 2026
 
 Pesquisa de TR-001 (IRPF / Carnê-Leão) e TR-002 (Previdência do contribuinte individual).
-Data da consulta: **2026-09-29** (primeira pesquisa) e **2026-09-29** (ajustes da revisão independente). Status: **PESQUISADA** (não **VALIDADA**; validação de TR-001 e TR-002 segue PENDENTE).
+Data da consulta: **2026-09-29** (primeira pesquisa), **2026-09-29** (ajustes da revisão independente) e **2026-09-29** (passagem final de validação: Q-P6, Q-04, Q-P2 e revisão cruzada de TR-001/TR-002). Status: **PESQUISADA** e **VALIDADA** (revisão independente concluída nesta passagem; ver "Revisão independente final"). A existência de **Q-02** (arredondamento) é uma **pendência técnica de implementação**, não uma incerteza sobre os valores legais validados.
 
 > Todo número deste documento foi copiado de fonte oficial listada em "Fontes" (IDs `F-xx`) ou é marcado como *aritmética de conferência* (não é fonte).
 > Nada aqui está implementado. Nenhum valor entrou em `data/tax_rules/`.
@@ -38,6 +38,8 @@ Existência legal dessas deduções: F-09 (art. 4º, incisos II e III e referên
 ### Regime mensal aplicável em 2026 (B)
 
 Tabela progressiva mensal "a partir de janeiro de 2026" (F-01) e redução mensal do imposto a partir de janeiro de 2026 (F-08, art. 3º-A da Lei 9.250/1995, incluído pela Lei 15.270/2025; F-01). A Lei 15.270/2025 "entra em vigor na data de sua publicação e produzirá efeitos a partir de 1º de janeiro de 2026" (F-08, art. 8º).
+
+Confirmação regulamentar (Q-04 RESOLVIDA): a IN RFB nº 1.500/2014, alterada pela **IN RFB nº 2.299/2025** (F-20), regulamenta a mesma regra em nível infralegal — art. 55 (recolhimento mensal obrigatório/carnê-leão) e art. 65-A (redução mensal, com o mesmo limite de R$ 7.350,00 e a mesma fórmula de F-08). A IN é fonte **complementar**; a base legal primária continua sendo a Lei 9.250/1995 (F-09) e a Lei 15.270/2025 (F-08).
 
 ### Deduções
 
@@ -113,9 +115,9 @@ Rendimentos do exterior; serviços a embaixadas e organismos internacionais; tra
 | # | Questão | Situação |
 |---|---------|----------|
 | Q-01 | Redução de 2026 no cálculo mensal (enquadramento pelo rendimento tributável). | **RESOLVIDA** — Lei 9.250/1995, art. 3º-A, redação da Lei 15.270/2025 (F-08, F-09); evidência complementar: F-19. Exemplos de F-02 são de IRRF; a aplicabilidade decorre do texto legal. |
-| Q-02 | **Arredondamento:** as fontes consultadas não trazem regra explícita. Os exemplos oficiais têm valores em centavos e a redução (0,133145 × rendimento) pode gerar mais de duas casas. | **QUESTÃO EM ABERTO.** Não inferir política de arredondamento somente pelos exemplos; não definir no motor sem orientação oficial. |
+| Q-02 | **Arredondamento:** as fontes consultadas não trazem regra explícita. Os exemplos oficiais têm valores em centavos e a redução (0,133145 × rendimento) pode gerar mais de duas casas. | **QUESTÃO EM ABERTO / PENDÊNCIA DE IMPLEMENTAÇÃO.** Não inferir política de arredondamento somente pelos exemplos; não definir no motor sem orientação oficial. As regras tributárias e os valores desta pesquisa **podem ser validados normativamente** independentemente desta pendência — o que falta é a **política técnica de arredondamento**, a ser definida antes da implementação do motor. Decisão já tomada para quando o motor existir: usar **`Decimal`** em todo valor monetário; **nenhum float binário** será utilizado. Não escolher `ROUND_HALF_UP`, truncamento ou qualquer outro método de arredondamento sem decisão documentada específica. |
 | Q-03 | Dedução mais benéfica (deduções legais × desconto simplificado). | **RESOLVIDA** — F-09 art. 4º § 2º; F-07 pergunta 267; F-19 ("Dedução utilizada"); exemplos de F-02. |
-| Q-04 | Texto integral da **IN RFB nº 1.500/2014** (versão vigente; Anexo X — tabela de redução; art. 52; Anexo II). | Aberta. Não obtido: o portal `normas.receita.fazenda.gov.br` não entregou o texto. Citada apenas via F-07. A regra de redução está sustentada pela lei (F-08). |
+| Q-04 | Texto integral da **IN RFB nº 1.500/2014** (versão vigente; Anexo X — tabela de redução; art. 52; Anexo II) e sua alteração pela **IN RFB nº 2.299/2025**. | **RESOLVIDA** — o portal `normas.receita.fazenda.gov.br` continua sem entregar o texto navegável (mesma limitação de F-10), mas o texto integral da **IN RFB nº 2.299, de 17/12/2025** foi obtido diretamente do **Diário Oficial da União** (F-20; DOU de 18/12/2025, Edição 241, Seção 1, p. 86) e confirma, com texto legal (não mais só via F-07): (i) a IN RFB nº 2.299/2025 altera a IN RFB nº 1.500/2014 com fundamento, entre outros, nos **arts. 1º, 2º, 6º, 7º e 8º da Lei nº 15.270/2025**; (ii) **art. 55** (redação dada pela IN 2.299/2025): "O recolhimento mensal obrigatório (carnê-leão) [...] será calculado com base nos valores das tabelas progressivas mensais constantes do Anexo II, observada a tabela de redução constante do Anexo X" — este é o dispositivo específico do Carnê-Leão, não o art. 65 (que trata do "imposto sobre a renda mensal" em geral, também remetendo ao Anexo X via o novo **art. 65-A**); (iii) **art. 65-A** (novo, Seção I-A do Capítulo XIV "Da redução mensal do imposto"): reproduz a redução de 2026 com os mesmos parâmetros de F-08/F-01 (limite de R$ 7.350,00 no § 2º; redução limitada ao imposto no § 1º; § 3º estende a redução ao 13º salário); (iv) **Anexo X** (tabela de redução, vigente a partir de 1º/01/2026) e **Anexo II** (tabela progressiva mensal, vigente a partir de maio/2025) têm, no texto do DOU, os **mesmos valores** já registrados neste documento via F-01/F-02/F-08 — conferência cruzada sem divergência. A IN RFB continua **fonte regulamentar complementar**; a Lei 9.250/1995 (F-09) e a Lei 15.270/2025 (F-08) permanecem a **base legal primária** da redução e do Carnê-Leão. |
 | Q-05 | Página "Receita Federal orienta fontes pagadoras e contribuintes a calcular a redução..." (notícia de dez/2025). | Aberta (baixa prioridade). Retornou "conteúdo restrito"; não usada. |
 | Q-06 | O F-01 chama R$ 607,20 de "limite mensal"; a lei diz "correspondente a 25%". | Aberta (baixa prioridade). Aparente equivalência; não confirmada. |
 | Q-07 | Valor mínimo de recolhimento do Carnê-Leão (Darf) e multa/juros por atraso. | Aberta. Não pesquisado (fora do cálculo do imposto devido do MVP). |
@@ -123,7 +125,7 @@ Rendimentos do exterior; serviços a embaixadas e organismos internacionais; tra
 
 ### Fontes (TR-001)
 
-F-01, F-02, F-03, F-04, F-05, F-06, F-07, F-08, F-09, F-10, F-19 — ver [fontes-tributarias.md](fontes-tributarias.md).
+F-01, F-02, F-03, F-04, F-05, F-06, F-07, F-08, F-09, F-10, F-19, F-20 — ver [fontes-tributarias.md](fontes-tributarias.md).
 
 **Ressalvas sobre F-07 (Perguntas e Respostas IRPF 2026):** o documento refere-se ao **exercício 2026, ano-calendário 2025**. Serve para conceito e procedimento; **não** é fonte primária dos valores de 2026. Ele traz ainda dois pontos internos inconsistentes, registrados sem tentar resolver:
 (i) a pergunta 267 rotula uma tabela como "ano-calendário de 2023, durante os meses de maio a dezembro", com valores idênticos à tabela de 2026 de F-01;
@@ -145,7 +147,17 @@ F-01, F-02, F-03, F-04, F-05, F-06, F-07, F-08, F-09, F-10, F-19 — ver [fontes
 - Alíquota do contribuinte individual: "vinte por cento sobre o respectivo salário-de-contribuição" (F-14, art. 21, caput). O plano de 11% incide sobre "o valor correspondente ao limite mínimo mensal do salário-de-contribuição" para quem trabalha por conta própria, sem relação de trabalho com empresa, e opta pela exclusão do direito à aposentadoria por tempo de contribuição (F-14, art. 21, § 2º).
 - Limite mínimo: "o salário mínimo nacional vigente na competência a ser recolhida" (F-18); a lei fala em piso da categoria ou, inexistindo, salário mínimo (F-14, art. 28, § 3º). Limite máximo: o teto previdenciário vigente (F-18). Valores de 2026 na Portaria (F-15, art. 2º): mínimo R$ 1.621,00 e máximo R$ 8.475,55.
 - **Consequência para o MVP:** a base do plano normal **não** é valor arbitrariamente escolhido; relaciona-se à **remuneração mensal do trabalho por conta própria**, observados os limites mínimo e máximo.
-- **Tratamento pendente (produto):** quando a remuneração ficar **abaixo do limite mínimo**, o MVP precisa de tratamento documentado (Q-P6). Não decidir sem definição de produto.
+- **Tratamento da remuneração abaixo do mínimo (Q-P6 RESOLVIDA):** ver seção dedicada abaixo.
+
+### Remuneração abaixo do limite mínimo (Q-P6)
+
+- O limite mínimo mensal do salário de contribuição do contribuinte individual **corresponde ao salário mínimo** vigente na competência (F-18; F-14 art. 28 § 3º; F-15 art. 2º — R$ 1.621,00 em 2026).
+- Quando o somatório das remunerações da competência (de uma ou mais fontes, por conta própria) fica **abaixo** desse limite, a legislação prevê mecanismos de ajuste, não a simples aceitação da remuneração menor como base válida:
+  - **Decreto nº 3.048/1999** (Regulamento da Previdência Social, versão compilada — F-21), **art. 13, § 8º**: "O segurado que receber remuneração inferior ao limite mínimo mensal do salário de contribuição somente manterá a qualidade de segurado se efetuar os ajustes de complementação, utilização e agrupamento a que se referem o § 1º do art. 19-E e o § 27-A do art. 216." O **art. 19-E, § 1º** (incisos I a III) define os três mecanismos: **complementação** (pagar a diferença até o mínimo), **utilização** (aproveitar excedente de contribuição de outro mês) e **agrupamento** (somar competências abaixo do mínimo entre si até atingir o mínimo em uma ou mais delas); só podem ser feitos por iniciativa do segurado e, uma vez processados, são **irreversíveis e irrenunciáveis**.
+  - **INSS — "Ajustes para alcance do Salário Mínimo" (EC 103/2019)** (F-22): confirma a aplicação ao **contribuinte individual** e traz a fórmula oficial de complementação: **(salário mínimo − remuneração consolidada) × 20%** (a página apresenta como "SM − RC = Y × (20%) = valor da complementação"). Solicitação feita pelo Meu INSS, sem necessidade de atendimento presencial para competências a partir de 11/2019.
+  - **INSS — "Contribuição Previdenciária e Salário de Contribuição" (F-18)**, já citada acima, confirma o mesmo tratamento em linguagem de página de serviço: quando a remuneração mensal fica abaixo do limite mínimo, "o segurado deverá recolher diretamente a complementação da contribuição incidente sobre a diferença" (GPS, código 1007, alíquota de 20% sobre a diferença) **ou** solicitar o ajuste via EC 103/2019 (complementação, utilização ou agrupamento).
+- **Decisão de produto para o MVP — Plano Normal:** o motor **não deve tratar** uma remuneração mensal inferior ao salário mínimo como base válida sem ajuste. O MVP deve **documentar/exibir aviso explicativo** informando que, havendo remuneração abaixo do mínimo, é necessário complementar (ou usar/agrupar) para alcançar o salário mínimo, e que a contribuição necessária para alcançar o mínimo equivale ao recolhimento sobre o próprio limite mínimo (20% × salário mínimo = R$ 324,20 em 2026, ver tabela do plano normal). O **cálculo automático da complementação/utilização/agrupamento não será implementado nesta pesquisa** (fica para decisão de implementação futura); esta pesquisa só documenta a regra e a fórmula oficial.
+- **Plano Simplificado:** continua sendo **11% sobre o salário mínimo vigente** (R$ 178,31 em 2026), quando juridicamente aplicável ao perfil do usuário (contribuinte individual por conta própria, sem prestação de serviço a empresas — F-13). Por definição, a base do plano simplificado já é o próprio salário mínimo, então a situação de "remuneração abaixo do mínimo" do plano normal não se aplica a ele da mesma forma; o aviso educacional já registrado (perda do direito à aposentadoria por tempo de contribuição, salvo complementação de 9%, Q-P3) permanece.
 
 ### Plano normal
 
@@ -217,11 +229,38 @@ Ambos os planos são compatíveis com o cenário aprovado (autônomo, por conta 
 | Q-P3 | Complementação de 9% do plano simplificado (dedutibilidade e cálculo). | **FORA DO CÁLCULO DO MVP 1.0 / AVISO EDUCACIONAL.** Não será calculada nesta versão. |
 | Q-P4 | Vencimento da GPS. | **RESOLVIDA** — dia 15 do mês seguinte à competência (F-14 art. 30, II; F-16 Agenda Tributária 2026; F-17; F-18); prorrogação para o primeiro dia útil seguinte quando não houver expediente bancário consta nas páginas do INSS (F-17, F-18); a página da Agenda (F-16) não menciona a prorrogação. |
 | Q-P5 | Datas das páginas do INSS: F-12 (19/10/2023), F-13 (28/01/2025), F-17 (17/10/2023) e F-18 (20/10/2023) são anteriores a 2026. | Registrada. Regras qualitativas coincidem com a Lei 8.212 (F-14); valores de 2026 vêm de F-11 e F-15. |
-| Q-P6 | Tratamento quando a remuneração mensal está abaixo do limite mínimo. | **Aberta (decisão de produto).** Limite mínimo = salário mínimo vigente (F-18; F-14 art. 28 § 3º; F-15). Efeito no MVP a definir. |
+| Q-P6 | Tratamento quando a remuneração mensal está abaixo do limite mínimo. | **RESOLVIDA** — Decreto nº 3.048/1999, art. 13 § 8º e art. 19-E § 1º (F-21); INSS, "Ajustes para alcance do Salário Mínimo" (F-22, fórmula oficial: `(salário mínimo − remuneração consolidada) × 20%`); INSS, "Contribuição Previdenciária e Salário de Contribuição" (F-18). Ver seção dedicada "Remuneração abaixo do limite mínimo (Q-P6)" acima. Decisão de produto: aviso explicativo no plano normal, sem cálculo automático de complementação/utilização/agrupamento nesta versão; plano simplificado mantém 11% sobre o salário mínimo. |
 
 ### Fontes (TR-002)
 
-F-11, F-12, F-13, F-14, F-15, F-16, F-17, F-18 (mais F-07, F-09, F-05 para a dedutibilidade).
+F-11, F-12, F-13, F-14, F-15, F-16, F-17, F-18, F-21, F-22 (mais F-07, F-09, F-05 para a dedutibilidade).
+
+---
+
+## Revisão independente final (2026-09-29)
+
+Conferência cruzada de TR-001 e TR-002 contra as fontes abaixo, sem divergência de valores encontrada. Nenhuma fonte nova nesta lista invalida o já registrado; onde há complemento, está marcado.
+
+### TR-001 — conferido contra
+
+- Receita Federal, Tributação de 2026 (F-01) — tabela progressiva, redução, desconto simplificado, dedução por dependente: valores batem com o registrado.
+- Receita Federal, Exemplos de Aplicação da Lei 15.270/2025 (F-02) — os cinco exemplos (TC-001 a TC-005) conferem aritmeticamente.
+- Lei nº 9.250/1995 vigente, texto compilado (F-09) — art. 4º (deduções, desconto simplificado) confere com o registrado.
+- Lei nº 15.270/2025 (F-08) — art. 3º-A (redução), art. 8º (vigência) conferem.
+- IN RFB nº 1.500/2014 atualizada pela IN RFB nº 2.299/2025 (F-20) — **nova nesta passagem**; confirma art. 55 (carnê-leão), art. 65-A (redução) e os mesmos valores de Anexo II e Anexo X. Resolve Q-04.
+
+### TR-002 — conferido contra
+
+- Lei nº 8.212/1991, texto compilado (F-14) — art. 21 (alíquotas 20%/11%), art. 28 III e § 3º (salário de contribuição, limite mínimo), art. 30 II (vencimento) conferem.
+- Decreto nº 3.048/1999, versão compilada (F-21) — **nova nesta passagem**; art. 13 § 8º e art. 19-E § 1º confirmam os mecanismos de complementação/utilização/agrupamento. Resolve Q-P6 (junto com F-22).
+- Portaria Interministerial MPS/MF nº 13/2026 (F-15) — art. 2º confere: mínimo R$ 1.621,00, máximo R$ 8.475,55.
+- Tabela de contribuição mensal do INSS (F-11) — valores de mínimo/máximo/plano simplificado conferem com F-15 e com a conferência aritmética (20% e 11%).
+- Plano Simplificado do INSS (F-13) — restrições e alíquota de 11% conferem.
+- INSS, "Ajustes para alcance do Salário Mínimo" (F-22) e "Contribuição Previdenciária e Salário de Contribuição" (F-18) — **F-22 nova nesta passagem**; ambas confirmam a fórmula de complementação `(salário mínimo − remuneração consolidada) × 20%`. Resolve Q-P6.
+
+### Resultado
+
+Nenhuma dúvida normativa nova surgiu nesta revisão que exija reverter a validação. Q-02 (arredondamento) permanece **aberta como pendência técnica de implementação**, não como incerteza sobre os valores legais.
 
 ---
 

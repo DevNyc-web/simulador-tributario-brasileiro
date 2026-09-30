@@ -126,20 +126,21 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | ID | TR-005 |
 | Nome | Limite de receita para permanência no Simples Nacional |
 | Módulo | Simples Nacional |
-| Ano de vigência | Alvo do MVP: 2026. Vigência legal: PENDENTE |
-| Objetivo da regra | Determinar se a receita do cenário permite permanecer no Simples Nacional. |
-| Entradas necessárias | ano; RBT12; faturamento mensal |
-| Saídas produzidas | situação de enquadramento; alertas |
-| Fórmula/regra | PENDENTE |
-| Fonte oficial primária | PENDENTE (órgão prioritário: Portal do Simples Nacional / CGSN) |
-| URL | PENDENTE |
-| Base legal | PENDENTE |
-| Artigo/item relevante | PENDENTE |
-| Data da consulta | PENDENTE |
+| Ano de vigência | 2026 (limite de R$ 4.800.000,00 e sublimite de R$ 3.600.000,00 vigentes desde 1/1/2018, LC 155/2016; sem alteração para 2026 — ver "Alterações 2027+" em [simples-2026-research.md](simples-2026-research.md)) |
+| Objetivo da regra | Determinar se a receita do cenário permite permanecer no Simples Nacional e se permanece dentro do sublimite de ICMS/ISS. |
+| Entradas necessárias | ano; RBT12; receita bruta acumulada no ano-calendário; mês de início de atividade |
+| Saídas produzidas | situação de enquadramento (dentro do limite / excesso ≤20% / excesso >20%); situação do sublimite ICMS/ISS; alertas |
+| Fórmula/regra | Ver [simples-2026-research.md](simples-2026-research.md), seção TR-005. Resumo: limite geral R$ 4.800.000,00/ano (art. 3º II); no ano de abertura, o limite é proporcional ao número de meses de atividade (art. 3º § 2º — sem valor mensal literal na lei, R$ 400.000,00/mês é aritmética de conferência); sublimite de R$ 3.600.000,00 (ou R$ 1.800.000,00 opcional por Estado) só para recolhimento de ICMS/ISS (art. 13-A/art. 19), distinto do limite geral de permanência. |
+| Fonte oficial primária | Lei Complementar nº 123/2006, art. 3º, art. 13-A, art. 19, art. 20 (F-23/F-34); Manual do PGDAS-D e DEFIS (F-32); Receita Federal, notícia sobre CGSN 190/191/2026 (F-35, só para snapshot 2027+) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-32, F-34, F-35 |
+| Base legal | Lei Complementar nº 123, de 14/12/2006, art. 3º (II, § 2º, §§ 7º a 13); art. 13-A; art. 19; art. 20 |
+| Artigo/item relevante | Art. 3º II (limite R$ 4.800.000,00); art. 3º § 2º (proporcionalidade, sem valor mensal literal); art. 13-A (sublimite R$ 3.600.000,00); art. 19 §§ 1º/4º (sublimite opcional R$ 1.800.000,00); art. 20 §§ 1º/1º-A (mecânica de impedimento) |
+| Data da consulta | 2026-09-30 |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | PENDENTE |
-| Casos especiais | PENDENTE |
-| Status de pesquisa | PENDENTE |
+| Limitações do MVP | Excesso de receita (retroatividade, regra dos 20%) documentado, não implementado; mecânica completa de redistribuição de ICMS/ISS acima do sublimite (art. 18 §17) documentada, não implementada |
+| Casos especiais | Empresa em início de atividade (limite proporcional); sublimite estadual opcional de R$ 1.800.000,00 (Estados com participação no PIB ≤1%) |
+| Questões em aberto | Q-SN-01 (ABERTA, baixa relevância): confirmar se algum ato do CGSN cita literalmente R$ 400.000,00/mês, ou se é sempre aritmética de conferência. Detalhes em [simples-2026-research.md](simples-2026-research.md) |
+| Status de pesquisa | PESQUISADA |
 | Status de validação | PENDENTE |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
@@ -151,20 +152,20 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | ID | TR-006 |
 | Nome | Tabela do Anexo III |
 | Módulo | Simples Nacional |
-| Ano de vigência | Alvo do MVP: 2026. Vigência legal: PENDENTE |
+| Ano de vigência | 2026 (tabela vigente desde 1/1/2018, LC 155/2016; sem alteração para 2026) |
 | Objetivo da regra | Fornecer faixas, alíquotas nominais e parcelas a deduzir do Anexo III. |
 | Entradas necessárias | ano; RBT12 |
-| Saídas produzidas | faixa; alíquota nominal; parcela a deduzir |
-| Fórmula/regra | PENDENTE |
-| Fonte oficial primária | PENDENTE (órgão prioritário: Portal do Simples Nacional / CGSN / Planalto) |
-| URL | PENDENTE |
-| Base legal | PENDENTE |
-| Artigo/item relevante | PENDENTE |
-| Data da consulta | PENDENTE |
+| Saídas produzidas | faixa; alíquota nominal; parcela a deduzir; percentuais de repartição por tributo |
+| Fórmula/regra | Ver [simples-2026-research.md](simples-2026-research.md), seção TR-006. Tabela de 6 faixas (até R$180.000,00 a R$4.800.000,00), alíquotas de 6,00% a 33,00%, com parcela a deduzir por faixa; teto de 5% para o percentual efetivo de ISS, com redistribuição aos tributos federais. |
+| Fonte oficial primária | Lei Complementar nº 123/2006, Anexo III (F-23/F-34); Manual do PGDAS-D e DEFIS (F-32) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-32, F-34 |
+| Base legal | Lei Complementar nº 123, de 14/12/2006, Anexo III (redação da LC 155/2016) |
+| Artigo/item relevante | Anexo III (tabela de alíquotas/PD e percentuais de repartição); art. 18 § 1º-B I (teto de 5% do ISS) |
+| Data da consulta | 2026-09-30 |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | PENDENTE |
-| Casos especiais | PENDENTE |
-| Status de pesquisa | PENDENTE |
+| Limitações do MVP | Redistribuição de percentuais na 6ª faixa/casos de ISS acima de 5% documentada, não implementada nesta fase |
+| Casos especiais | Redistribuição do percentual de ISS quando a alíquota efetiva superar 14,92537% na 5ª faixa |
+| Status de pesquisa | PESQUISADA |
 | Status de validação | PENDENTE |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
@@ -176,20 +177,20 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | ID | TR-007 |
 | Nome | Tabela do Anexo V |
 | Módulo | Simples Nacional |
-| Ano de vigência | Alvo do MVP: 2026. Vigência legal: PENDENTE |
+| Ano de vigência | 2026 (tabela vigente desde 1/1/2018, LC 155/2016; sem alteração para 2026) |
 | Objetivo da regra | Fornecer faixas, alíquotas nominais e parcelas a deduzir do Anexo V. |
 | Entradas necessárias | ano; RBT12 |
-| Saídas produzidas | faixa; alíquota nominal; parcela a deduzir |
-| Fórmula/regra | PENDENTE |
-| Fonte oficial primária | PENDENTE (órgão prioritário: Portal do Simples Nacional / CGSN / Planalto) |
-| URL | PENDENTE |
-| Base legal | PENDENTE |
-| Artigo/item relevante | PENDENTE |
-| Data da consulta | PENDENTE |
+| Saídas produzidas | faixa; alíquota nominal; parcela a deduzir; percentuais de repartição por tributo |
+| Fórmula/regra | Ver [simples-2026-research.md](simples-2026-research.md), seção TR-007. Tabela de 6 faixas (até R$180.000,00 a R$4.800.000,00), alíquotas de 15,50% a 30,50%, com parcela a deduzir por faixa; teto de 5% para o percentual efetivo de ISS, com redistribuição aos tributos federais. |
+| Fonte oficial primária | Lei Complementar nº 123/2006, Anexo V (F-23/F-34); Manual do PGDAS-D e DEFIS (F-32) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-32, F-34 |
+| Base legal | Lei Complementar nº 123, de 14/12/2006, Anexo V (redação da LC 155/2016) |
+| Artigo/item relevante | Anexo V (tabela de alíquotas/PD e percentuais de repartição); art. 18 § 1º-B I (teto de 5% do ISS) |
+| Data da consulta | 2026-09-30 |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | PENDENTE |
-| Casos especiais | PENDENTE |
-| Status de pesquisa | PENDENTE |
+| Limitações do MVP | Redistribuição de percentuais na 6ª faixa/casos de ISS acima de 5% documentada, não implementada nesta fase |
+| Casos especiais | Redistribuição do percentual de ISS quando a alíquota efetiva superar 12,5% na 5ª faixa |
+| Status de pesquisa | PESQUISADA |
 | Status de validação | PENDENTE |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
@@ -201,20 +202,20 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | ID | TR-008 |
 | Nome | Fórmula da alíquota efetiva do Simples Nacional |
 | Módulo | Simples Nacional |
-| Ano de vigência | Alvo do MVP: 2026. Vigência legal: PENDENTE |
-| Objetivo da regra | Definir como a alíquota efetiva é obtida a partir dos dados da tabela aplicável. |
-| Entradas necessárias | RBT12; faixa; alíquota nominal; parcela a deduzir |
+| Ano de vigência | 2026 (fórmula vigente desde 1/1/2018, LC 155/2016; sem alteração para 2026) |
+| Objetivo da regra | Definir como a alíquota efetiva e o DAS mensal são obtidos a partir dos dados da tabela aplicável. |
+| Entradas necessárias | RBT12; faixa; alíquota nominal; parcela a deduzir; receita bruta do PA (RPA) |
 | Saídas produzidas | alíquota efetiva; DAS estimado |
-| Fórmula/regra | PENDENTE |
-| Fonte oficial primária | PENDENTE (órgão prioritário: Portal do Simples Nacional / CGSN / Planalto) |
-| URL | PENDENTE |
-| Base legal | PENDENTE |
-| Artigo/item relevante | PENDENTE |
-| Data da consulta | PENDENTE |
-| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | PENDENTE |
-| Casos especiais | PENDENTE |
-| Status de pesquisa | PENDENTE |
+| Fórmula/regra | Ver [simples-2026-research.md](simples-2026-research.md), seção TR-008. Alíquota efetiva = [(RBT12 × alíquota nominal) − parcela a deduzir] / RBT12 (RBT12=0 → considerar RBT12=1); DAS mensal = RPA × alíquota efetiva. Premissas de segregação de receitas (substituição tributária, monofásica, retenção de ISS, exportação, etc.) documentadas e fora do MVP. |
+| Fonte oficial primária | Lei Complementar nº 123/2006, art. 18 §§ 1º-A, 3º, 4º-A, 12-17 (F-23/F-34); Manual do PGDAS-D e DEFIS (F-32) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-32, F-34 |
+| Base legal | Lei Complementar nº 123, de 14/12/2006, art. 18 |
+| Artigo/item relevante | Art. 18 § 1º-A (fórmula da alíquota efetiva); art. 18 caput/§ 3º (DAS mensal); art. 18 §§ 4º-A e 12-17 (segregação de receitas) |
+| Data da consulta | 2026-09-30 |
+| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md); cenário de prestação de serviços simples no mercado interno, sem segregações especiais |
+| Limitações do MVP | Sem segregação de receitas (substituição tributária, monofásica, retenção de ISS, ISS a outro município, exportação, ISS fixo); sem opção pelo regime de caixa |
+| Casos especiais | RBT12 = 0 → considerar RBT12 = 1 (regra operacional do PGDAS-D) |
+| Status de pesquisa | PESQUISADA |
 | Status de validação | PENDENTE |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
@@ -226,20 +227,20 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | ID | TR-009 |
 | Nome | Fator R |
 | Módulo | Simples Nacional |
-| Ano de vigência | Alvo do MVP: 2026. Vigência legal: PENDENTE |
-| Objetivo da regra | Definir o critério que determina o anexo aplicável às atividades sujeitas ao Fator R. |
-| Entradas necessárias | folha dos últimos 12 meses; RBT12; pró-labore |
+| Ano de vigência | 2026 (regra vigente desde 1/1/2018, LC 155/2016; sem alteração para 2026) |
+| Objetivo da regra | Definir o critério que determina o anexo aplicável (III ou V) às atividades sujeitas ao Fator R. |
+| Entradas necessárias | folha de salários dos últimos 12 meses (FS12, incluindo pró-labore, CPP e FGTS efetivamente recolhidos); RBT12; atividade exercida; mês de início de atividade (se aplicável) |
 | Saídas produzidas | Fator R; anexo aplicável (III ou V) |
-| Fórmula/regra | PENDENTE |
-| Fonte oficial primária | PENDENTE (órgão prioritário: Portal do Simples Nacional / CGSN / Planalto) |
-| URL | PENDENTE |
-| Base legal | PENDENTE |
-| Artigo/item relevante | PENDENTE |
-| Data da consulta | PENDENTE |
-| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | PENDENTE |
-| Casos especiais | PENDENTE |
-| Status de pesquisa | PENDENTE |
+| Fórmula/regra | Ver [simples-2026-research.md](simples-2026-research.md), seção TR-009. Fator r = FS12 / RBT12; r ≥ 0,28 → Anexo III; r < 0,28 → Anexo V. Aplica-se só às atividades do art. 18 § 5º-I / § 5º-B (tabela fechada de atividades suportadas no MVP). Casos-limite (FS12/RBT12 = 0), empresa em início de atividade e truncamento em 2 casas decimais documentados. |
+| Fonte oficial primária | Lei Complementar nº 123/2006, art. 18 §§ 5º-I, 5º-J, 5º-M, 24-26 (F-23/F-34); Resolução CGSN nº 140/2018, art. 26 (citado em F-32); Manual do PGDAS-D e DEFIS (F-32) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-32, F-34 |
+| Base legal | Lei Complementar nº 123, de 14/12/2006, art. 18 §§ 5º-B, 5º-I, 5º-J, 5º-K, 5º-M, 24, 25, 26; Resolução CGSN nº 140/2018, art. 26 |
+| Artigo/item relevante | Art. 18 §§ 5º-J/5º-M (corte de 28%); § 24 (definição de FS12); § 25 (só remunerações informadas via GFIP/eSocial); § 26 (exclusão de aluguéis e distribuição de lucros) |
+| Data da consulta | 2026-09-30 |
+| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md); tabela fechada de 9 atividades suportadas no MVP (todas confirmadas como sujeitas ao Fator R) |
+| Limitações do MVP | Cálculo de INSS/IRPF do sócio sobre o pró-labore reservado para TR-010/TR-011; apenas a subconjunto de atividades do art. 18 § 5º-I/§5º-B listado é suportado |
+| Casos especiais | FS12=0 e RBT12=0 → r=0,01; FS12=0 e RBT12>0 → r=0,01; FS12>0 e RBT12=0 → r=0,28; mês de abertura → r=FSPA/RPA; empresa com <13 meses → soma acumulada desde a abertura; truncamento em 2 casas decimais sem arredondar (desde 04/2018) |
+| Status de pesquisa | PESQUISADA |
 | Status de validação | PENDENTE |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |

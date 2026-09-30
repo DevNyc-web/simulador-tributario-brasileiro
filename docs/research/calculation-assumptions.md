@@ -36,6 +36,15 @@ Decisões aprovadas para o MVP 1.0. Mudanças exigem aprovação e atualização
 
 **Limitações registradas do módulo MEI (ver [mei-2026-research.md](mei-2026-research.md) para detalhes):** sem cálculo após desenquadramento retroativo por excesso de receita; sem parcelamentos, multas e juros por atraso do DAS; sem restituições; sem baixa do MEI; sem múltiplas atividades com situações especiais; sem obrigações estaduais/municipais fora do DAS.
 
+## Escopo Simples Nacional (Anexo III/V e Fator R) aprovado (premissa 16)
+
+| # | Decisão | Motivo |
+|---|---------|--------|
+| 16 | O módulo Simples Nacional 1.0 representa um **cenário simples de prestação de serviços no mercado interno**: sem exportação; sem substituição tributária; sem tributação monofásica; sem retenção de ISS na fonte; sem ISS devido a outro Município; sem ISS por valor fixo (art. 18 § 22-A); sem múltiplas atividades/estabelecimentos; RBT12 sempre pelo regime de competência (sem opção pelo regime de caixa do art. 18 § 3º). | Cobre TR-005 a TR-009; ver [simples-2026-research.md](simples-2026-research.md). Cada segregação de receita exigiria tratamento próprio, fora do escopo inicial. |
+| 17 | O Fator R (TR-009) é calculado apenas para o **subconjunto fechado de atividades** confirmado como sujeito ao art. 18 § 5º-I / § 5º-B da LC 123/2006 (desenvolvimento de software, consultoria, engenharia, arquitetura, medicina, odontologia, psicologia, fisioterapia, academias). O pró-labore integra a folha de salários (FS12) do Fator R, mas o INSS/IRPF do sócio sobre esse pró-labore **não é calculado** nesta fase (reservado para TR-010/TR-011). | Todas as 9 atividades-exemplo foram confirmadas individualmente contra a lista legal, evitando presumir enquadramento sem verificação; ver tabela "Atividades suportadas no MVP" em [simples-2026-research.md](simples-2026-research.md). |
+
+**Limitações registradas do módulo Simples Nacional (ver [simples-2026-research.md](simples-2026-research.md) para detalhes):** sem cálculo de excesso de receita/desenquadramento retroativo (limite geral ou sublimite); sem redistribuição de percentuais de ICMS/ISS acima do sublimite ou do teto de 5%; sem Anexo I, II ou IV; sem cálculo de INSS/IRPF do sócio sobre pró-labore.
+
 ## Regras de uso de fontes
 
 1. Só fonte oficial primária (Receita Federal, Portal do Simples Nacional, CGSN, Planalto, INSS, Ministério da Fazenda, Ministério do Empreendedorismo, Diário Oficial quando necessário).

@@ -16,7 +16,6 @@ from src.services.presentation import (
     decimal_br,
     humanize,
     pct,
-    warning_kind,
 )
 from src.services.simulation_input_adapter import SimulationInputError, build_scenario
 from src.tax_rules import SUPPORTED_YEARS
@@ -48,7 +47,7 @@ def create_app() -> Flask:
         label_atividade=ATIVIDADE_LABELS.get, label_modo=MODO_LABELS.get,
         label_limite=LIMITE_LABELS.get, label_anexo=ANEXO_LABELS.get, label_status=STATUS_LABELS.get,
     )
-    app.jinja_env.globals.update(warning_kind=warning_kind, OK=SimulationStatus.OK)
+    app.jinja_env.globals.update(OK=SimulationStatus.OK)
 
     for endpoint, (path, template) in PAGES.items():
         app.add_url_rule(path, endpoint, lambda t=template: render_template(t))

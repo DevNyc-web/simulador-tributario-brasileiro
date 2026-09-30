@@ -63,13 +63,6 @@ _TOKEN_RE = re.compile(r"\b(" + "|".join(sorted(_TOKEN_LABELS, key=len, reverse=
 # decimal "1234.50" -> "1.234,50"; ignora referências legais ("15.270/2025", "2026.4.03")
 _NUMBER_RE = re.compile(r"(?<![\d./-])(\d+)\.(\d+)(?!\d|/|\.\d)")
 
-_INFO_PREFIXES = (
-    "Ferramenta educacional", "Premissas", "Pressupõe", "Não consideradas", "Considera apenas",
-    "O valor distribuído deve", "Cálculo completo suportado", "Cenário PJ:", "Limite sem escrituração",
-    "A folha do Fator R", "Retenção de 10%", "Plano simplificado:",
-)
-
-
 def _group(integer: str) -> str:
     return f"{int(integer):,}".replace(",", ".")
 
@@ -107,13 +100,6 @@ def humanize(text: str) -> str:
     text = _TOKEN_RE.sub(lambda m: _TOKEN_LABELS[m.group(1)], text)
     # zeros finais de precisão interna são omitidos (mantém ao menos duas casas); valor inalterado
     return _NUMBER_RE.sub(lambda m: f"{_group(m.group(1))},{m.group(2).rstrip('0').ljust(2, '0')}", text)
-
-
-def warning_kind(text: str, status: SimulationStatus) -> str:
-    """Classe visual do aviso: 'unsupported' | 'info' | 'attention'."""
-    if status is not SimulationStatus.OK:
-        return "unsupported"
-    return "info" if text.startswith(_INFO_PREFIXES) else "attention"
 
 
 def choices() -> dict:

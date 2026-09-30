@@ -355,3 +355,105 @@ def test_js_has_no_tax_logic():
     for word in ("aliquota", "alíquota", "irpf", "inss", "rbt12", "fator", "anexo", "das", "dividend", "limite"):
         assert not re.search(r"" + word + r"", code), word
     assert "* 12" not in code and "* 0." not in code
+
+
+# --- Fase 4G: hardening ---
+
+HOSTILE = ["", "   ", "--1", "1e10", "NaN", "-Infinity", "1,2,3", "-5", "9" * 40, "<script>", "OUTRO", "13", "0", "99999999999"]
+
+
+def _bases():
+    return {
+        "pf": pf(),
+        "mei": mei(),
+        "simples": simples(meses="2"),
+        "comparar": comparar(meses_desde_abertura="2", modo_apuracao="SEM_ESCRITURACAO", dividendos="0",
+                             **{k: v for k, v in hist(1).items()}),
+    }
+
+
+def test_hostile_inputs_never_cause_500_or_traceback():
+    app = create_app()
+    app.config["PROPAGATE_EXCEPTIONS"] = True  # qualquer exceção não tratada falharia aqui
+    client = app.test_client()
+    failures = []
+    for tipo, base in _bases().items():
+        for field in (f for f in base if f != "tipo_simulacao"):
+            for value in HOSTILE:
+                r = client.post("/resultado", data={**base, field: value})
+                body = r.get_data(as_text=True)
+                if r.status_code not in (200, 400, 422) or "Traceback" in body:
+                    failures.append((tipo, field, value, r.status_code))
+            missing = {k: v for k, v in base.items() if k != field}
+            r = client.post("/resultado", data=missing)
+            if r.status_code not in (200, 400, 422):
+                failures.append((tipo, field, "<ausente>", r.status_code))
+    assert not failures, failures[:10]
+
+
+def test_user_input_is_escaped_in_output(client):
+    r = client.post("/resultado", data=pf(renda_mensal="<script>alert(1)</script>"))
+    html = r.get_data(as_text=True)
+    assert r.status_code == 422 and "<script>alert(1)" not in html and "&lt;script&gt;alert(1)" in html
+
+
+def test_templates_never_mark_content_safe():
+    for path in (ROOT / "templates").glob("*.html"):
+        src = path.read_text(encoding="utf-8")
+        assert "|safe" not in src.replace(" ", "") and "autoescape false" not in src, path.name
+
+
+def test_zero_values_end_to_end(client):
+    t = text(client.post("/resultado", data=pf(renda_mensal="0")))
+    assert "Total de tributos" in t and "R$ 0,00" in t
+    assert "R$ 86,05" in text(client.post("/resultado", data=mei(receita_acumulada="0", optante_simei="sim")))
+    for meses in ("1", "2", "13"):
+        r = client.post("/resultado", data=simples(meses=meses, receita_pa="0", receita_acumulada_ano="0"))
+        assert r.status_code == 200
+    mature = client.post("/resultado", data={**simples(meses="13", receita_pa="0", folha_pa="0", receita_acumulada_ano="0"),
+                                              **hist(12, receita="0", folha="0")})
+    assert mature.status_code == 200 and "DAS estimado R$ 0,00" in text(mature)
+    t = text(client.post("/resultado", data=comparar(prolabore="0", dividendos="0", lucro_contabil_disponivel="0")))
+    assert "INSS do pró-labore R$ 0,00" in t and "IRRF sobre dividendos R$ 0,00" in t
+
+
+def test_warning_severity_comes_from_status_not_from_text(client):
+    ok = client.post("/resultado", data=pf()).get_data(as_text=True)
+    assert "alert-attention" in ok and "alert-unsupported" not in ok and "alert-info" not in ok
+    bad = client.post("/resultado", data=mei(optante_simei="nao")).get_data(as_text=True)
+    assert "alert-unsupported" in bad and "alert-attention" not in bad
+
+
+def test_error_summary_links_point_to_existing_elements(client):
+    cases = [pf(renda_mensal="x", plano_inss=""), mei(optante_simei="talvez", categoria=""),
+             {**simples(meses="4"), "hist_receita_2": ""}, comparar(modo_apuracao="")]
+    for data in cases:
+        html = client.post("/resultado", data=data).get_data(as_text=True)
+        summary = html.split("data-error-summary")[1].split("</div>")[0]
+        targets = re.findall(r'href="#([^"]+)"', summary)
+        assert targets
+        for target in targets:
+            assert f'id="{target}"' in html, target
+
+
+def test_technical_field_names_do_not_leak_in_error_messages(client):
+    data = simples(meses="4", meses_atividade_no_ano="2")  # meses_desde_abertura > meses de atividade no ano
+    t = text(client.post("/resultado", data=data))
+    assert "Meses de atividade no ano" in t
+    for leaked in ("meses_atividade_no_ano", "meses_desde_abertura", "receita_acumulada_ano", "simples_input"):
+        assert leaked not in t.split("Não foi possível simular")[1].split("Mês de apuração")[0]
+
+
+def test_no_stale_pending_text_in_simulation_pages(client):
+    for path in ("/", "/sobre", "/simulacao", "/simulacao/pf", "/simulacao/mei", "/simulacao/simples", "/simulacao/comparar"):
+        t = text(client.get(path))
+        assert "Pendente de validação" not in t and "aguardam validação" not in t, path
+    assert "Pendente de validação" not in text(client.post("/resultado", data=comparar()))
+
+
+def test_no_technical_enum_or_dataclass_repr_in_results(client):
+    pages = [client.post("/resultado", data=d) for d in (pf(), mei(), simples(), comparar(), mei(optante_simei="nao"))]
+    for r in pages:
+        t = text(r)
+        for token in ("COMPATIVEL", "EXCESSO_", "SERVICOS", "NORMAL", "CONSULTORIA", "Result(", "Decimal(", "SimulationStatus", "None"):
+            assert token not in t, token

@@ -59,7 +59,7 @@
 
 {% macro yes_no(id, legend, hint="") %}
 {% set current = form.get(id, "sim") %}
-<fieldset class="field radio-group">
+<fieldset class="field radio-group" id="{{ id }}" tabindex="-1">
   <legend>{{ legend }}</legend>
   <label class="radio"><input type="radio" name="{{ id }}" value="sim" {% if current != "nao" %}checked{% endif %}> Sim</label>
   <label class="radio"><input type="radio" name="{{ id }}" value="nao" {% if current == "nao" %}checked{% endif %}> Não</label>
@@ -92,8 +92,9 @@
 <section class="notes" aria-labelledby="avisos-titulo">
   <h2 id="avisos-titulo">Avisos</h2>
   {% for w in result.warnings %}
-  {% set kind = warning_kind(w, result.status) %}
-  <p class="alert alert-{{ kind }}"><span class="alert-tag">{% if kind == "unsupported" %}Cenário não suportado{% elif kind == "attention" %}Atenção{% else %}Informação{% endif %}</span> {{ w | humanize }}</p>
+  {# severidade vem do STATUS do resultado, não do texto do aviso #}
+  {% set kind = "attention" if result.status == OK else "unsupported" %}
+  <p class="alert alert-{{ kind }}"><span class="alert-tag">{% if kind == "attention" %}Atenção{% else %}Cenário não suportado{% endif %}</span> {{ w | humanize }}</p>
   {% endfor %}
 </section>
 {% endif %}

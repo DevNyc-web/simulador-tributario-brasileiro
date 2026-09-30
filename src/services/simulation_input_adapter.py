@@ -148,13 +148,34 @@ class _Reader:
         return tuple(receitas), tuple(folhas)
 
 
+_FIELD_NAMES = {  # nomes técnicos dos modelos -> rótulos da tela (só apresentação de mensagens)
+    "meses_atividade_no_ano": "Meses de atividade no ano",
+    "meses_desde_abertura": "Meses desde a abertura",
+    "receita_acumulada_ano": "Receita acumulada no ano",
+    "receita_acumulada": "Receita acumulada",
+    "receitas_anteriores": "receitas anteriores",
+    "folhas_anteriores": "folhas anteriores",
+    "receita_pa": "Receita do mês",
+    "folha_pa": "Folha do mês",
+    "renda_mensal": "Renda mensal",
+    "pf_input.": "",
+    "simples_input.": "",
+}
+
+
+def _friendly(message: str) -> str:
+    for technical, label in _FIELD_NAMES.items():
+        message = message.replace(technical, label)
+    return message
+
+
 def _finish(reader: _Reader, tipo: str, build):
     if reader.errors:
         raise SimulationInputError(reader.errors, tipo=tipo)
     try:
         return build()
     except (ValueError, TypeError) as exc:
-        raise SimulationInputError(general=[str(exc)], tipo=tipo) from exc
+        raise SimulationInputError(general=[_friendly(str(exc))], tipo=tipo) from exc
 
 
 def _pf(form) -> dict:

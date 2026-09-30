@@ -42,6 +42,35 @@
         "aliquota_normal": "0.20",
         "aliquota_simplificado": "0.11"
       }
+    },
+    {
+      "id": "TR-003",
+      "nome": "Limite anual e proporcional do MEI",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-25", "F-26", "F-27", "F-28", "F-31"],
+      "parametros": {
+        "limite_anual": "81000.00",
+        "limite_proporcional_mensal": "6750.00",
+        "percentual_excesso_tolerado": "0.20"
+      }
+    },
+    {
+      "id": "TR-004",
+      "nome": "Composição e cálculo do DAS-MEI",
+      "ano": 2026,
+      "status": "TESTADA",
+      "vigencia_inicio": "2026-01-01",
+      "vigencia_fim": null,
+      "fontes": ["F-23", "F-24", "F-27", "F-29", "F-30", "F-31"],
+      "parametros": {
+        "salario_minimo": "1621.00",
+        "percentual_previdenciario": "0.05",
+        "parcela_icms": "1.00",
+        "parcela_iss": "5.00"
+      }
     }
   ]
 }

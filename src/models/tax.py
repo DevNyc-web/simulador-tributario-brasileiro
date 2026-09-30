@@ -87,6 +87,53 @@ class PFSimulationInput:
             raise TypeError("plano_inss deve ser um PlanoINSS.")
 
 
+class CategoriaMEI(str, Enum):
+    """Categoria tributária do MEI comum (define as parcelas ICMS/ISS do DAS)."""
+
+    COMERCIO_INDUSTRIA = "COMERCIO_INDUSTRIA"
+    SERVICOS = "SERVICOS"
+    COMERCIO_E_SERVICOS = "COMERCIO_E_SERVICOS"
+
+
+class StatusLimiteMEI(str, Enum):
+    """Situação da receita frente ao limite de receita bruta do MEI."""
+
+    COMPATIVEL = "COMPATIVEL"
+    EXCESSO_ATE_20 = "EXCESSO_ATE_20"
+    EXCESSO_MAIS_20 = "EXCESSO_MAIS_20"
+
+
+@dataclass(frozen=True)
+class MEISimulationInput:
+    """Entrada do cenário MEI comum (TR-003 + TR-004).
+
+    meses_atividade_no_ano: 12 para MEI enquadrado desde janeiro; no ano de abertura,
+    meses até 31/12 (fração de mês = mês inteiro).
+    optante_simei: o cenário continua enquadrado/optante pelo SIMEI (não significa
+    "teve receita no mês": receita zero não elimina o DAS). Baixa está fora do MVP.
+    """
+
+    ano: int
+    receita_acumulada: Decimal
+    categoria: CategoriaMEI
+    meses_atividade_no_ano: int
+    optante_simei: bool = True
+
+    def __post_init__(self):
+        if not isinstance(self.receita_acumulada, Decimal) or not self.receita_acumulada.is_finite():
+            raise TypeError("receita_acumulada deve ser um Decimal finito (nunca float).")
+        if self.receita_acumulada < 0:
+            raise ValueError("receita_acumulada não pode ser negativa.")
+        if not isinstance(self.categoria, CategoriaMEI):
+            raise TypeError("categoria deve ser uma CategoriaMEI.")
+        if isinstance(self.meses_atividade_no_ano, bool) or not isinstance(self.meses_atividade_no_ano, int):
+            raise TypeError("meses_atividade_no_ano deve ser int.")
+        if not 1 <= self.meses_atividade_no_ano <= 12:
+            raise ValueError("meses_atividade_no_ano deve estar entre 1 e 12.")
+        if not isinstance(self.optante_simei, bool):
+            raise TypeError("optante_simei deve ser bool.")
+
+
 @dataclass(frozen=True)
 class TaxItem:
     """Um tributo/contribuição individual dentro de um resultado de simulação."""

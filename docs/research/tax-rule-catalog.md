@@ -37,9 +37,9 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Casos especiais | Ver seção Casos especiais fora do MVP em [pf-2026-research.md](pf-2026-research.md) |
 | Questões em aberto | Q-01 e Q-03 RESOLVIDAS. Abertas: Q-02 (arredondamento, QUESTÃO EM ABERTO), Q-04 (texto da IN 1.500) e itens de baixa prioridade Q-05 a Q-08. Detalhes em [pf-2026-research.md](pf-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de validação | VALIDADA |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-002 — Contribuição previdenciária do contribuinte individual
 
@@ -63,9 +63,9 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Casos especiais | Prestação de serviço a empresa (responsabilidade da empresa desde 04/2003, F-12); MEI 5%; facultativo baixa renda 5% |
 | Questões em aberto | Q-P1, Q-P2 e Q-P4 RESOLVIDAS. Q-P3 FORA DO CÁLCULO DO MVP 1.0 / AVISO EDUCACIONAL. Abertas: Q-P6 (remuneração abaixo do limite mínimo; decisão de produto). Registrada: Q-P5. Detalhes em [pf-2026-research.md](pf-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de validação | VALIDADA |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-003 — Limite anual e proporcional do MEI
 
@@ -90,8 +90,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-MEI-01, Q-MEI-02 RESOLVIDAS. Q-MEI-03 resolvida quanto à existência/função do Anexo XI; conteúdo linha a linha segue em aberto (não bloqueia validação). Detalhes em [mei-2026-research.md](mei-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-004 — Composição e cálculo do DAS-MEI
 
@@ -116,8 +116,8 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Questões em aberto | Q-MEI-06, Q-MEI-07 RESOLVIDAS. Q-MEI-05 parcialmente resolvida: o dia 20 está confirmado em fonte oficial; o número exato do artigo da Resolução CGSN 140/2018 segue incerto (fontes secundárias divergentes) e não é mais citado neste catálogo. Detalhes em [mei-2026-research.md](mei-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
 | Status de validação | VALIDADA |
-| Status de implementação | PENDENTE |
-| Status de testes | PENDENTE |
+| Status de implementação | IMPLEMENTADA |
+| Status de testes | TESTADA |
 
 ## TR-005 — Limite de receita para permanência no Simples Nacional
 

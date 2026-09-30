@@ -130,18 +130,18 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Objetivo da regra | Determinar se a receita do cenário permite permanecer no Simples Nacional e se permanece dentro do sublimite de ICMS/ISS. |
 | Entradas necessárias | ano; RBT12; receita bruta acumulada no ano-calendário; mês de início de atividade |
 | Saídas produzidas | situação de enquadramento (dentro do limite / excesso ≤20% / excesso >20%); situação do sublimite ICMS/ISS; alertas |
-| Fórmula/regra | Ver [simples-2026-research.md](simples-2026-research.md), seção TR-005. Resumo: limite geral R$ 4.800.000,00/ano (art. 3º II); no ano de abertura, o limite é proporcional ao número de meses de atividade (art. 3º § 2º — sem valor mensal literal na lei, R$ 400.000,00/mês é aritmética de conferência); sublimite de R$ 3.600.000,00 (ou R$ 1.800.000,00 opcional por Estado) só para recolhimento de ICMS/ISS (art. 13-A/art. 19), distinto do limite geral de permanência. |
-| Fonte oficial primária | Lei Complementar nº 123/2006, art. 3º, art. 13-A, art. 19, art. 20 (F-23/F-34); Manual do PGDAS-D e DEFIS (F-32); Receita Federal, notícia sobre CGSN 190/191/2026 (F-35, só para snapshot 2027+) |
-| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-32, F-34, F-35 |
-| Base legal | Lei Complementar nº 123, de 14/12/2006, art. 3º (II, § 2º, §§ 7º a 13); art. 13-A; art. 19; art. 20 |
-| Artigo/item relevante | Art. 3º II (limite R$ 4.800.000,00); art. 3º § 2º (proporcionalidade, sem valor mensal literal); art. 13-A (sublimite R$ 3.600.000,00); art. 19 §§ 1º/4º (sublimite opcional R$ 1.800.000,00); art. 20 §§ 1º/1º-A (mecânica de impedimento) |
-| Data da consulta | 2026-09-30 |
-| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | Excesso de receita (retroatividade, regra dos 20%) documentado, não implementado; mecânica completa de redistribuição de ICMS/ISS acima do sublimite (art. 18 §17) documentada, não implementada |
-| Casos especiais | Empresa em início de atividade (limite proporcional); sublimite estadual opcional de R$ 1.800.000,00 (Estados com participação no PIB ≤1%) |
+| Fórmula/regra | Ver [simples-2026-research.md](simples-2026-research.md), seção TR-005. Resumo: limite geral R$ 4.800.000,00/ano (art. 3º II); no ano de abertura, o limite é proporcional ao número de meses de atividade (art. 3º § 2º — sem valor mensal literal na lei, R$ 400.000,00/mês é aritmética de conferência); sublimite ICMS/ISS efetivo de **2026 = R$ 3.600.000,00 para todos os Estados e o Distrito Federal** (Portaria CGSN nº 54/2025, F-36), distinto do limite geral de permanência. **Limite funcional do MVP**: o cálculo completo do simulador só é executado para RBT12 ≤ R$ 3.600.000,00; entre R$ 3.600.000,01 e R$ 4.800.000,00 o Simples é legalmente possível, mas o cenário não é suportado integralmente (decisão de produto, não legal). |
+| Fonte oficial primária | Lei Complementar nº 123/2006, art. 3º, art. 13-A, art. 19, art. 20 (F-23/F-34); Manual do PGDAS-D e DEFIS (F-32); Portaria CGSN nº 54/2025 (F-36, sublimite efetivo de 2026); Receita Federal, notícia sobre CGSN 190/191/2026 (F-35, só para snapshot 2027+) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-32, F-34, F-35, F-36 |
+| Base legal | Lei Complementar nº 123, de 14/12/2006, art. 3º (II, § 2º, §§ 7º a 13); art. 13-A; art. 19; art. 20; Portaria CGSN nº 54, de 17/11/2025 |
+| Artigo/item relevante | Art. 3º II (limite R$ 4.800.000,00); art. 3º § 2º (proporcionalidade, sem valor mensal literal); art. 13-A (sublimite, regra geral R$ 3.600.000,00); art. 19 §§ 1º/4º (sublimite opcional R$ 1.800.000,00, não aplicável em 2026); art. 20 §§ 1º/1º-A (mecânica de impedimento); Portaria CGSN nº 54/2025 (sublimite efetivo de 2026) |
+| Data da consulta | 2026-09-30 (pesquisa); 2026-09-30 (validação) |
+| Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md); limite funcional do MVP em R$ 3.600.000,00 |
+| Limitações do MVP | Excesso de receita (retroatividade, regra dos 20%) documentado, não implementado; mecânica completa de redistribuição de ICMS/ISS acima do sublimite (art. 18 §17) documentada, não implementada; cálculo completo não cobre RBT12 entre R$ 3.600.000,01 e R$ 4.800.000,00 |
+| Casos especiais | Empresa em início de atividade (limite proporcional); sublimite estadual opcional de R$ 1.800.000,00 (art. 19) mencionado como regra geral, mas **não aplicável em 2026** (Portaria CGSN 54/2025 fixou R$ 3.600.000,00 para todos os Estados/DF) |
 | Questões em aberto | Q-SN-01 (ABERTA, baixa relevância): confirmar se algum ato do CGSN cita literalmente R$ 400.000,00/mês, ou se é sempre aritmética de conferência. Detalhes em [simples-2026-research.md](simples-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
+| Status de validação | VALIDADA |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
 
@@ -163,10 +163,10 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Artigo/item relevante | Anexo III (tabela de alíquotas/PD e percentuais de repartição); art. 18 § 1º-B I (teto de 5% do ISS) |
 | Data da consulta | 2026-09-30 |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | Redistribuição de percentuais na 6ª faixa/casos de ISS acima de 5% documentada, não implementada nesta fase |
+| Limitações do MVP | Redistribuição de percentuais na 6ª faixa/casos de ISS acima de 5% documentada, não implementada nesta fase; 6ª faixa legalmente vigente, mas fora do cálculo completo do MVP (RBT12 acima do sublimite efetivo de 2026, R$ 3.600.000,00 — ver TR-005) |
 | Casos especiais | Redistribuição do percentual de ISS quando a alíquota efetiva superar 14,92537% na 5ª faixa |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
+| Status de validação | VALIDADA |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
 
@@ -188,10 +188,10 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Artigo/item relevante | Anexo V (tabela de alíquotas/PD e percentuais de repartição); art. 18 § 1º-B I (teto de 5% do ISS) |
 | Data da consulta | 2026-09-30 |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md) |
-| Limitações do MVP | Redistribuição de percentuais na 6ª faixa/casos de ISS acima de 5% documentada, não implementada nesta fase |
+| Limitações do MVP | Redistribuição de percentuais na 6ª faixa/casos de ISS acima de 5% documentada, não implementada nesta fase; 6ª faixa legalmente vigente, mas fora do cálculo completo do MVP (RBT12 acima do sublimite efetivo de 2026, R$ 3.600.000,00 — ver TR-005) |
 | Casos especiais | Redistribuição do percentual de ISS quando a alíquota efetiva superar 12,5% na 5ª faixa |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
+| Status de validação | VALIDADA |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
 
@@ -215,8 +215,9 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md); cenário de prestação de serviços simples no mercado interno, sem segregações especiais |
 | Limitações do MVP | Sem segregação de receitas (substituição tributária, monofásica, retenção de ISS, ISS a outro município, exportação, ISS fixo); sem opção pelo regime de caixa |
 | Casos especiais | RBT12 = 0 → considerar RBT12 = 1 (regra operacional do PGDAS-D) |
+| Questões em aberto | Q-SN-04 (pendência técnica, não legal): nenhuma regra de arredondamento confirmada por fonte oficial para a fórmula geral da alíquota efetiva/DAS mensal (distinta do truncamento específico do fator r, esse sim confirmado — ver TR-009). Análoga a Q-02 de TR-001 |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
+| Status de validação | VALIDADA |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
 
@@ -231,17 +232,18 @@ O campo "Fonte oficial primária" traz só o órgão prioritário onde procurar;
 | Objetivo da regra | Definir o critério que determina o anexo aplicável (III ou V) às atividades sujeitas ao Fator R. |
 | Entradas necessárias | folha de salários dos últimos 12 meses (FS12, incluindo pró-labore, CPP e FGTS efetivamente recolhidos); RBT12; atividade exercida; mês de início de atividade (se aplicável) |
 | Saídas produzidas | Fator R; anexo aplicável (III ou V) |
-| Fórmula/regra | Ver [simples-2026-research.md](simples-2026-research.md), seção TR-009. Fator r = FS12 / RBT12; r ≥ 0,28 → Anexo III; r < 0,28 → Anexo V. Aplica-se só às atividades do art. 18 § 5º-I / § 5º-B (tabela fechada de atividades suportadas no MVP). Casos-limite (FS12/RBT12 = 0), empresa em início de atividade e truncamento em 2 casas decimais documentados. |
-| Fonte oficial primária | Lei Complementar nº 123/2006, art. 18 §§ 5º-I, 5º-J, 5º-M, 24-26 (F-23/F-34); Resolução CGSN nº 140/2018, art. 26 (citado em F-32); Manual do PGDAS-D e DEFIS (F-32) |
-| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-32, F-34 |
-| Base legal | Lei Complementar nº 123, de 14/12/2006, art. 18 §§ 5º-B, 5º-I, 5º-J, 5º-K, 5º-M, 24, 25, 26; Resolução CGSN nº 140/2018, art. 26 |
-| Artigo/item relevante | Art. 18 §§ 5º-J/5º-M (corte de 28%); § 24 (definição de FS12); § 25 (só remunerações informadas via GFIP/eSocial); § 26 (exclusão de aluguéis e distribuição de lucros) |
-| Data da consulta | 2026-09-30 |
+| Fórmula/regra | Ver [simples-2026-research.md](simples-2026-research.md), seção TR-009. Fator r = FS12 / RBT12; r ≥ 0,28 → Anexo III; r < 0,28 → Anexo V. Aplica-se só às atividades do art. 18 § 5º-I / § 5º-B (tabela fechada de atividades suportadas no MVP). **Achado da passagem de validação**: FS12 é sempre apurada pelo regime de caixa, independentemente do regime escolhido pela empresa para o DAS mensal; RBT12 permanece sempre pelo regime de competência (Solução de Consulta Cosit nº 17/2021, F-38). Casos-limite (FS12/RBT12 = 0), empresa em início de atividade e truncamento em 2 casas decimais documentados. |
+| Fonte oficial primária | Lei Complementar nº 123/2006, art. 18 §§ 5º-I, 5º-J, 5º-K, 5º-M, 24-26 (F-23/F-34); Resolução CGSN nº 140/2018, art. 26 (citado em F-32); Manual do PGDAS-D e DEFIS (F-32); Solução de Consulta Cosit nº 17/2021 (F-38) |
+| URL | Ver [fontes-tributarias.md](fontes-tributarias.md), registros F-23, F-32, F-34, F-38 |
+| Base legal | Lei Complementar nº 123, de 14/12/2006, art. 18 §§ 5º-B, 5º-I, 5º-J, 5º-K, 5º-M, 24, 25, 26; Resolução CGSN nº 140/2018, art. 18 parágrafo único, art. 26 |
+| Artigo/item relevante | Art. 18 §§ 5º-J/5º-M (corte de 28%); § 24 (definição de FS12); § 25 (só remunerações informadas via GFIP/eSocial, efetivamente pagas); § 26 (exclusão de aluguéis e distribuição de lucros); Resolução CGSN 140/2018 art. 18 parágrafo único (FS12 sempre por regime de caixa) |
+| Data da consulta | 2026-09-30 (pesquisa); 2026-09-30 (validação) |
 | Premissas | Ver [calculation-assumptions.md](calculation-assumptions.md); tabela fechada de 9 atividades suportadas no MVP (todas confirmadas como sujeitas ao Fator R) |
-| Limitações do MVP | Cálculo de INSS/IRPF do sócio sobre o pró-labore reservado para TR-010/TR-011; apenas a subconjunto de atividades do art. 18 § 5º-I/§5º-B listado é suportado |
-| Casos especiais | FS12=0 e RBT12=0 → r=0,01; FS12=0 e RBT12>0 → r=0,01; FS12>0 e RBT12=0 → r=0,28; mês de abertura → r=FSPA/RPA; empresa com <13 meses → soma acumulada desde a abertura; truncamento em 2 casas decimais sem arredondar (desde 04/2018) |
+| Limitações do MVP | Cálculo de INSS/IRPF do sócio sobre o pró-labore reservado para TR-010/TR-011; apenas o subconjunto de atividades do art. 18 § 5º-I/§5º-B listado é suportado |
+| Casos especiais | FS12=0 e RBT12=0 → r=0,01; FS12=0 e RBT12>0 → r=0,01; FS12>0 e RBT12=0 → r=0,28; mês de abertura → r=FSPA/RPA; empresa com <13 meses → soma acumulada desde a abertura (RBT12r); truncamento em 2 casas decimais sem arredondar (desde 04/2018); CPP paga dentro do próprio Simples Nacional integra a FS12, sem exceção (F-38) |
+| Questões em aberto | Q-SN-02 (estagiários não entram na FS12 — inferência sistemática, sem Solução de Consulta específica localizada) e Q-SN-03 (MEI contratado nas hipóteses do art. 18-B) são pendências residuais irrelevantes ao MVP. Detalhes em [simples-2026-research.md](simples-2026-research.md) |
 | Status de pesquisa | PESQUISADA |
-| Status de validação | PENDENTE |
+| Status de validação | VALIDADA |
 | Status de implementação | PENDENTE |
 | Status de testes | PENDENTE |
 

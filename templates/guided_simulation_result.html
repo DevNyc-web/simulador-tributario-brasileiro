@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Simulação guiada · resultado{% endblock %}
+{% block head %}<script>document.documentElement.classList.add("js");</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/guided-simulation.css') }}">{% endblock %}
+{% block content %}
+{% set e = g.entrada %}
+{% set b = g.base %}
+{% set mei = e.enquadramento.value == "MEI" %}
+<section class="g-wrap" data-guided>
+  <div class="g-topbar">
+    <p class="g-step" aria-hidden="true" data-step></p>
+    <button type="button" class="btn btn-sm btn-outline g-skip" data-skip hidden>Pular animação</button>
+  </div>
+
+  {# ---------- apresentação: um quadro por vez ---------- #}
+  <div class="g-stage" data-stage aria-live="polite">
+
+    <section class="g-scene" data-scene aria-labelledby="gs1">
+      <h2 id="gs1">Seu cenário</h2>
+      <ul class="g-checks">
+        <li><span class="tick" aria-hidden="true"></span><b>Enquadramento</b> {{ e.enquadramento | label_enq }}</li>
+        <li><span class="tick" aria-hidden="true"></span><b>Ramo</b> {{ ramo }}</li>
+        <li><span class="tick" aria-hidden="true"></span><b>Ticket médio</b> {{ e.ticket_medio | brl }}</li>
+        <li><span class="tick" aria-hidden="true"></span><b>Clientes por mês</b> {{ e.clientes_mes }}</li>
+        <li><span class="tick" aria-hidden="true"></span><b>Faturamento mensal estimado</b> {{ g.faturamento_mensal | brl }}</li>
+      </ul>
+    </section>
+
+    <section class="g-scene" data-scene aria-labelledby="gs2">
+      <h2 id="gs2">Faturamento bruto estimado</h2>
+      <p class="g-big"><span class="count" data-count="{{ g.faturamento_mensal }}" data-final="{{ g.faturamento_mensal | brl }}">{{ g.faturamento_mensal | brl }}</span></p>
+      <p class="g-cap">por mês, com {{ e.clientes_mes }} clientes a {{ e.ticket_medio | brl }}</p>
+    </section>
+
+    {% if b.ok %}
+    <section class="g-scene" data-scene aria-labelledby="gs3">
+      <h2 id="gs3">Tributos considerados</h2>
+      <ul class="g-list">
+        {% for it in b.itens %}
+        <li><span class="g-label">{{ it.rotulo }}</span><b class="count" data-count="{{ it.valor }}" data-final="{{ it.valor | brl }}">{{ it.valor | brl }}</b><small>{{ it.explicacao }}</small></li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="g-scene" data-scene aria-labelledby="gs4">
+      <h2 id="gs4">Sobra operacional estimada</h2>
+      <p class="g-big"><span class="count" data-count="{{ b.sobra_mensal }}" data-final="{{ b.sobra_mensal | brl }}">{{ b.sobra_mensal | brl }}</span></p>
+      <p class="g-cap">por mês · faturamento {{ g.faturamento_mensal | brl }} − tributos {{ b.tributos_totais | brl }} − salários {{ b.custo_pessoal | brl }}<br>Valor potencialmente disponível antes da distribuição, sem as demais despesas.</p>
+    </section>
+
+    <section class="g-scene" data-scene aria-labelledby="gs5">
+      <h2 id="gs5">Projeção em 12 meses</h2>
+      <ul class="g-list">
+        <li><span class="g-label">Faturamento</span><b class="count" data-count="{{ g.faturamento_12m }}" data-final="{{ g.faturamento_12m | brl }}">{{ g.faturamento_12m | brl }}</b></li>
+        <li><span class="g-label">Tributos</span><b class="count" data-count="{{ b.tributos_12m }}" data-final="{{ b.tributos_12m | brl }}">{{ b.tributos_12m | brl }}</b></li>
+        <li><span class="g-label">Sobra operacional estimada</span><b class="count" data-count="{{ b.sobra_12m }}" data-final="{{ b.sobra_12m | brl }}">{{ b.sobra_12m | brl }}</b></li>
+      </ul>
+      <p class="g-cap">Projeção aritmética: valor mensal × 12, com premissas constantes.</p>
+    </section>
+
+    <section class="g-scene" data-scene aria-labelledby="gs6">
+      <h2 id="gs6">Projeção operacional em 60 meses</h2>
+      <ul class="g-list">
+        <li><span class="g-label">Faturamento</span><b class="count" data-count="{{ g.faturamento_60m }}" data-final="{{ g.faturamento_60m | brl }}">{{ g.faturamento_60m | brl }}</b></li>
+        <li><span class="g-label">Tributos</span><b class="count" data-count="{{ b.tributos_60m }}" data-final="{{ b.tributos_60m | brl }}">{{ b.tributos_60m | brl }}</b></li>
+        <li><span class="g-label">Sobra operacional estimada</span><b class="count" data-count="{{ b.sobra_60m }}" data-final="{{ b.sobra_60m | brl }}">{{ b.sobra_60m | brl }}</b></li>
+      </ul>
+      <p class="g-cap">Projeção operacional com premissas constantes. As regras tributárias futuras podem mudar durante o período.<br><a href="{{ url_for('reform') }}">Veja a transição tributária 2026–2033</a></p>
+    </section>
+    {% else %}
+    <section class="g-scene" data-scene aria-labelledby="gs3">
+      <h2 id="gs3">Este cenário não pôde ser calculado</h2>
+      <p class="g-cap">{{ b.motivo | humanize }}</p>
+      <p><a class="btn btn-sm" href="{{ url_for('guided') }}">Refazer com outros dados</a></p>
+    </section>
+    {% endif %}
+
+    <section class="g-scene" data-scene aria-labelledby="gs7">
+      <h2 id="gs7">E se a equipe crescer?</h2>
+      <div class="g-bars" data-bars>
+        {% for bar in g.barras_sobra_mensal %}
+        <div class="g-bar-row">
+          <span class="g-label">{{ bar.rotulo }}</span>
+          {% if bar.valor is none %}
+          <span class="g-na">Não disponível neste enquadramento</span>
+          {% else %}
+          <span class="g-bar {% if bar.negativo %}neg{% endif %}"><i style="--p:{{ bar.pct | width }}"></i></span>
+          <b>{{ bar.valor | brl }}</b>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      <p class="g-cap">Sobra operacional estimada por mês. Salários brutos como premissa operacional da simulação (1 salário mínimo por funcionário e 2 para o gerente), sem cálculo trabalhista completo.</p>
+    </section>
+  </div>
+
+  {# ---------- resumo final ---------- #}
+  <div class="g-summary" data-summary tabindex="-1">
+    <h2>Resumo da simulação</h2>
+    {% if g.aviso_principal %}<p class="g-notice" role="status">{{ g.aviso_principal | humanize }}</p>{% endif %}
+
+    <div class="g-cards">
+      <div><span>Faturamento mensal</span><b>{{ g.faturamento_mensal | brl }}</b></div>
+      {% if b.ok %}
+      <div><span>Tributos por mês</span><b>{{ b.tributos_totais | brl }}</b></div>
+      <div><span>Sobra operacional por mês</span><b>{{ b.sobra_mensal | brl }}</b></div>
+      <div><span>Sobra operacional em 12 meses</span><b>{{ b.sobra_12m | brl }}</b></div>
+      <div><span>Sobra operacional em 60 meses</span><b>{{ b.sobra_60m | brl }}</b></div>
+      {% endif %}
+    </div>
+    {% if b.ok %}<p class="muted g-projection-note">Projeção operacional com premissas constantes. As regras tributárias futuras podem mudar durante o período. <a href="{{ url_for('reform') }}">Veja a transição tributária 2026–2033</a></p>{% endif %}
+
+    <div class="g-charts">
+      {% if b.ok %}
+      <figure class="g-chart" data-bars>
+        <figcaption>Para onde vai o faturamento (cenário sem funcionário)</figcaption>
+        <div class="g-stack" role="img" aria-label="Composição do faturamento: {% for p in g.composicao_base %}{{ p.rotulo }} {{ p.valor | brl }}{% if not loop.last %}; {% endif %}{% endfor %}">
+          {% for p in g.composicao_base %}<i class="seg seg{{ loop.index }}" style="--p:{{ p.pct | width }}" title="{{ p.rotulo }}"></i>{% endfor %}
+        </div>
+        <ul class="g-legend">
+          {% for p in g.composicao_base %}<li><i class="dot seg{{ loop.index }}"></i>{{ p.rotulo }}: {{ p.valor | brl }}</li>{% endfor %}
+        </ul>
+      </figure>
+
+      <figure class="g-chart" data-bars>
+        <figcaption>Sobra operacional estimada: 1 mês × 12 meses × 60 meses</figcaption>
+        {% for bar in g.barras_horizonte %}
+        <div class="g-bar-row"><span class="g-label">{{ bar.rotulo }}</span><span class="g-bar {% if bar.negativo %}neg{% endif %}"><i style="--p:{{ bar.pct | width }}"></i></span><b>{{ bar.valor | brl }}</b></div>
+        {% endfor %}
+      </figure>
+      {% endif %}
+
+      <figure class="g-chart" data-bars>
+        <figcaption>Sobra operacional mensal por cenário de equipe</figcaption>
+        {% for bar in g.barras_sobra_mensal %}
+        <div class="g-bar-row"><span class="g-label">{{ bar.rotulo }}</span>
+          {% if bar.valor is none %}<span class="g-na">Não cabe neste enquadramento</span>
+          {% else %}<span class="g-bar {% if bar.negativo %}neg{% endif %}"><i style="--p:{{ bar.pct | width }}"></i></span><b>{{ bar.valor | brl }}</b>{% endif %}
+        </div>
+        {% endfor %}
+      </figure>
+    </div>
+
+    <h3>Comparação entre cenários</h3>
+    <div class="g-table-wrap">
+      <table class="g-table">
+        <thead><tr><th scope="col">Cenário</th><th scope="col">Salários</th><th scope="col">Tributos</th><th scope="col">Sobra operacional por mês</th><th scope="col">Em 12 meses</th><th scope="col">Em 60 meses</th></tr></thead>
+        <tbody>
+          {% for c in g.cenarios %}
+          <tr>
+            <th scope="row">{{ c.rotulo }}{% if c.ok and c.anexo %}<small>{{ c.anexo }}</small>{% endif %}</th>
+            {% if c.ok %}
+            <td>{{ c.custo_pessoal | brl }}</td><td>{{ c.tributos_totais | brl }}</td><td>{{ c.sobra_mensal | brl }}</td><td>{{ c.sobra_12m | brl }}</td><td>{{ c.sobra_60m | brl }}</td>
+            {% else %}
+            <td colspan="5" class="g-na">{{ c.motivo | humanize }}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if not mei and b.ok %}<p class="muted">No Simples Nacional, a folha entra no Fator R: mudar a equipe pode mudar o anexo e a alíquota (coluna Cenário).</p>{% endif %}
+
+    <details class="accordion">
+      <summary>Premissas e detalhes do cálculo</summary>
+      <ul class="g-prem">
+        {% for tipo, texto in g.premissas %}<li><span class="tag-kind">{{ tipo }}</span> {{ texto | humanize }}</li>{% endfor %}
+      </ul>
+      <p class="muted">Não inclui cálculo trabalhista completo (encargos, férias, 13º, descontos do contracheque). É uma estimativa educacional, não uma previsão.</p>
+    </details>
+
+    <p class="notice">Simulação educacional baseada nas premissas informadas. Não substitui orientação contábil ou tributária profissional.</p>
+    <div class="actions">
+      <a class="btn" href="{{ url_for('guided') }}">Nova simulação guiada</a>
+      <button type="button" class="btn btn-outline" data-replay hidden>Rever apresentação</button>
+      <a class="btn btn-ghost" href="{{ url_for('simulation') }}">Simulação detalhada</a>
+    </div>
+  </div>
+</section>
+<script src="{{ url_for('static', filename='js/guided-simulation.js') }}"></script>
+{% endblock %}

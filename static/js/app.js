@@ -24,6 +24,9 @@ function setError(el, error) {
 
 function validateField(el) {
   if (el.closest("[hidden]")) return true;
+  // modo estável: campos avançados em branco são preenchidos pelo servidor
+  const stable = el.form && el.form.querySelector("#hist_modo");
+  if (stable && stable.checked && el.closest("[data-advanced]") && !el.value.trim()) return setError(el, "");
   const value = el.value.trim();
   const required = "required" in el.dataset;
   if (el.dataset.kind === "money") {
@@ -47,8 +50,10 @@ function updateHistory(form) {
   if (!meses) return;
   const n = parseInt(meses.value, 10);
   const needed = Number.isNaN(n) || n < 1 ? 0 : n < 13 ? n - 1 : 12;
+  const stable = form.querySelector("#hist_modo");
+  const isStable = Boolean(stable && stable.checked);
   form.querySelectorAll("[data-history-row]").forEach((row) => {
-    const visible = Number(row.dataset.historyRow) <= needed;
+    const visible = !isStable && Number(row.dataset.historyRow) <= needed;
     row.hidden = !visible;
     row.querySelectorAll("[data-kind=money]").forEach((el) => {
       if (visible) el.setAttribute("data-required", "");
@@ -56,7 +61,7 @@ function updateHistory(form) {
     });
   });
   const box = form.querySelector("[data-history]");
-  if (box) box.hidden = needed === 0;
+  if (box) box.hidden = isStable || needed === 0;
 }
 
 // Campo de lucro contábil só aparece com escrituração (validação real fica no servidor)
@@ -76,6 +81,7 @@ document.querySelectorAll("form[data-sim]").forEach((form) => {
 
   inputs().forEach((el) => el.addEventListener("blur", () => validateField(el)));
   form.querySelector("#meses_desde_abertura")?.addEventListener("input", () => updateHistory(form));
+  form.querySelector("#hist_modo")?.addEventListener("change", () => updateHistory(form));
   form.querySelector("#modo_apuracao")?.addEventListener("change", () => updateLucro(form));
   updateHistory(form);
   updateLucro(form);

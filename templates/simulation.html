@@ -3,7 +3,18 @@
 {% block content %}
 <section class="section">
   <h1>Nova Simulação</h1>
-  <p class="lead-left">Escolha o que deseja simular.</p>
+  <p class="lead-left">Escolha como deseja simular.</p>
+  <div class="mode-grid">
+    <a class="mode-card mode-guided" href="{{ url_for('guided') }}">
+      <span class="badge">Novo</span>
+      <h2>Simulação guiada</h2>
+      <p>Poucos campos, um exemplo de negócio e uma apresentação animada com impostos, projeções e cenários de equipe.</p>
+    </a>
+    <div class="mode-card">
+      <h2>Simulação detalhada</h2>
+      <p>Controle completo dos campos técnicos, com explicação do cálculo. Escolha o perfil abaixo.</p>
+    </div>
+  </div>
   <form data-choice>
     <fieldset class="choice-grid">
       <legend class="sr-only">Tipo de simulação</legend>

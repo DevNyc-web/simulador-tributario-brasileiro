@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Simulador Tributário Brasileiro{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head %}{% endblock %}
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
@@ -12,9 +13,9 @@
     <a class="brand" href="{{ url_for('index') }}">Simulador Tributário</a>
     <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">☰</button>
     <nav class="nav" id="nav" aria-label="Principal">
-      {% set links = [('simulation', 'Simulações'), ('reform', 'Reforma'), ('about', 'Sobre'), ('mind_map', 'Mapa')] %}
+      {% set links = [('simulation', 'Simulações'), ('reform', 'Reforma'), ('guided', 'Simulação guiada'), ('about', 'Sobre'), ('mind_map', 'Mapa')] %}
       {% for ep, text in links %}
-      <a href="{{ url_for(ep) }}" {% if request.path.startswith(url_for(ep)) %}aria-current="page"{% endif %}>{{ text }}</a>
+      <a href="{{ url_for(ep) }}" {% if request.path == url_for(ep) or request.path.startswith(url_for(ep) ~ '/') %}aria-current="page"{% endif %}>{{ text }}</a>
       {% endfor %}
       <a class="btn btn-sm" href="{{ url_for('simulation') }}">Nova Simulação</a>
     </nav>

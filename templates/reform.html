@@ -1,26 +1,119 @@
 {% extends "base.html" %}
 {% block title %}Reforma Tributária 2026–2033{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/reform.css') }}">{% endblock %}
 {% block content %}
-<section class="section">
+<section class="section rf">
   <h1>Reforma Tributária 2026–2033</h1>
-  <p class="lead-left">Selecione um ano para ver o conteúdo educacional da transição.</p>
+  <p class="lead-left">As regras mudam ano a ano. Este projeto foi desenhado para acompanhar essas mudanças sem ser reescrito a cada uma.</p>
 
-  <div class="timeline" role="group" aria-label="Anos da transição" data-timeline>
-    {% for y in years %}
-    <button type="button" class="year" data-year="{{ y }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ y }}</button>
+  <div class="rf-hero">
+    <article class="rf-now">
+      <span class="rf-pill ok">2026</span>
+      <h2>Cálculo real implementado</h2>
+      <p>Pessoa Física, MEI, Simples Nacional, pró-labore, dividendos e comparador funcionam com regras de 2026 pesquisadas, validadas e testadas.</p>
+    </article>
+    <article class="rf-next">
+      <span class="rf-pill soon">2027–2033</span>
+      <h2>Conteúdo educacional / motor futuro</h2>
+      <p>A linha do tempo abaixo explica a transição. O simulador ainda não calcula esses anos: cada um tem seu arquivo de regras, ainda vazio.</p>
+    </article>
+  </div>
+
+  <p class="rf-idea"><b>A ideia central:</b> as regras ficam separadas e versionadas por exercício, permitindo incorporar mudanças futuras sem reescrever toda a aplicação.</p>
+
+  <h2>Como o simulador acompanha mudanças?</h2>
+  <ol class="rf-flow rf-flow6">
+    <li><b>Lei ou regra muda</b><span>Nova norma oficial</span></li>
+    <li><b>Pesquisa e validação</b><span>Catálogo (TR-xxx) com fonte oficial</span></li>
+    <li><b><code>rules.json</code> do exercício</b><span><code>data/tax_rules/&lt;ano&gt;/rules.json</code></span></li>
+    <li><b>Motor daquele ano</b><span>Fórmulas reaproveitadas</span></li>
+    <li><b>Testes</b><span>Fronteiras e regressão</span></li>
+    <li><b>Interface</b><span>Resultados explicados</span></li>
+  </ol>
+  <p class="rf-message">As regras tributárias são separadas da interface e versionadas por exercício. Isso permite incorporar alterações futuras sem reescrever toda a aplicação.</p>
+
+  <div class="rf-principles">
+    <article><h3>Motor separado da interface</h3><p>O cálculo fica em módulos próprios; as telas apenas exibem resultados.</p></article>
+    <article><h3>Regras versionadas por ano</h3><p>Um arquivo por exercício, de 2026 a 2033, com parâmetros, fontes e status de cada regra.</p></article>
+    <article><h3>Rastreabilidade</h3><p>Cada regra passa por: pesquisada → validada → implementada → testada. Sem fonte, sem regra.</p></article>
+    <article><h3>Evolução incremental</h3><p>Um exercício por vez: o ano só passa a calcular quando suas regras estiverem prontas.</p></article>
+  </div>
+
+  <h2>Linha do tempo da transição</h2>
+  <p class="muted">Resumo educacional da Reforma Tributária do Consumo (CBS, IBS e Imposto Seletivo). Selecione uma etapa. O simulador não calcula CBS nem IBS e só calcula tributos de 2026.</p>
+  <div class="rf-timeline" role="group" aria-label="Etapas da transição" data-reform-timeline>
+    {% for e in etapas %}
+    <button type="button" class="rf-year {% if e.implementado %}ok{% else %}soon{% endif %}" data-year="{{ e.slug }}" aria-pressed="{% if loop.first %}true{% else %}false{% endif %}">
+      <b>{{ e.rotulo }}</b>
+      <span>{% if e.implementado %}Calculado no MVP{% else %}Educacional{% endif %}</span>
+    </button>
     {% endfor %}
   </div>
 
-  <article class="panel" aria-live="polite">
-    <h2>Ano <span data-year-title>{{ years[0] }}</span></h2>
-    <dl class="result-list">
-      {% for label in ["Principais mudanças", "Tributos envolvidos", "Fase da transição", "Impacto geral", "Fonte oficial"] %}
-      <div class="result-row">
-        <dt>{{ label }}</dt>
-        <dd><span class="badge badge-pending">[CONTEÚDO PENDENTE DE VALIDAÇÃO]</span></dd>
-      </div>
-      {% endfor %}
-    </dl>
-  </article>
+  <div class="rf-panels" aria-live="polite">
+    {% for e in etapas %}
+    <article class="panel rf-panel" data-panel="{{ e.slug }}">
+      <h3>{{ e.rotulo }}
+        {% if e.implementado %}<span class="rf-badge ok">Cálculo implementado no MVP</span>
+        {% else %}<span class="rf-badge edu">Conteúdo educacional / motor futuro</span>{% endif %}
+      </h3>
+
+      {% if e.slug == "2026" %}
+      <ul class="rf-list">
+        <li><b>Ano de teste da CBS e do IBS:</b> CBS de 0,9% e IBS de 0,1%, com o montante compensado com o PIS e a Cofins devidos.</li>
+        <li><b>Adequação operacional:</b> empresas e sistemas se preparam para os novos documentos e regras.</li>
+        <li><b>No simulador:</b> o cálculo real do MVP continua sendo o de 2026 (Pessoa Física, MEI, Simples Nacional, pró-labore, dividendos e comparador), dentro do escopo já validado. O teste de CBS/IBS não é calculado.</li>
+      </ul>
+      {% elif e.slug == "2027-2028" %}
+      <ul class="rf-list">
+        <li><b>CBS:</b> alíquota com redução de 0,1 ponto percentual (não é uma alíquota de 0,1%); <b>IBS:</b> 0,1 ponto percentual.</li>
+        <li><b>PIS e Cofins:</b> extintos.</li>
+        <li><b>IPI:</b> reduzido a zero, exceto para produtos da Zona Franca de Manaus; <b>Imposto Seletivo</b> passa a valer.</li>
+        <li><b>Simples Nacional:</b> em 2026 o Comitê Gestor do Simples Nacional (CGSN) publicou adequações à Reforma do Consumo, com IBS/CBS, que produzem efeitos, em regra, a partir de 1º/1/2027 (Resoluções CGSN nº 190 e nº 191/2026).</li>
+      </ul>
+      <p class="muted">Ainda não incorporado às regras do simulador: os arquivos de 2027 e 2028 estão vazios.</p>
+      {% elif e.slug == "2029" %}
+      <ul class="rf-list">
+        <li><b>Início da transição gradual ICMS/ISS → IBS.</b> Proporção da transição: IBS 10% | ICMS/ISS 90%</li>
+      </ul>
+      <p class="muted">Os percentuais acima representam a progressão da transição entre os sistemas, não uma alíquota nominal definitiva do IBS.</p>
+      {% elif e.slug == "2030" %}
+      <ul class="rf-list"><li><b>Avanço da transição.</b> Proporção da transição: IBS 20% | ICMS/ISS 80%</li></ul>
+      <p class="muted">Os percentuais acima representam a progressão da transição entre os sistemas, não uma alíquota nominal definitiva do IBS.</p>
+      {% elif e.slug == "2031" %}
+      <ul class="rf-list"><li><b>Avanço da transição.</b> Proporção da transição: IBS 30% | ICMS/ISS 70%</li></ul>
+      <p class="muted">Os percentuais acima representam a progressão da transição entre os sistemas, não uma alíquota nominal definitiva do IBS.</p>
+      {% elif e.slug == "2032" %}
+      <ul class="rf-list"><li><b>Última etapa intermediária, antes da vigência integral.</b> Proporção da transição: IBS 40% | ICMS/ISS 60%</li></ul>
+      <p class="muted">Os percentuais acima representam a progressão da transição entre os sistemas, não uma alíquota nominal definitiva do IBS.</p>
+      {% else %}
+      <ul class="rf-list">
+        <li><b>Vigência integral do novo modelo.</b></li>
+        <li><b>ICMS e ISS extintos</b>, conforme o cronograma de transição.</li>
+      </ul>
+      {% endif %}
+
+      <dl class="rf-facts">
+        <div><dt>Regras no arquivo do exercício</dt><dd>{{ e.regras }}</dd></div>
+        <div><dt>Regras implementadas e testadas</dt><dd>{{ e.testadas }}</dd></div>
+        <div><dt>Cálculo disponível no simulador</dt><dd>{% if e.implementado %}Sim{% else %}Ainda não{% endif %}</dd></div>
+      </dl>
+      {% if not e.implementado %}<p class="muted">Sem regras validadas e testadas, o sistema não calcula este exercício.</p>{% endif %}
+    </article>
+    {% endfor %}
+  </div>
+
+  <aside class="rf-sources" aria-label="Fontes">
+    <h3>Fontes</h3>
+    <ul>
+      <li>Receita Federal, “Entenda a Reforma Tributária do Consumo” (publicada em 27/06/2025 e atualizada em 03/07/2026; consultada em 30/09/2026).</li>
+      <li>Receita Federal, notícia de agosto/2026 sobre a adequação do Simples Nacional à Reforma do Consumo (Resoluções CGSN nº 190 e nº 191/2026; consultada em 30/09/2026).</li>
+      <li>Base normativa geral: Emenda Constitucional nº 132/2023, Lei Complementar nº 214/2025 e Lei Complementar nº 227/2026.</li>
+    </ul>
+    <p class="muted">Conteúdo educacional e resumido: confira sempre a norma e a orientação oficial vigentes.</p>
+  </aside>
+
+  <p class="rf-links"><a class="btn btn-outline" href="{{ url_for('mind_map') }}">Ver o projeto no mapa mental</a></p>
 </section>
+<script src="{{ url_for('static', filename='js/reform.js') }}"></script>
 {% endblock %}

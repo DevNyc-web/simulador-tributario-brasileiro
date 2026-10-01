@@ -67,6 +67,13 @@
 </fieldset>
 {% endmacro %}
 
+{% macro stable_option() %}
+<label class="radio stable-option" for="hist_modo">
+  <input type="checkbox" id="hist_modo" name="hist_modo" value="estavel" {% if not form or form.get("hist_modo") == "estavel" %}checked{% endif %}>
+  Assumir regime estável: meses anteriores iguais ao mês atual (campos em branco são preenchidos automaticamente)
+</label>
+{% endmacro %}
+
 {% macro history() %}
 <fieldset class="history" data-history>
   <legend>Histórico anterior ao mês atual</legend>
@@ -90,7 +97,7 @@
 {% macro notes(result) %}
 {% if result.warnings %}
 <section class="notes" aria-labelledby="avisos-titulo">
-  <h2 id="avisos-titulo">Avisos</h2>
+  <h3 id="avisos-titulo">Avisos</h3>
   {% for w in result.warnings %}
   {# severidade vem do STATUS do resultado, não do texto do aviso #}
   {% set kind = "attention" if result.status == OK else "unsupported" %}
@@ -100,7 +107,7 @@
 {% endif %}
 {% if result.explicacoes %}
 <section class="notes" aria-labelledby="explic-titulo">
-  <h2 id="explic-titulo">Explicação do cálculo</h2>
+  <h3 id="explic-titulo">Explicação do cálculo</h3>
   <dl class="result-list">
     {% for e in result.explicacoes %}
     <div class="result-row">

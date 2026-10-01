@@ -1,39 +1,32 @@
-# Simulador Tributário Brasileiro 2026–2033
-
-> ⚠️ Ferramenta educacional. Não substitui orientação contábil ou jurídica.
-
-## Problema
-A transição da Reforma Tributária (2026–2033) altera gradualmente as regras para pessoas físicas e jurídicas, dificultando a comparação de cenários.
-
-## Objetivo
-Simulador educacional que compara cenários de Pessoa Física e Pessoa Jurídica e mostra a evolução das regras ano a ano.
-
-## Stack
-Python + Flask · HTML5/CSS3/JavaScript puro · pytest · sem banco de dados (SQLite só se necessário). Sem frameworks frontend.
-
-## Arquitetura
-```
-Interface (templates/static) → app.py (rotas)
-  → src/services → src/tax_engine → src/tax_rules → data/tax_rules/<ano>/
-```
-Nenhuma fórmula fiscal no HTML, JS ou rotas. Regras vivem só em `data/tax_rules/<ano>/rules.json`.
-Tudo não validado é marcado `[REGRA PENDENTE DE VALIDAÇÃO]`; fontes em `docs/research/fontes-tributarias.md`.
-
-## Estrutura
-- `app.py` – app Flask e rotas
-- `src/tax_engine` – cálculo · `src/tax_rules` – carga de regras · `src/services` – orquestração
-- `src/models`, `src/reports` – reservados
-- `data/tax_rules/2026…2033` – regras por ano (placeholders)
-- `templates/`, `static/` – interface · `tests/` – pytest · `docs/` – documentação
-
-## Executar
-```
+Simulador Tributário Brasileiro
+Projeto acadêmico desenvolvido por Beatriz Madeira Lima e Nychollas W. D. de Freitas.
+Sobre o projeto
+O Simulador Tributário Brasileiro é uma aplicação em Python criada para apresentar, de forma simples, como diferentes regras tributárias podem afetar pessoas físicas e pequenas empresas.
+O projeto também mostra a transição da Reforma Tributária do Consumo entre 2026 e 2033 e possui um mapa mental para apoiar a apresentação do conteúdo.
+Principais recursos
+- simulação de cenários tributários;
+- comparação entre Pessoa Física e Pessoa Jurídica;
+- Simples Nacional;
+- Fator R e comparação entre Anexo III e Anexo V quando aplicável;
+- visão da Reforma Tributária de 2026 a 2033;
+- página de simulação guiada;
+- mapa mental para apresentação do projeto;
+- testes automatizados para validação dos cálculos.
+Como executar localmente
+No Windows, abra o terminal dentro da pasta do projeto.
 python -m venv .venv
 .venv\Scripts\activate
-pip install -r requirements.txt
-python app.py        # http://127.0.0.1:5000
-pytest
-```
-
-## Status
-Estrutura inicial. **Nenhum cálculo tributário real implementado**; todas as regras pendentes de validação. Meta futura: cobertura ≥ 80%.
+python -m pip install -r requirements.txt
+python app.py
+Depois, abra no navegador:
+http://127.0.0.1:5000/
+Páginas principais
+- Página inicial: http://127.0.0.1:5000/
+- Simulação guiada: http://127.0.0.1:5000/simulacao-guiada
+- Reforma Tributária: http://127.0.0.1:5000/reforma
+- Mapa mental: http://127.0.0.1:5000/mapa-mental
+Objetivo acadêmico
+O objetivo do projeto é facilitar a compreensão de conceitos tributários por meio de simulações e comparações visuais. A aplicação foi desenvolvida para apoiar o estudo e a apresentação do tema sem substituir a análise de um profissional contábil.
+Autores
+- Beatriz Madeira Lima — RGM 11241104413
+- Nychollas W. D. de Freitas — RGM 11241103061

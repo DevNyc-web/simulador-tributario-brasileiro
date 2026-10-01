@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% from "_macros.html" import error_summary, money_field, int_field, select_field, yes_no with context %}
 {% block title %}Simulação guiada{% endblock %}
+{% block body_class %}guided-presentation{% endblock %}
 {% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/guided-simulation.css') }}">{% endblock %}
 {% block content %}
 <section class="section">
@@ -38,7 +39,7 @@
       <a class="btn btn-ghost" href="{{ url_for('simulation') }}">Voltar</a>
     </div>
   </form>
-  <p class="muted note">Simulação educacional. Os números usam as regras de 2026 e premissas simples que serão mostradas no resultado.</p>
+  <p class="muted note">Os números usam as regras de 2026; as premissas aparecem no resultado.</p>
 </section>
 <script src="{{ url_for('static', filename='js/guided-form.js') }}"></script>
 {% endblock %}

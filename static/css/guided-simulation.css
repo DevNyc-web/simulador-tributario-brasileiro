@@ -1,4 +1,5 @@
 /* Simulação guiada: formulário e apresentação animada. Somente estilo; nenhuma regra fiscal. */
+.guided-presentation .site-footer { display: none; }
 .choice-cards { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; border: 0; padding: 0; margin: 0 0 1.2rem; }
 .choice-cards legend { grid-column: 1 / -1; font-weight: 700; margin-bottom: .3rem; }
 .choice-cards .error { grid-column: 1 / -1; }

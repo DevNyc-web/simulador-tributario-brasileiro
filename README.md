@@ -37,40 +37,55 @@ No Windows, abra o terminal dentro da pasta do projeto.
 
 ```bat
 python -m venv .venv
+```
+
 ### 2. Ativar o ambiente virtual
+
+```bat
 .venv\Scripts\activate
+```
 
-3. Instalar as dependências
+### 3. Instalar as dependências
+
+```bat
 python -m pip install -r requirements.txt
+```
 
-4. Executar o projeto
+### 4. Executar o projeto
+
+```bat
 python app.py
+```
 
 Depois, abra no navegador:
+
 http://127.0.0.1:5000/
 
-Páginas principais
-Página inicial
-http://127.0.0.1:5000/
+## Páginas principais
 
-Simulação guiada
-http://127.0.0.1:5000/simulacao-guiada
+- **Página inicial:** http://127.0.0.1:5000/
+- **Simulação guiada:** http://127.0.0.1:5000/simulacao-guiada
+- **Reforma Tributária:** http://127.0.0.1:5000/reforma
+- **Mapa mental:** http://127.0.0.1:5000/mapa-mental
 
-Reforma Tributária
-http://127.0.0.1:5000/reforma
+## Executar os testes
 
-Mapa mental
-http://127.0.0.1:5000/mapa-mental
-
-Executar os testes
 Com o ambiente virtual ativado:
-python -m pytest -q
 
-Objetivo acadêmico
+```bat
+python -m pytest -q
+```
+
+## Objetivo acadêmico
+
 O objetivo do projeto é facilitar a compreensão de conceitos tributários por meio de simulações e comparações visuais.
+
 A aplicação foi desenvolvida para apoiar o estudo e a apresentação do tema.
-Autores
-Beatriz Madeira Lima
+
+## Autores
+
+**Beatriz Madeira Lima**  
 RGM: 11241104413
-Nychollas W. D. de Freitas
+
+**Nychollas W. D. de Freitas**  
 RGM: 11241103061

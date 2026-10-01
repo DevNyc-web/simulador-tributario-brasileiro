@@ -54,7 +54,9 @@
       "parametros": {
         "limite_anual": "81000.00",
         "limite_proporcional_mensal": "6750.00",
-        "percentual_excesso_tolerado": "0.20"
+        "percentual_excesso_tolerado": "0.20",
+        "maximo_empregados": "1",
+        "regra_remuneracao_empregado": "salario_minimo_ou_piso_da_categoria"
       }
     },
     {

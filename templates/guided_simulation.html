@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "_macros.html" import error_summary, money_field, int_field, select_field, yes_no with context %}
+{% block title %}Simulação guiada{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/guided-simulation.css') }}">{% endblock %}
+{% block content %}
+<section class="section">
+  <h1>Simulação guiada</h1>
+  <p class="lead-left">Conte como é o seu negócio. O simulador conduz uma apresentação com faturamento, tributos, sobra para o empresário e cenários de crescimento da equipe, ano-calendário 2026. Quer controlar cada campo? Use a <a href="{{ url_for('simulation') }}">simulação detalhada</a>.</p>
+  {{ error_summary() }}
+  <form class="panel form-narrow" method="post" action="{{ url_for('guided_result') }}" data-sim data-guided-form novalidate>
+    {% set enq = form.get("enquadramento", "MEI") %}
+    <fieldset class="field radio-group choice-cards" id="enquadramento">
+      <legend>Como o negócio é enquadrado?</legend>
+      {% for value, text in choices.enquadramentos %}
+      <label class="radio-card"><input type="radio" name="enquadramento" value="{{ value }}" {% if enq == value %}checked{% endif %}>
+        <b>{{ text }}</b>
+        <span>{% if value == "MEI" %}Microempreendedor individual{% else %}Empresa de prestação de serviços{% endif %}</span>
+      </label>
+      {% endfor %}
+      <small class="error" id="enquadramento-msg" role="alert">{{ errors.get("enquadramento", "") }}</small>
+    </fieldset>
+
+    <div data-show-for="MEI">{{ select_field("categoria_mei", "Ramo de atividade", choices.categorias) }}</div>
+    <div data-show-for="SIMPLES">{{ select_field("atividade", "Ramo de atividade", choices.atividades) }}</div>
+
+    {{ money_field("ticket_medio", "Ticket médio por cliente (R$)", hint="Quanto, em média, cada cliente paga. Ex.: 150,00") }}
+    {{ int_field("clientes_mes", "Clientes por mês (média)", 0, 1000000, hint="O faturamento mensal estimado é o ticket médio multiplicado pelo número de clientes.") }}
+
+    <details class="advanced" data-advanced {% if errors.get("meses_atividade_no_ano") or errors.get("prolabore") or errors.get("optante_simei") %}open{% endif %}>
+      <summary>Mostrar opções avançadas</summary>
+      {{ int_field("meses_atividade_no_ano", "Meses de atividade no ano", 1, 12, default=12, required=False, hint="Padrão: 12 (ano inteiro).") }}
+      {{ money_field("prolabore", "Pró-labore mensal do sócio (R$) — só no Simples Nacional", hint="Se ficar em branco, o simulador supõe 1 salário mínimo.", required=False) }}
+      {{ yes_no("optante_simei", "Continua enquadrado como optante pelo SIMEI? (MEI)") }}
+    </details>
+
+    <div class="actions">
+      <button class="btn" type="submit">Iniciar simulação</button>
+      <a class="btn btn-ghost" href="{{ url_for('simulation') }}">Voltar</a>
+    </div>
+  </form>
+  <p class="muted note">Simulação educacional. Os números usam as regras de 2026 e premissas simples que serão mostradas no resultado.</p>
+</section>
+<script src="{{ url_for('static', filename='js/guided-form.js') }}"></script>
+{% endblock %}

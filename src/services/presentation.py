@@ -95,6 +95,11 @@ def decimal_br(value: Decimal | None, places: int = 2) -> str:
     return f"{_group(integer)},{frac}"
 
 
+def width(value: Decimal | None) -> str:
+    """Largura de barra em % com uma casa (CSS; apenas apresentação)."""
+    return f"{Decimal(value or 0):.1f}"
+
+
 def humanize(text: str) -> str:
     """Texto dos motores -> texto para o usuário: enums viram rótulos e decimais usam vírgula."""
     text = _TOKEN_RE.sub(lambda m: _TOKEN_LABELS[m.group(1)], text)
@@ -110,4 +115,5 @@ def choices() -> dict:
         "atividades": [(m.value, ATIVIDADE_LABELS[m]) for m in AtividadeSimples],
         "modos": [(m.value, MODO_LABELS[m]) for m in ModoApuracaoLucro],
         "meses_historico": list(range(1, 13)),
+        "enquadramentos": [("MEI", "MEI"), ("SIMPLES", "Simples Nacional")],
     }

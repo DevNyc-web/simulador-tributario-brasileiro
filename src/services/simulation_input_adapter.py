@@ -21,6 +21,7 @@ from src.models.tax import (
     PlanoINSS,
     SimplesSimulationInput,
 )
+from src.services.guided_simulation import EnquadramentoGuiado, GuidedInput
 from src.tax_engine.pf_2026 import ANO
 
 TIPOS = ("pf", "mei", "simples", "comparar")
@@ -96,9 +97,17 @@ class _Reader:
             self.errors[name] = str(exc)
             return None
 
-    def integer(self, name: str, *, minimo: int, maximo: int | None = None) -> int | None:
+    def _money_or_ref(self, name: str, ref: Decimal | None) -> Decimal | None:
+        """Valor informado; se vazio e houver referência (modo estável), usa a referência."""
+        if ref is not None and not self._raw(name):
+            return ref
+        return self.money(name)
+
+    def integer(self, name: str, *, minimo: int, maximo: int | None = None, default: int | None = None) -> int | None:
         raw = self._raw(name)
         if not raw:
+            if default is not None:
+                return default
             self.errors[name] = "Campo obrigatório."
             return None
         if not _INTEGER.match(raw):
@@ -131,7 +140,13 @@ class _Reader:
         self.errors[name] = "Selecione Sim ou Não."
         return default
 
-    def historico(self, meses_desde_abertura: int | None) -> tuple[tuple[Decimal, ...], tuple[Decimal, ...]]:
+    def estavel(self) -> bool:
+        """Opção da tela: assumir meses anteriores iguais ao mês atual (regime estável)."""
+        return self._raw("hist_modo") == "estavel"
+
+    def historico(
+        self, meses_desde_abertura: int | None, refs: tuple[Decimal | None, Decimal | None] | None = None
+    ) -> tuple[tuple[Decimal, ...], tuple[Decimal, ...]]:
         """Histórico anterior ao mês atual. Linha N = N meses antes do atual (1 = mais recente);
         devolve em ordem cronológica. A quantidade exigida é validada aqui no servidor."""
         if meses_desde_abertura is None:
@@ -139,8 +154,8 @@ class _Reader:
         necessarias = min(meses_desde_abertura - 1, MAX_HISTORICO) if meses_desde_abertura < MESES_MATURIDADE else MAX_HISTORICO
         receitas, folhas = [], []
         for n in range(necessarias, 0, -1):  # mais antigo primeiro
-            r = self.money(f"hist_receita_{n}")
-            f = self.money(f"hist_folha_{n}")
+            r = self._money_or_ref(f"hist_receita_{n}", refs[0] if refs else None)
+            f = self._money_or_ref(f"hist_folha_{n}", refs[1] if refs else None)
             receitas.append(r)
             folhas.append(f)
         if None in receitas or None in folhas:
@@ -200,12 +215,15 @@ def _simples(form) -> dict:
     r = _Reader(form)
     receita_pa = r.money("receita_pa")
     folha_pa = r.money("folha_pa")
-    acumulada = r.money("receita_acumulada_ano")
-    meses_abertura = r.integer("meses_desde_abertura", minimo=1)
-    meses_ano = r.integer("meses_atividade_no_ano", minimo=1, maximo=12)
+    estavel = r.estavel()
+    meses_ano = r.integer("meses_atividade_no_ano", minimo=1, maximo=12, default=12 if estavel else None)
+    meses_abertura = r.integer("meses_desde_abertura", minimo=1, default=meses_ano if estavel else None)
+    acumulada = r.money("receita_acumulada_ano", required=not (estavel and receita_pa is not None and meses_ano))
+    if acumulada is None and estavel and receita_pa is not None and meses_ano:
+        acumulada = receita_pa * meses_ano
     atividade = r.choice("atividade", AtividadeSimples)
     optante = r.yes_no("optante_simples")
-    receitas, folhas = r.historico(meses_abertura)
+    receitas, folhas = r.historico(meses_abertura, (receita_pa, folha_pa) if estavel else None)
     entrada = _finish(r, "simples", lambda: SimplesSimulationInput(
         ano=ANO, receita_pa=receita_pa, receitas_anteriores=receitas, folha_pa=folha_pa,
         folhas_anteriores=folhas, receita_acumulada_ano=acumulada, meses_desde_abertura=meses_abertura,
@@ -219,12 +237,15 @@ def _comparar(form) -> dict:
     receita = r.money("receita_mensal")  # mesma receita para PF e PJ
     plano = r.choice("plano_inss", PlanoINSS)
     prolabore = r.money("prolabore")
-    acumulada = r.money("receita_acumulada_ano")
-    meses_abertura = r.integer("meses_desde_abertura", minimo=1)
-    meses_ano = r.integer("meses_atividade_no_ano", minimo=1, maximo=12)
+    estavel = r.estavel()
+    meses_ano = r.integer("meses_atividade_no_ano", minimo=1, maximo=12, default=12 if estavel else None)
+    meses_abertura = r.integer("meses_desde_abertura", minimo=1, default=meses_ano if estavel else None)
+    acumulada = r.money("receita_acumulada_ano", required=not (estavel and receita is not None and meses_ano))
+    if acumulada is None and estavel and receita is not None and meses_ano:
+        acumulada = receita * meses_ano
     atividade = r.choice("atividade", AtividadeSimples)
     optante = r.yes_no("optante_simples")
-    receitas, folhas = r.historico(meses_abertura)
+    receitas, folhas = r.historico(meses_abertura, (receita, prolabore) if estavel else None)
     distribuido = r.money("dividendos")
     modo = r.choice("modo_apuracao", ModoApuracaoLucro)
     lucro = r.money("lucro_contabil_disponivel") if modo is ModoApuracaoLucro.COM_ESCRITURACAO else None
@@ -242,6 +263,25 @@ def _comparar(form) -> dict:
 
     entrada = _finish(r, "comparar", build)
     return {"tipo_simulacao": "comparar", "entrada": entrada}
+
+
+def build_guided_input(form: Mapping[str, str]) -> GuidedInput:
+    """Formulário da simulação guiada -> GuidedInput (faturamento = ticket x clientes é feito no serviço)."""
+    r = _Reader(form)
+    enquadramento = r.choice("enquadramento", EnquadramentoGuiado)
+    categoria = atividade = None
+    if enquadramento is EnquadramentoGuiado.MEI:
+        categoria = r.choice("categoria_mei", CategoriaMEI)
+    elif enquadramento is EnquadramentoGuiado.SIMPLES:
+        atividade = r.choice("atividade", AtividadeSimples)
+    ticket = r.money("ticket_medio")
+    clientes = r.integer("clientes_mes", minimo=0, maximo=1_000_000)
+    meses = r.integer("meses_atividade_no_ano", minimo=1, maximo=12, default=12)
+    prolabore = r.money("prolabore", required=False)
+    optante = r.yes_no("optante_simei")
+    return _finish(r, "guiada", lambda: GuidedInput(
+        enquadramento, categoria, atividade, ticket, clientes, meses, prolabore, optante,
+    ))
 
 
 _BUILDERS = {"pf": _pf, "mei": _mei, "simples": _simples, "comparar": _comparar}

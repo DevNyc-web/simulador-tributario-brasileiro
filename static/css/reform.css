@@ -1,0 +1,57 @@
+/* Página /reforma: explicação da estratégia e linha do tempo. Somente estilo. */
+.rf h2 { margin: 2rem 0 .6rem; }
+.rf-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1rem 0; }
+.rf-hero article { border-radius: var(--radius); padding: 1.4rem 1.6rem; box-shadow: var(--shadow); }
+.rf-hero h2 { margin: .5rem 0 .4rem; font-size: 1.5rem; }
+.rf-hero p { margin: 0; }
+.rf-now { background: #e9f7f0; border: 1px solid #b8e3cc; }
+.rf-next { background: #f1eefc; border: 1px dashed #b8aaf0; }
+.rf-pill { display: inline-block; font-weight: 800; font-size: 1.3rem; padding: .1rem .9rem; border-radius: 999px; }
+.rf-pill.ok { background: #1a9b5a; color: #fff; }
+.rf-pill.soon { background: #7b61d9; color: #fff; }
+.rf-idea { background: var(--surface); border-left: 5px solid var(--primary); padding: 1rem 1.3rem; border-radius: 10px; font-size: 1.1rem; box-shadow: var(--shadow); }
+.rf-flow { list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.1rem; padding: 0; margin: 1.2rem 0 1.4rem; }
+.rf-flow li { counter-increment: s; position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; box-shadow: var(--shadow); }
+.rf-flow li::before { content: counter(s); position: absolute; top: -.7rem; left: .8rem; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--primary); color: #fff; font-size: .85rem; font-weight: 700; display: grid; place-items: center; }
+.rf-flow li:not(:last-child)::after { content: "→"; position: absolute; right: -.95rem; top: 50%; transform: translateY(-50%); color: var(--primary); font-weight: 700; z-index: 1; }
+.rf-flow b { display: block; margin-bottom: .2rem; }
+.rf-flow span { color: var(--muted); font-size: .9rem; overflow-wrap: anywhere; }
+.rf-principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); gap: 1rem; }
+.rf-principles article { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.3rem; box-shadow: var(--shadow); }
+.rf-principles h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
+.rf-principles p { margin: 0; color: var(--muted); }
+.rf-timeline { display: flex; flex-wrap: wrap; gap: .6rem; margin: .6rem 0 1.2rem; }
+.rf-year { font: inherit; color: inherit; cursor: pointer; background: var(--surface); border: 2px solid var(--border); border-radius: 14px; padding: .55rem 1.1rem; min-width: 7.2rem; text-align: center; transition: border-color .2s, background .2s; }
+.rf-year b { display: block; font-size: 1.2rem; }
+.rf-year span { font-size: .8rem; color: var(--muted); }
+.rf-year.ok { border-color: #1a9b5a; }
+.rf-year.soon { border-style: dashed; border-color: #b8aaf0; }
+.rf-year[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); }
+.rf-year[aria-pressed="true"] b, .rf-year[aria-pressed="true"] span { color: #fff; }
+.rf-panel { margin-bottom: 1rem; }
+.rf-panel h3 { margin-top: 0; }
+.rf-panel[hidden] { display: none; }
+.rf-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: .8rem; margin: 0 0 1rem; }
+.rf-facts div { background: var(--bg); border-radius: 10px; padding: .7rem 1rem; }
+.rf-facts dt { color: var(--muted); font-size: .85rem; }
+.rf-facts dd { margin: 0; font-size: 1.4rem; font-weight: 700; }
+.rf-links { margin-top: 1.6rem; }
+@media (max-width: 800px) {
+  .rf-hero { grid-template-columns: 1fr; }
+  .rf-flow { grid-template-columns: 1fr; }
+  .rf-flow li:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -1.15rem; transform: translateX(-50%); }
+}
+
+.rf-flow6 { grid-template-columns: repeat(6, 1fr); }
+.rf-message { font-size: 1.05rem; background: #eef3ff; border-radius: 10px; padding: .9rem 1.2rem; margin: 0 0 1.4rem; }
+.rf-badge { display: inline-block; vertical-align: middle; margin-left: .6rem; font-size: .8rem; font-weight: 700; padding: .15rem .7rem; border-radius: 999px; }
+.rf-badge.ok { background: #e3f6ec; color: #11703f; }
+.rf-badge.edu { background: #f1eefc; color: #5a45b5; }
+.rf-list { padding-left: 1.2rem; margin: 0 0 1rem; }
+.rf-list li { margin-bottom: .45rem; }
+.rf-sources { border-top: 1px solid var(--border); margin-top: 1.4rem; padding-top: .6rem; font-size: .9rem; color: var(--muted); }
+.rf-sources h3 { font-size: 1rem; margin: .4rem 0; }
+@media (max-width: 1000px) { .rf-flow6 { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 800px) { .rf-flow6 { grid-template-columns: 1fr; } }
+
+.rf-flow code { font-size: .78rem; overflow-wrap: anywhere; }

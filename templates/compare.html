@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "_macros.html" import error_summary, money_field, int_field, select_field, yes_no, history with context %}
+{% from "_macros.html" import error_summary, money_field, int_field, select_field, yes_no, history, stable_option with context %}
 {% block title %}Comparador PF x PJ{% endblock %}
 {% block content %}
 <section class="section">
@@ -21,13 +21,8 @@
       <div class="form-grid">
         {{ select_field("atividade", "Atividade", choices.atividades) }}
         {{ money_field("prolabore", "Pró-labore mensal (R$)", hint="Sem empregados: a folha do mês para o Fator R é igual ao pró-labore. Zero é aceito.") }}
-        {{ money_field("receita_acumulada_ano", "Receita acumulada no ano, incluindo o mês atual (R$)") }}
-        {{ int_field("meses_desde_abertura", "Meses desde a abertura, contando o mês atual", 1) }}
-        {{ int_field("meses_atividade_no_ano", "Meses de atividade no ano", 1, 12) }}
       </div>
-      {{ yes_no("optante_simples", "A empresa é optante pelo Simples Nacional?") }}
     </fieldset>
-    {{ history() }}
     <fieldset class="form-section">
       <legend>Distribuição de lucros</legend>
       <div class="form-grid">
@@ -37,6 +32,19 @@
         {{ money_field("renda_anual_relevante", "Renda anual relevante para verificação de altas rendas (opcional)", hint="Deixe em branco se não souber.", required=False) }}
       </div>
     </fieldset>
+
+    <details class="advanced" data-advanced {% if errors %}open{% endif %}>
+      <summary>Mostrar opções avançadas</summary>
+      {{ stable_option() }}
+      <div class="form-grid">
+        {{ money_field("receita_acumulada_ano", "Receita acumulada no ano, incluindo o mês atual (R$)", required=False, hint="Em branco: receita do mês × meses de atividade.") }}
+        {{ int_field("meses_desde_abertura", "Meses desde a abertura, contando o mês atual", 1, required=False, hint="Em branco: igual aos meses de atividade no ano.") }}
+        {{ int_field("meses_atividade_no_ano", "Meses de atividade no ano", 1, 12, required=False, hint="Em branco: 12.") }}
+      </div>
+      {{ yes_no("optante_simples", "A empresa é optante pelo Simples Nacional?") }}
+      {{ history() }}
+    </details>
+
     <div class="actions">
       <button class="btn" type="submit">Comparar</button>
       <a class="btn btn-ghost" href="{{ url_for('simulation') }}">Voltar</a>

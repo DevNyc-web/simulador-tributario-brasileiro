@@ -115,7 +115,15 @@
   </div>
   {% endif %}
 
-  {{ notes(r) }}
+  {# no máximo um aviso curto na visão principal; o resto fica recolhido #}
+  {% set key = "" %}
+  {% if r.status != OK and r.warnings %}{% set key = r.warnings[0] %}
+  {% elif outcome.tipo == "mei" and r.status == OK and d[0].status.value != "COMPATIVEL" %}{% set key = "Receita acima do limite do MEI: veja os detalhes do cálculo abaixo." %}{% endif %}
+  {% if key %}<p class="alert {% if r.status == OK %}alert-attention{% else %}alert-unsupported{% endif %} key-notice"><span class="alert-tag">{% if r.status == OK %}Atenção{% else %}Cenário não suportado{% endif %}</span> {{ key | humanize }}</p>{% endif %}
+  <details class="accordion">
+    <summary>Premissas e detalhes do cálculo</summary>
+    {{ notes(r) }}
+  </details>
 
   <p class="notice">Simulação educacional baseada nas premissas informadas. Não substitui orientação contábil ou tributária profissional.</p>
   <div class="actions">

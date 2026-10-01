@@ -124,6 +124,8 @@ Registradas como **validações de elegibilidade**, não como fórmula tributár
 | Não pode ser Eireli nem qualquer tipo de sociedade — só empresário individual (art. 966 do Código Civil) | F-31 (Pergunta 1.2, nota 1 e 2, citando art. 18-A § 1º da LC 123/2006) |
 | Não pode ser salão-parceiro da Lei nº 12.592/2012 | F-31 (Pergunta 1.2, nota 3, citando art. 100, § 7º, da Resolução CGSN nº 140/2018) |
 
+**Uso na simulação guiada (Fase 5C.1).** A regra do empregado do MEI (máximo de **um** empregado, remunerado com **um salário mínimo ou o piso salarial da categoria** — F-23 art. 18-C; F-28, Portal Empresas & Negócios/gov.br; F-31 Pergunta 1.2) consta em TR-003 apenas como o parâmetro de quantidade `maximo_empregados` ("1") e como o descritor semântico `regra_remuneracao_empregado` ("salario_minimo_ou_piso_da_categoria"). Não há limite numérico de salário no `rules.json`: a simulação guiada adota 1 salário mínimo como **hipótese do cenário**, distinta da regra legal.
+
 **Distinção explícita:** as condições acima são **regras de elegibilidade** (permitem ou não o enquadramento como MEI) e não fazem parte da **regra de cálculo** do DAS (TR-004). O MVP não terá, nesta fase, um sistema completo de validação societária — apenas o registro das condições e avisos educacionais.
 
 ### Questões em aberto (TR-003)

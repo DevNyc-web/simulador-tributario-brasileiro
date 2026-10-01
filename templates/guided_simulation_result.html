@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Simulação guiada · resultado{% endblock %}
+{% block body_class %}guided-presentation{% endblock %}
 {% block head %}<script>document.documentElement.classList.add("js");</script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/guided-simulation.css') }}">{% endblock %}
 {% block content %}
@@ -166,10 +167,9 @@
       <ul class="g-prem">
         {% for tipo, texto in g.premissas %}<li><span class="tag-kind">{{ tipo }}</span> {{ texto | humanize }}</li>{% endfor %}
       </ul>
-      <p class="muted">Não inclui cálculo trabalhista completo (encargos, férias, 13º, descontos do contracheque). É uma estimativa educacional, não uma previsão.</p>
+      <p class="muted">Não inclui cálculo trabalhista completo (encargos, férias, 13º, descontos do contracheque). Projeção operacional baseada nas premissas informadas; não substitui orientação contábil ou tributária profissional.</p>
     </details>
 
-    <p class="notice">Simulação educacional baseada nas premissas informadas. Não substitui orientação contábil ou tributária profissional.</p>
     <div class="actions">
       <a class="btn" href="{{ url_for('guided') }}">Nova simulação guiada</a>
       <button type="button" class="btn btn-outline" data-replay hidden>Rever apresentação</button>

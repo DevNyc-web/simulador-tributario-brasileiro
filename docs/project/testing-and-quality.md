@@ -1,6 +1,6 @@
 # Testes e qualidade
 
-Registro da estratégia de testes e da medição de cobertura do MVP 2026 (Fase 4G).
+Registro da estratégia de testes e da medição de cobertura do MVP 2026 (atualizado após a simulação guiada).
 
 ## Como reproduzir
 
@@ -17,16 +17,16 @@ python -m coverage report -m
 
 ## Resultado (Fase 4G)
 
-- **Testes:** 432, todos passando.
+- **Testes:** 535, todos passando.
 - **Cobertura total (`src` + `app.py`): 98%** (meta acadêmica: ≥ 80%).
 
 | Grupo | Cobertura |
 |---|---|
 | `src/tax_engine` (motores PF, MEI, Simples, pró-labore, dividendos, comparador, calculator) | ≈ 99,5% |
 | `src/tax_rules` (loader, `parse_decimal`, exceções) | ≈ 93% |
-| `src/services` (serviço, adaptador de formulário, apresentação) | ≈ 99% |
+| `src/services` (serviço, adaptador de formulário, simulação guiada, apresentação) | ≈ 97% |
 | `src/models` | 98% |
-| `app.py` | 97% |
+| `app.py` | 98% |
 
 Linhas sem cobertura: ramos defensivos (validação de ano não suportado em `dividendos_2026.py`/`comparator_2026.py`, erros raros de arquivo em `rule_loader.py`, guard `if __name__ == "__main__"` em `app.py`). Não foram criados testes artificiais para aumentar o número.
 
@@ -39,6 +39,9 @@ Linhas sem cobertura: ramos defensivos (validação de ano não suportado em `di
 5. **Integração frontend/backend** (`test_frontend_integration.py`): `POST /resultado` para os quatro módulos, parser de moeda brasileira, validação server-side (erros por campo, sem 500), histórico do Simples, comparador com receita única e folha derivada do pró-labore, ausência de veredito PF/PJ.
 6. **Robustez:** varredura de entradas hostis (vazio, `NaN`, `Infinity`, `1e10`, negativos, números enormes, enums e booleanos inválidos, meses fora da faixa, histórico faltante ou extra, HTML) em todos os campos dos quatro formulários, com `PROPAGATE_EXCEPTIONS` ligado: nenhuma exceção não tratada nem 500.
 7. **Camadas:** auditoria automática de que `app.py`, `templates/`, `static/js/` e os módulos de serviço não contêm parâmetros fiscais; nenhum `|safe` nos templates; valores digitados são escapados na saída.
+8. **Simulação guiada** (`test_guided_simulation.py`): faturamento derivado (ticket médio × clientes), cenários de equipe, identidade da sobra operacional, projeções de 12 e 60 meses, regra de empregados do MEI (limite de quantidade, com salário mínimo ou piso da categoria), premissas e ressalvas explícitas, validação e entradas hostis, e ausência de "lucro líquido" nos textos.
+9. **Linha do tempo da Reforma:** sete etapas (2026 a 2033), selos "Cálculo implementado no MVP" × "Conteúdo educacional / motor futuro", contagens reais de regras por exercício, cronograma oficial resumido (proporções 10/90 a 40/60 apresentadas como progressão, não como alíquota) e explicação do versionamento por exercício.
+10. **Lógica fiscal fora do JavaScript:** testes automáticos que varrem os JS e templates novos (guiado, reforma e mapa mental) em busca de alíquotas, limites e termos fiscais, e que proíbem rede e navegação livre.
 
 ## Verificação de layout a 360px
 

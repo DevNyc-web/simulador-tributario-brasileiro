@@ -2,7 +2,7 @@
 
 Simulador Tributário Brasileiro 2026–2033 · Fase 2 (documentação; sem código de cálculo)
 
-> **Status posterior (MVP final):** especificação da Fase 2, preservada como histórico. Os módulos PF, MEI, Simples, pró-labore/dividendos e comparador foram implementados e testados para 2026 (432 testes; 98% de cobertura) e integrados à interface. Permanecem **não entregues** gráficos, diferença anual, atalho MEI → Simples, preservação de dados entre telas e o conteúdo por ano da linha do tempo da Reforma (estrutura entregue, conteúdo pendente). As referências a "hoje", "rotas vazias" e a estados pendentes descrevem a Fase 2. Estado final: [relatório acadêmico](../academic/relatorio-final.md).
+> **Status posterior (MVP final):** especificação da Fase 2, preservada como histórico. Os módulos PF, MEI, Simples, pró-labore/dividendos e comparador foram implementados e testados para 2026 (535 testes; 98% de cobertura) e integrados à interface, que ganhou também um modo guiado de simulação. A linha do tempo da Reforma passou a ter conteúdo educacional com fonte oficial. Permanecem **não entregues** o atalho MEI → Simples, a diferença anual no comparador e a preservação de dados entre telas (os gráficos existem na simulação guiada). As referências a "hoje", "rotas vazias" e a estados pendentes descrevem a Fase 2. Estado final: [relatório acadêmico](../academic/relatorio-final.md).
 
 Documentos relacionados: [requirements.md](requirements.md) · [moscow.md](moscow.md) · [user-flow.md](user-flow.md) · [fontes](../research/fontes-tributarias.md)
 

@@ -20,7 +20,7 @@ Relatório final do projeto — documentação acadêmica
 | Orientação acadêmica | [Inserir orientador(a)] |
 | Repositório | `DevNyc-web/simulador-tributario-brasileiro` (identificador da conta no GitHub; não é nome de integrante) |
 | Tecnologias principais | Python 3.12; Flask (≥ 3.0); HTML5, CSS3 e JavaScript puros; JSON versionado por ano; `decimal.Decimal`; pytest (≥ 8); coverage 7.16.2 (apenas desenvolvimento); Git/GitHub |
-| Métricas de entrega | 432 testes automatizados; 98% de cobertura de linhas (`src` + `app.py`); ≈ 2.000 linhas de código-fonte e ≈ 2.100 linhas de testes |
+| Métricas de entrega | 535 testes automatizados; 98% de cobertura de linhas (`src` + `app.py`); ≈ 2.000 linhas de código-fonte e ≈ 2.100 linhas de testes |
 
 > **Nota metodológica.** Ferramentas de assistência por inteligência artificial foram utilizadas como apoio ao desenvolvimento, revisão e documentação. As decisões de escopo, validação e entrega permaneceram sob responsabilidade da equipe do projeto.
 
@@ -32,9 +32,9 @@ A legislação tributária brasileira para pessoas físicas, autônomos, microem
 
 O público-alvo são estudantes, profissionais autônomos, MEIs e prestadores de serviços que desejam entender ordens de grandeza e premissas, bem como docentes e profissionais que queiram usar a ferramenta como material didático. O sistema **não** substitui contador nem orientação jurídica e **não** recomenda regime tributário.
 
-Os módulos implementados são: Pessoa Física/autônomo (IRPF mensal e INSS do contribuinte individual), MEI (limite de receita e DAS-MEI), Simples Nacional para serviços (Anexos III e V, RBT12/RBT12p, Fator R), pró-labore do sócio, distribuição de lucros (IRRF mensal e limite sem escrituração) e o comparador PF × PJ. Cada módulo apoia-se em regras tributárias catalogadas (TR-001 a TR-011), pesquisadas, validadas contra fontes oficiais, implementadas e testadas. Uma linha do tempo educacional da Reforma Tributária (2026–2033) existe como **estrutura de navegação**; seu conteúdo por ano ainda está marcado como pendente de validação.
+Os módulos implementados são: Pessoa Física/autônomo (IRPF mensal e INSS do contribuinte individual), MEI (limite de receita e DAS-MEI), Simples Nacional para serviços (Anexos III e V, RBT12/RBT12p, Fator R), pró-labore do sócio, distribuição de lucros (IRRF mensal e limite sem escrituração) e o comparador PF × PJ, oferecidos em dois modos de uso: a **simulação detalhada** (preenchimento técnico completo) e a **simulação guiada** (cenário empresarial a partir de enquadramento, ramo, ticket médio e clientes por mês, com apresentação animada, projeções operacionais de 12 e 60 meses e cenários de crescimento da equipe). Cada módulo apoia-se em regras tributárias catalogadas (TR-001 a TR-011), pesquisadas, validadas contra fontes oficiais, implementadas e testadas. A Reforma Tributária (2026–2033) tem uma **linha do tempo educacional** (`/reforma`), com o cronograma oficial resumido e a distinção explícita entre o cálculo real de 2026 e o conteúdo educacional dos anos seguintes. Uma apresentação interativa do projeto (`/mapa-mental`) resume o trabalho.
 
-A arquitetura é uma aplicação web monolítica modular em camadas (interface → rotas Flask → serviços/adaptadores → motor tributário → carga de regras → JSON por ano), sem banco de dados, sem autenticação e sem dependência externa em tempo de execução para o cálculo. Todo parâmetro fiscal vive em `data/tax_rules/<ano>/rules.json`; o código contém apenas fórmulas. O resultado técnico é medido: **432 testes automatizados, todos aprovados, com 98% de cobertura de linhas** (meta acadêmica: ≥ 80%; a cobertura não é, nem se afirma ser, de 100%).
+A arquitetura é uma aplicação web monolítica modular em camadas (interface → rotas Flask → serviços/adaptadores → motor tributário → carga de regras → JSON por ano), sem banco de dados, sem autenticação e sem dependência externa em tempo de execução para o cálculo. Todo parâmetro fiscal vive em `data/tax_rules/<ano>/rules.json`; o código contém apenas fórmulas. O resultado técnico é medido: **535 testes automatizados, todos aprovados, com 98% de cobertura de linhas** (meta acadêmica: ≥ 80%; a cobertura não é, nem se afirma ser, de 100%).
 
 **Estado por ano:** 2026 possui motor tributário real. 2027–2033 possuem apenas arquivos de regras vazios e a linha do tempo educacional; **não há cálculo fiscal para esses anos**.
 
@@ -96,7 +96,7 @@ Desenvolver e documentar um sistema web educacional capaz de simular, com regras
 6. Calcular INSS e IRPF do pró-labore do sócio (TR-010).
 7. Calcular o IRRF sobre dividendos, o limite de distribuição sem escrituração e sinalizar altas rendas (TR-011).
 8. Comparar PF × PJ para a mesma receita, sem recomendar opção.
-9. Oferecer uma linha do tempo educacional da Reforma 2026–2033 (estrutura; conteúdo pendente).
+9. Oferecer uma linha do tempo educacional da Reforma 2026–2033, com cronograma oficial resumido e distinção entre cálculo real (2026) e conteúdo educacional (2027–2033).
 10. Manter rastreabilidade entre regra, fonte, implementação e teste.
 11. Garantir qualidade por testes automatizados, com cobertura mínima de 80%.
 
@@ -167,11 +167,16 @@ Os requisitos abaixo consolidam, para este relatório, o que o sistema **efetiva
 | RF-07 | Calcular dividendos: IRRF mensal, limite sem escrituração, modo com escrituração, aviso de altas rendas (TR-011) | Implementado | RF-017 (parcial) |
 | RF-08 | Comparar PF × PJ para a mesma receita, com diferenças numéricas e sem recomendação | Implementado | RF-015..019 |
 | RF-09 | Exibir explicações, avisos e identificadores de regra (TR-xxx) em cada resultado | Implementado | RF-005, RF-013, RF-027 |
-| RF-10 | Exibir a linha do tempo da Reforma 2026–2033 | **Parcial**: navegação por ano implementada; conteúdo educacional por ano ainda marcado "pendente de validação" | RF-021..023 |
+| RF-10 | Exibir a linha do tempo da Reforma 2026–2033 | **Concluído** (conteúdo educacional): navegação por etapa, cronograma oficial resumido, selo "Cálculo implementado no MVP" (2026) e "Conteúdo educacional / motor futuro" (2027–2033) | RF-021..023 |
 | RF-11 | Validar entradas no servidor (formato, faixa, enums, histórico) com mensagem por campo | Implementado | RF-029 |
 | RF-12 | Apresentar formulários e resultados no navegador (`POST /resultado`) | Implementado | RF-024..026 |
 | RF-13 | Carregar regras versionadas por ano e recusar cálculo de regra não implementada/testada | Implementado | RF-027, RF-028 |
 | RF-14 | Informar cenário não suportado ou incompatível sem exibir resultado parcial | Implementado | RF-014 |
+| RF-15 | Simulação guiada de cenário empresarial: permitir uma simulação simplificada baseada em enquadramento, ramo, ticket médio e quantidade média de clientes, apresentando cenários operacionais e projeções educacionais de forma guiada | **Concluído** | — (novo) |
+
+**Decisão sobre o RF-10.** A redação do RF-10 exige exibir a linha do tempo da Reforma 2026–2033 (e, no documento original, RF-021..023, resumo, tributos envolvidos, etapa da transição, observações e fonte oficial por ano); ela **não** exige cálculo tributário para anos futuros. O status passou de Parcial para Concluído porque a linha do tempo agora traz esse conteúdo educacional, com fonte oficial registrada (F-49 e F-35). O requisito não foi reescrito: o que mudou foi a entrega. Permanece fora do sistema o motor de cálculo de 2027–2033.
+
+**Sobre o RF-15.** As projeções de 12 e 60 meses da simulação guiada são **aritméticas** (valor mensal × 12 e × 60, com premissas constantes) e não são cálculos fiscais definitivos para exercícios futuros; a "sobra operacional estimada" não é lucro líquido (não inclui despesas operacionais, encargos trabalhistas completos nem a tributação completa da distribuição de lucros).
 
 Itens da especificação original **não** implementados (ver seção 34): gráficos comparativos, diferença anual no comparador, botão "Simular no Simples" a partir do MEI, preservação de dados entre telas (RF-008, RF-018, RF-020, RF-030 do documento original).
 
@@ -217,7 +222,8 @@ Critério: **Must** = núcleo indispensável a um MVP executável em horizonte a
 | RNF-01, 02, 03 | `Decimal`, parâmetros em JSON, sem lógica fiscal na interface | Must | Correção e auditabilidade | Entregue |
 | RNF-10 | Cobertura ≥ 80% | Must | Meta acadêmica | Entregue (98%) |
 | RF-07 | Dividendos (IRRF, limite sem escrituração) | Should | Refina o cenário PJ; depende de pesquisa adicional | Entregue |
-| RF-10 | Linha do tempo da Reforma (estrutura e conteúdo) | Should | Objetivo educacional do projeto; conteúdo exige nova pesquisa | Estrutura entregue; conteúdo pendente |
+| RF-10 | Linha do tempo da Reforma (estrutura e conteúdo educacional) | Should | Objetivo educacional do projeto | Entregue (conteúdo educacional; sem motor para 2027–2033) |
+| RF-15 | Simulação guiada de cenário empresarial | Should | Melhora a usabilidade e a apresentação; não bloqueia o núcleo | Entregue |
 | RNF-07, 08 | Responsividade e acessibilidade básica | Should | Qualidade de uso | Entregues (revisão visual manual pendente) |
 | — | Atalhos entre simulações (ex.: MEI → Simples) | Should | Melhora de fluxo | Não entregue |
 | — | Diferença anual no comparador | Should | Complementa a diferença mensal | Não entregue |
@@ -231,7 +237,7 @@ Critério: **Must** = núcleo indispensável a um MVP executável em horizonte a
 | — | APIs governamentais; atualização legal automática | Won't | Dependência externa e risco normativo | Fora do escopo |
 | — | IA; aplicativo mobile; consultoria personalizada | Won't | Fora da proposta | Fora do escopo |
 
-**Distribuição:** Must = 14 itens (12 RF + 2 grupos de RNF, contando RNF-01/02/03 como um grupo e RNF-10 como outro); Should = 5; Could = 4; Won't = 5 grupos.
+**Distribuição:** Must = 14 itens (12 RF + 2 grupos de RNF, contando RNF-01/02/03 como um grupo e RNF-10 como outro); Should = 6; Could = 4; Won't = 5 grupos.
 
 ---
 
@@ -247,8 +253,9 @@ Critério: **Must** = núcleo indispensável a um MVP executável em horizonte a
 - Pró-labore de sócio único.
 - Dividendos no escopo validado: IRRF mensal, limite sem escrituração, modo com escrituração contábil informada pelo usuário.
 - Comparador PF × PJ.
-- Interface web com formulários, validação e resultados.
-- Linha do tempo educacional da Reforma 2026–2033 (estrutura).
+- Interface web com formulários, validação e resultados, em dois modos: simulação detalhada e simulação guiada (cenário empresarial com apresentação animada, gráficos, cenários de equipe e projeções aritméticas de 12 e 60 meses).
+- Linha do tempo educacional da Reforma 2026–2033 (conteúdo educacional; apenas 2026 tem motor de cálculo).
+- Apresentação interativa do projeto (`/mapa-mental`).
 
 ### 11.2 Fora do escopo
 
@@ -272,7 +279,7 @@ Critério: **Must** = núcleo indispensável a um MVP executável em horizonte a
 |---|---|
 | Nome do projeto | Simulador Tributário Brasileiro 2026–2033 |
 | Justificativa | A complexidade e a mutabilidade das regras tributárias dificultam a compreensão, por não especialistas, do impacto aproximado de cada estrutura (PF, MEI, Simples). Um simulador educacional rastreável contribui para o ensino e a alfabetização tributária. |
-| Objetivo | Entregar um sistema web educacional com motor tributário real para 2026, comparador PF × PJ e estrutura educacional da Reforma 2026–2033 (seção 5). |
+| Objetivo | Entregar um sistema web educacional com motor tributário real para 2026, comparador PF × PJ, simulação guiada e linha do tempo educacional da Reforma 2026–2033 (seção 5). |
 | Entregáveis | (1) Sistema web funcional; (2) catálogo de regras e pesquisa tributária validada; (3) `rules.json` versionado; (4) suíte de testes e relatório de cobertura; (5) documentação técnica e de qualidade; (6) este relatório acadêmico. |
 | Escopo de alto nível | Conforme seção 11. |
 | Restrições | Prazo acadêmico (horizonte de 4–6 semanas); apenas fontes oficiais como base normativa; sem orçamento financeiro dedicado; sem banco de dados, login ou APIs externas; ferramenta estritamente educacional. |
@@ -294,7 +301,7 @@ O projeto é tecnicamente viável com tecnologias maduras, gratuitas e de baixo 
 - **HTML/CSS/JavaScript puros:** sem *framework* de front-end; o JavaScript limita-se a comportamento de interface.
 - **`Decimal`:** aritmética decimal exata nos valores monetários e fiscais, sem `float`.
 - **JSON versionado:** parâmetros fiscais por ano, separados do código e carregados com conversão explícita e estrita.
-- **Testes automatizados:** 432 testes e 98% de cobertura sustentam a correção e a manutenção.
+- **Testes automatizados:** 535 testes e 98% de cobertura sustentam a correção e a manutenção.
 - **Arquitetura modular:** motor independente de Flask, modelos imutáveis e enums fechados.
 - **Sem dependência externa em tempo de execução para o cálculo:** o motor só lê arquivos JSON locais.
 
@@ -389,7 +396,7 @@ Dados por ano (data/tax_rules/<ano>/rules.json)
 |---|---|---|
 | Interface | `templates/`, `static/css/style.css`, `static/js/app.js` | Formulários e resultados; o JavaScript apenas mostra/oculta campos, valida formato e gerencia o menu e a linha do tempo. Nenhuma regra fiscal. |
 | Rotas | `app.py` | Define as rotas, filtros de apresentação e o `POST /resultado`; devolve erros de formulário (422) sem expor falhas. |
-| Serviços/adaptadores | `src/services/simulation_input_adapter.py`, `simulation_service.py`, `presentation.py` | Converte strings de formulário em modelos (`parse_brl_input`, `Decimal`); orquestra o motor; formata moeda/percentuais e rótulos. Não contém fórmula. |
+| Serviços/adaptadores | `src/services/simulation_input_adapter.py`, `simulation_service.py`, `guided_simulation.py`, `presentation.py` | Converte strings de formulário em modelos (`parse_brl_input`, `Decimal`); orquestra o motor; monta os cenários da simulação guiada reutilizando os motores (faturamento = ticket médio × clientes; cenários com equipe; projeções aritméticas); formata moeda/percentuais e rótulos. Não contém fórmula tributária. |
 | Modelos | `src/models/tax.py` | Dataclasses imutáveis de entrada e resultado, enums (planos, categorias, atividades, anexos, status) e validações. |
 | Motor tributário | `src/tax_engine/` (`pf_2026.py`, `mei_2026.py`, `simples_2026.py`, `prolabore_2026.py`, `dividendos_2026.py`, `comparator_2026.py`, `calculator.py`) | Fórmulas dos módulos, independentes de Flask; leem parâmetros do JSON via `get_rule`. |
 | Regras | `src/tax_rules/` (`rule_loader.py`, `decimal_utils.py`, `exceptions.py`) | Carrega e valida o arquivo de regras por ano; obtém regra por ID; converte decimais de forma estrita; recusa regra cujo status não autoriza cálculo. |
@@ -444,7 +451,9 @@ Cada `rules.json` tem `schema_version`, `ano` e uma lista `regras`; cada regra t
 | | 5.2 Adaptador de entrada e parser BRL | `simulation_input_adapter.py` |
 | | 5.3 Formulários e macros | `templates/` |
 | | 5.4 Resultados e apresentação | `result.html`, `presentation.py` |
-| | 5.5 Linha do tempo da Reforma (estrutura) | `reform.html`, `app.js` |
+| | 5.5 Linha do tempo educacional da Reforma | `reform.html`, `reform.js` |
+| | 5.6 Simulação guiada (formulário, apresentação animada, gráficos) | `guided_simulation.py`, `guided_simulation*.html`, `guided-simulation.js` |
+| | 5.7 Mapa mental interativo | `mind_map.html`, `mind-map.js` |
 | **6. Qualidade** | 6.1 Testes por módulo | `tests/test_*_2026.py` |
 | | 6.2 Integração frontend/backend | `test_frontend_integration.py` |
 | | 6.3 *Hardening* e entradas hostis | Fase final de testes |
@@ -613,16 +622,16 @@ Os percentuais são **hipóteses de planejamento** (práticas usuais de gestão 
 
 **Evidências reais (Fase final de testes):**
 
-- **432 testes automatizados**, todos aprovados;
+- **535 testes automatizados**, todos aprovados;
 - **98% de cobertura de linhas** (`src` + `app.py`), contra a meta exigida de **≥ 80%**. A cobertura mede linhas, não ramos, e não é de 100%.
 
 | Grupo | Cobertura |
 |---|---|
 | Motor tributário (`src/tax_engine`) | ≈ 99,5% |
 | Regras (`src/tax_rules`) | ≈ 93% |
-| Serviços (`src/services`) | ≈ 99% |
+| Serviços (`src/services`) | ≈ 97% |
 | Modelos (`src/models`) | 98% |
-| `app.py` | 97% |
+| `app.py` | 98% |
 | **Total** | **98%** |
 
 **Tipos de verificação:** testes unitários dos motores; testes de integração do fluxo HTTP; testes de fronteira; entradas hostis/extremas; regressão; auditoria de camadas; segurança de saída; verificação de responsividade e acessibilidade básica. O detalhamento está em `docs/project/testing-and-quality.md`.
@@ -645,7 +654,7 @@ Os percentuais são **hipóteses de planejamento** (práticas usuais de gestão 
 
 **QC — Controle da Qualidade (verificação do produto):**
 
-- execução da suíte com `pytest` (432 testes);
+- execução da suíte com `pytest` (535 testes);
 - medição de cobertura com `coverage` (98%);
 - testes de fronteira (limites de faixas, MEI, Fator R, sublimites, R$ 50 mil, altas rendas);
 - integração HTTP (`POST /resultado` nos quatro módulos);
@@ -665,6 +674,9 @@ Os percentuais são **hipóteses de planejamento** (práticas usuais de gestão 
 | Fronteiras | Limites de faixa e de corte de cada regra | Nos arquivos de cada motor |
 | Robustez | Entradas hostis em todos os campos dos quatro formulários, sem erro 500 | `test_frontend_integration.py` |
 | Camadas e segurança | Ausência de parâmetros fiscais na interface; *autoescaping*; sem `|safe` | `test_frontend_integration.py` |
+| Simulação guiada | Faturamento derivado, cenários de equipe, regra de empregados do MEI, projeções 12/60 meses e premissas explícitas, validação e entradas hostis | `test_guided_simulation.py` |
+| Linha do tempo da Reforma | Sete etapas 2026–2033, selos de cálculo × conteúdo educacional, contagens reais de regras por exercício, fonte e cronograma | `test_guided_simulation.py` |
+| Mapa mental | Conteúdo, 17 paradas, números coerentes com este relatório, JS sem lógica fiscal nem navegação livre | `test_mind_map.py` |
 | Regressão | Execução integral a cada fase; invariantes (total = soma; líquido = bruto − tributos) | Suíte completa |
 
 Fronteiras cobertas (exemplos): IRPF R$ 5.000,00 / 5.000,01 e 7.350,00 / 7.350,01; MEI R$ 81.000,00 / 81.000,01 e 97.200,00 / 97.200,01; Fator R 0,27 / 0,28 / 0,29; Simples R$ 3.600.000,00 / 3.600.000,01 e 4.800.000,00 / 4.800.000,01; dividendos R$ 50.000,00 / 50.000,01; altas rendas R$ 600.000,00 / 600.000,01.
@@ -720,7 +732,7 @@ Escala: Probabilidade (P) e Impacto (I) de 1 (muito baixo) a 5 (muito alto); **E
 | R08 | HUMANO | Uso do simulador como aconselhamento profissional pelo usuário | 3 | 4 | 12 | Mitigar | Aviso em todas as páginas e na tela de resultado; nenhuma recomendação de regime | Reforçar avisos; restringir uso a contexto educacional | Gestão |
 | R09 | INFRAESTRUTURA | Indisponibilidade da hospedagem em uma implantação futura | 2 | 3 | 6 | Transferir/Mitigar | Escolha de provedor com SLA adequado; aplicação *stateless* e portável | Reimplantar em outro provedor a partir do repositório | Desenvolvimento |
 | R10 | INFRAESTRUTURA | Incompatibilidade de ambiente (versão do Python ou de dependências) | 2 | 3 | 6 | Mitigar | `requirements.txt` com versões mínimas; suíte de testes reprodutível | Fixar versões e recriar o ambiente virtual | Desenvolvimento |
-| R11 | QUALIDADE | Defeito não detectado em combinação rara de entrada | 3 | 4 | 12 | Mitigar | 432 testes, fronteiras e entradas hostis; cobertura de 98% | Correção priorizada; novo teste de regressão | QA |
+| R11 | QUALIDADE | Defeito não detectado em combinação rara de entrada | 3 | 4 | 12 | Mitigar | 535 testes, fronteiras e entradas hostis; cobertura de 98% | Correção priorizada; novo teste de regressão | QA |
 | R12 | QUALIDADE | Sensação de conformidade total a partir da cobertura alta (cobertura mede linhas, não correção normativa) | 2 | 3 | 6 | Mitigar | Testes derivados de valores das fontes oficiais; validação normativa separada | Revisão por profissional da área | QA |
 | R13 | PRAZO | Complexidade do Simples/Fator R superior ao planejado | 3 | 4 | 12 | Mitigar | Escopo restrito a serviços, Anexos III/V e nove atividades; corte de Should/Could | Acionar a reserva de contingência; reduzir escopo | Gestão |
 | R14 | PRAZO | Expectativa de cobertura de Lucro Presumido/Real ou de 2027+ | 2 | 3 | 6 | Evitar | Escopo explícito; itens rotulados como "em breve"/fora do escopo | Comunicar limitações na interface e no relatório | Gestão |
@@ -807,7 +819,8 @@ Com isso, o MVP **minimiza a persistência** de dados pessoais. Ainda assim, uma
 | RF-07 Dividendos | `src/tax_engine/dividendos_2026.py` | TR-011 | `tests/test_prolabore_dividendos_2026.py` | Concluído |
 | RF-08 Comparador | `src/tax_engine/comparator_2026.py` | TR-010, TR-011 e TR-001..TR-009 | `tests/test_comparator_2026.py` | Concluído |
 | RF-09 Explicações e avisos | `src/services/presentation.py`, `templates/result.html`, `templates/_macros.html` | TR-001..TR-011 (IDs exibidos) | `tests/test_frontend_integration.py` | Concluído |
-| RF-10 Reforma 2026–2033 | `templates/reform.html`, `static/js/app.js` | — (sem regra fiscal) | `tests/test_routes.py` (rota 200) | **Parcial** (estrutura; conteúdo pendente) |
+| RF-10 Reforma 2026–2033 | `templates/reform.html`, `static/js/reform.js`, rota `/reforma` em `app.py` | — (sem regra fiscal; fontes F-49 e F-35) | `tests/test_guided_simulation.py` (timeline), `tests/test_routes.py` | **Concluído** (conteúdo educacional) |
+| RF-15 Simulação guiada | `src/services/guided_simulation.py`, `templates/guided_simulation.html`, `templates/guided_simulation_result.html`, `static/js/guided-simulation.js` | Reutiliza TR-001..TR-011 (via motores); parâmetros do MEI em TR-003 | `tests/test_guided_simulation.py` | **Concluído** (projeções aritméticas, não fiscais) |
 | RF-11 Validação de entradas | `src/services/simulation_input_adapter.py`; validações em `src/models/tax.py` | — | `tests/test_frontend_integration.py`, `tests/test_tax_models.py` | Concluído |
 | RF-12 Resultados no navegador | `app.py`, `templates/`, `src/services/simulation_service.py` | — | `tests/test_frontend_integration.py`, `tests/test_routes.py` | Concluído |
 | RF-13 Regras versionadas | `src/tax_rules/rule_loader.py`; `data/tax_rules/<ano>/rules.json` | TR-001..TR-011 | `tests/test_rule_loader.py` | Concluído |
@@ -830,18 +843,21 @@ Rastreabilidade normativa de cada TR-xxx (fontes oficiais, questões em aberto e
 - **Pró-labore e dividendos** funcionais (INSS, IRPF, IRRF de dividendos, limite sem escrituração com a parcela de IRPJ do DAS).
 - **Comparador PF × PJ** funcional, lado a lado, com diferenças numéricas e sem recomendação.
 - **Frontend** funcional (formulários, `POST /resultado`, resultados explicados).
-- **432 testes** e **98% de cobertura** (meta ≥ 80%).
+- **Modo detalhado** e **modo guiado** de simulação; a simulação guiada tem apresentação animada, cenários de equipe, gráficos e resumo final com premissas identificadas (projeções aritméticas, não previsão financeira real).
+- **Linha do tempo educacional da Reforma 2026–2033** e **mapa mental interativo** do projeto.
+- **535 testes** e **98% de cobertura** (meta ≥ 80%).
 - **Parser de moeda brasileira** com `Decimal` e **validação no servidor**.
 - **Tratamento de entradas hostis**: nenhuma resposta 500 nos cenários adversariais testados.
 - **Responsividade**: verificação de ausência de rolagem horizontal em 360 px em 15 páginas (sem avaliação estética completa).
-- **Processo**: dois *pull requests* integrados; histórico de commits por fase; documentação de pesquisa, projeto e qualidade.
+- **Processo**: três *pull requests* integrados (PR #1 e #2 na `main`; PR #3 na branch de entrega); histórico de commits por fase; documentação de pesquisa, projeto e qualidade.
 
 ---
 
 ## 34. Limitações
 
-- O **cálculo real está restrito ao ano de 2026**. **2027–2033 possuem apenas estrutura educacional**; não há motor fiscal para esses anos.
-- O conteúdo educacional por ano da linha do tempo da Reforma (`/reforma`) está **pendente de validação** e exibido como tal.
+- O **cálculo real está restrito ao ano de 2026**. **2027–2033 possuem apenas conteúdo educacional** (linha do tempo); não há motor fiscal para esses anos.
+- A linha do tempo da Reforma (`/reforma`) é **conteúdo educacional** resumido a partir de fonte oficial; os motores de 2027–2033 são futuros. As projeções da simulação guiada não substituem motores anuais.
+- A simulação guiada **não inclui cálculo trabalhista completo**; os salários dos cenários (1 salário mínimo por funcionário e 2 para o gerente) são **premissas operacionais** e não regra legal; a projeção de 60 meses mantém premissas constantes e a "sobra operacional estimada" não é lucro líquido.
 - Cenários específicos fora do MVP: dependentes, pensão alimentícia e Livro Caixa no IRPF; rendimentos do exterior; MEI Caminhoneiro; Simples Anexos I, II e IV; múltiplas atividades e segregações de receita; ISS devido a outro município, retenção, exportação e substituição tributária; sócio com múltiplas fontes.
 - Simples com RBT12/RBT12p acima do sublimite de R$ 3,6 milhões: cálculo integral **não suportado** (o sistema informa, sem valores).
 - Tributação anual de altas rendas (art. 16-A): **fora do cálculo integral**; o sistema apenas avisa.
@@ -853,7 +869,7 @@ Rastreabilidade normativa de cada TR-xxx (fontes oficiais, questões em aberto e
 - Política de arredondamento fiscal em aberto; a tela arredonda apenas a exibição.
 - Pendências documentais residuais (ex.: releitura integral de artigo da Resolução CGSN nº 140/2018).
 - A cobertura mede linhas e não garante correção normativa; a inspeção visual manual em 360 px está pendente.
-- **Consistência documental:** `README.md` e partes de `docs/project/` (requisitos, arquitetura do motor, especificação) preservam textos de fases anteriores (por exemplo, "nenhum cálculo real implementado"). Este relatório descreve o estado final; recomenda-se atualizar esses documentos na revisão final.
+- **Consistência documental:** o `README.md` foi atualizado; partes de `docs/project/` (requisitos, arquitetura do motor, especificação) preservam textos de fases anteriores, sinalizados por notas "Status posterior". Este relatório descreve o estado final.
 - O sistema **não substitui** análise contábil ou jurídica profissional.
 
 ---
@@ -881,8 +897,8 @@ Todos os itens abaixo são **futuros** e **não fazem parte** do sistema entregu
 
 ## 36. Conclusão
 
-O projeto cumpriu o objetivo de entregar um simulador tributário educacional com motor real para 2026, apoiado em regras catalogadas, validadas contra fontes oficiais e verificadas por 432 testes automatizados, com 98% de cobertura de linhas. A arquitetura em camadas, o uso de `Decimal` e a separação entre fórmulas (código) e parâmetros (JSON por ano) atendem aos requisitos de rastreabilidade, auditabilidade e manutenção, e a interface web torna os cálculos acessíveis com explicações, avisos e tratamento de entradas inválidas.
+O projeto cumpriu o objetivo de entregar um simulador tributário educacional com motor real para 2026, apoiado em regras catalogadas, validadas contra fontes oficiais e verificadas por 535 testes automatizados, com 98% de cobertura de linhas. A arquitetura em camadas, o uso de `Decimal` e a separação entre fórmulas (código) e parâmetros (JSON por ano) atendem aos requisitos de rastreabilidade, auditabilidade e manutenção. A interface web torna os cálculos acessíveis em dois modos, o detalhado e o guiado (cenário empresarial com apresentação animada e projeções aritméticas), com explicações, avisos recolhidos e tratamento de entradas inválidas.
 
-O trabalho também delimita com clareza o que **não** foi feito: não há cálculo para 2027–2033, nem Lucro Presumido ou Real, nem persistência, autenticação, exportação ou integração com APIs; a linha do tempo da Reforma existe como estrutura, com conteúdo ainda pendente; e o sistema não substitui profissional nem recomenda regime. A análise de viabilidade econômica foi apresentada como cenário acadêmico hipotético, com seus limites explícitos.
+O trabalho também delimita com clareza o que **não** foi feito: não há cálculo para 2027–2033, nem Lucro Presumido ou Real, nem persistência, autenticação, exportação ou integração com APIs; a linha do tempo da Reforma é conteúdo educacional, sem motor para 2027–2033; as projeções da simulação guiada são aritméticas, não substituem motores anuais e não incluem cálculo trabalhista completo; e o sistema não substitui profissional nem recomenda regime. A análise de viabilidade econômica foi apresentada como cenário acadêmico hipotético, com seus limites explícitos.
 
 Como próximos passos, recomendam-se: a inspeção visual manual em 360 px, a atualização dos documentos das fases iniciais (inclusive o `README`), a definição da política de arredondamento com base em orientação oficial e a escolha, pela equipe, dos itens do roadmap a serem priorizados.

@@ -33,7 +33,7 @@ def test_all_routes_still_return_200(client, path):
 
 def test_mind_map_has_main_content(html):
     t = plain(html)
-    for needle in ("Simulador Tributário Brasileiro 2026–2033", "2026", "Cálculo real", "432", "98%",
+    for needle in ("Simulador Tributário Brasileiro 2026–2033", "2026", "Cálculo real", "535", "98%",
                    "TR-001", "TR-011", "Roadmap", "Limitações", "FUTURO", "Cenário acadêmico estimativo",
                    "R$ 5.175,24", "22,83%", "Não substitui orientação"):
         assert needle in t, needle
@@ -68,9 +68,9 @@ def test_figures_match_the_final_report(html):
     report = (ROOT / "docs/academic/relatorio-final.md").read_text(encoding="utf-8")
     must, should, could, wont = (int(x) for x in re.search(
         r"Must = (\d+) itens.*?Should = (\d+); Could = (\d+); Won't = (\d+)", report, re.S).groups())
-    assert (must, should, could, wont) == (14, 5, 4, 5)
+    assert (must, should, could, wont) == (14, 6, 4, 5)
     assert f'aria-label="Distribuição MoSCoW: Must {must}, Should {should}, Could {could}, Won\'t {wont}"' in html
-    for figure in ("432 testes", "98% de cobertura", "R$ 5.175,24", "22,83", "2,81", "3,65", "R$ 18.400,00", "R$ 6.540,00"):
+    for figure in ("535 testes", "98% de cobertura", "R$ 5.175,24", "22,83", "2,81", "3,65", "R$ 18.400,00", "R$ 6.540,00"):
         assert figure.replace("22,83", "22,8") in report or figure in report, figure
 
 

@@ -18,13 +18,16 @@ Simular e comparar cenários de 2026 de forma transparente e rastreável (cálcu
 - **Simples Nacional (serviços)** — Anexos III e V, RBT12/RBT12p, Fator R, nove atividades validadas. Funcional.
 - **Pró-labore e dividendos** — INSS/IRPF do pró-labore, IRRF sobre dividendos e limite sem escrituração. Funcional.
 - **Comparador PF × PJ** — lado a lado, com diferenças numéricas e sem recomendação. Funcional.
-- **Interface web integrada** — formulários, validação no servidor e resultados explicados.
+- **Interface web integrada**, em dois modos:
+  - **Simulação detalhada** — preenchimento técnico/completo, com validação no servidor, resultados explicados e detalhes do cálculo recolhidos.
+  - **Simulação guiada** — enquadramento (MEI ou Simples), ramo, ticket médio e clientes por mês: o faturamento é derivado e o sistema conduz uma apresentação animada com tributos, "sobra operacional estimada", projeções aritméticas de 12 e 60 meses, cenários de equipe, gráficos e resumo final. Não inclui cálculo trabalhista completo.
+- **Linha do tempo educacional da Reforma 2026–2033** (`/reforma`) e **mapa mental interativo** do projeto (`/mapa-mental`).
 
-**2027–2033:** apenas linha do tempo educacional da Reforma (estrutura de navegação; conteúdo por ano ainda pendente de validação). Não há motor fiscal para esses anos; os arquivos de regras correspondentes estão vazios.
+**2027–2033:** conteúdo educacional (linha do tempo da Reforma, a partir de fonte oficial). Não há motor fiscal para esses anos; os arquivos de regras correspondentes estão vazios. As projeções da simulação guiada são aritméticas e não substituem motores anuais.
 
 Fora do escopo: Lucro Presumido, Lucro Real, banco de dados/histórico, autenticação, exportação em PDF, integração com APIs governamentais, atualização legal automática. Limitações detalhadas no relatório final.
 
-**Qualidade:** 432 testes automatizados; 98% de cobertura de linhas (`src` + `app.py`). Ver [docs/project/testing-and-quality.md](docs/project/testing-and-quality.md).
+**Qualidade:** 535 testes automatizados; 98% de cobertura de linhas (`src` + `app.py`). Ver [docs/project/testing-and-quality.md](docs/project/testing-and-quality.md).
 
 ## Stack
 Python + Flask · HTML5/CSS3/JavaScript puros · `decimal.Decimal` para valores monetários · pytest. Sem banco de dados, sem login, sem sessão e sem framework de front-end.
@@ -38,8 +41,8 @@ Navegador → app.py (rotas Flask)
 Nenhuma fórmula fiscal no HTML, JS ou rotas. Os parâmetros fiscais vivem só em `data/tax_rules/<ano>/rules.json`; as fórmulas, em `src/tax_engine`. Fontes e rastreabilidade das regras: `docs/research/` (catálogo, matriz e fontes).
 
 ## Estrutura
-- `app.py` – app Flask e rotas (`POST /resultado` executa as simulações)
-- `src/tax_engine` – motores de cálculo · `src/tax_rules` – carga de regras · `src/services` – adaptadores, serviço e apresentação · `src/models` – modelos imutáveis e enums
+- `app.py` – app Flask e rotas (`POST /resultado` executa a simulação detalhada; `/simulacao-guiada`, a guiada)
+- `src/tax_engine` – motores de cálculo · `src/tax_rules` – carga de regras · `src/services` – adaptadores, serviço, simulação guiada e apresentação · `src/models` – modelos imutáveis e enums
 - `data/tax_rules/2026…2033` – regras por ano (2026 com TR-001 a TR-011; 2027–2033 vazios)
 - `templates/`, `static/` – interface · `tests/` – pytest · `docs/` – pesquisa, projeto e relatório acadêmico
 

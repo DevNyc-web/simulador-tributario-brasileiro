@@ -1,5 +1,4 @@
 # Simulador Tributário Brasileiro 2026–2033
-<!-- Nota interna (não aparece na versão renderizada): preencher [Inserir integrantes] e [Inserir orientador(a)] antes de gerar o artefato final. -->
 
 **Sistema web educacional para simulação e comparação tributária**
 
@@ -16,8 +15,8 @@ Relatório final do projeto — documentação acadêmica
 | Natureza | Projeto acadêmico (trabalho de disciplina); ferramenta educacional, não comercial |
 | Versão entregue | 1.0 — MVP com motor tributário real para o ano-calendário de 2026 (base: commit `1f28c60`, merge do PR #2 na `main`) |
 | Ano | 2026 |
-| Integrantes | [Inserir integrantes] |
-| Orientação acadêmica | [Inserir orientador(a)] |
+| Integrantes | Beatriz Madeira Lima e Nychollas W. D. de Freitas |
+| Orientação acadêmica | Renato Richter |
 | Repositório | `DevNyc-web/simulador-tributario-brasileiro` (identificador da conta no GitHub; não é nome de integrante) |
 | Tecnologias principais | Python 3.12; Flask (≥ 3.0); HTML5, CSS3 e JavaScript puros; JSON versionado por ano; `decimal.Decimal`; pytest (≥ 8); coverage 7.16.2 (apenas desenvolvimento); Git/GitHub |
 | Métricas de entrega | 535 testes automatizados; 98% de cobertura de linhas (`src` + `app.py`); ≈ 2.000 linhas de código-fonte e ≈ 2.100 linhas de testes |
@@ -123,15 +122,15 @@ Princípio condutor do desenvolvimento: **nenhuma regra é implementada sem pesq
 
 ## 7. Equipe e responsabilidades
 
-Não há, na documentação do repositório, identificação inequívoca de integrantes além do identificador de conta do GitHub. Por isso os nomes permanecem como placeholder. A tabela distingue **papel** (função do projeto) de **pessoa**.
+A tabela distingue **papel** (função do projeto) de **pessoa**.
 
 | Pessoa | Papel | Responsabilidades |
 |---|---|---|
-| [Inserir integrantes] | Gestão do projeto | Escopo, cronograma, riscos, comunicação, aprovação de fases |
-| [Inserir integrantes] | Análise tributária | Pesquisa em fontes oficiais, catálogo de regras, premissas, validação |
-| [Inserir integrantes] | Desenvolvimento | Arquitetura, motor tributário, interface, integração |
-| [Inserir integrantes] | Testes e qualidade (QA) | Estratégia de testes, cobertura, revisão adversarial |
-| [Inserir orientador(a)] | Orientação acadêmica | Avaliação, validação de premissas e de escopo |
+| Beatriz Madeira Lima e Nychollas W. D. de Freitas | Gestão do projeto | Escopo, cronograma, riscos, comunicação, aprovação de fases |
+| Beatriz Madeira Lima e Nychollas W. D. de Freitas | Análise tributária | Pesquisa em fontes oficiais, catálogo de regras, premissas, validação |
+| Beatriz Madeira Lima e Nychollas W. D. de Freitas | Desenvolvimento | Arquitetura, motor tributário, interface, integração |
+| Beatriz Madeira Lima e Nychollas W. D. de Freitas | Testes e qualidade (QA) | Estratégia de testes, cobertura, revisão adversarial |
+| Renato Richter | Orientação acadêmica | Avaliação, validação de premissas e de escopo |
 
 Uma mesma pessoa pode acumular mais de um papel (caso típico de projeto acadêmico de pequena equipe). Nenhuma participação de contador externo é afirmada.
 
@@ -286,7 +285,7 @@ Critério: **Must** = núcleo indispensável a um MVP executável em horizonte a
 | Premissas | Disponibilidade das fontes oficiais; estabilidade das regras de 2026 durante o projeto; usuário informa dados corretos; escopo de cenários limitado ao que foi validado. |
 | Riscos iniciais | Mudança normativa; interpretação incompleta de regras; combinação de casos do Simples; expectativa de que o sistema cubra Lucro Presumido/Real; prazo curto (registro completo na seção 28). |
 | Critérios de sucesso | TR-001 a TR-011 implementadas e testadas; quatro módulos funcionais no navegador; cobertura ≥ 80%; nenhuma lógica fiscal na interface; nenhuma recomendação de regime; documentação completa entregue. |
-| Responsável | Gestão do projeto — [Inserir integrantes] |
+| Responsável | Gestão do projeto — Beatriz Madeira Lima e Nychollas W. D. de Freitas |
 | Aprovação | Conforme processo acadêmico da disciplina |
 
 ---
@@ -503,7 +502,7 @@ As datas vêm do `git log` (data do commit); onde o marco agrupa várias etapas,
 | M7 | Pró-labore, dividendos e comparador (TR-010/011) | 2026-09-30 | `eec8aa3` |
 | M8 | Interface integrada ao motor | 2026-09-30 | `6d55116` |
 | M9 | *Hardening* concluído e PR #2 integrado | 2026-09-30 | `1ff048b`; merge `1f28c60` |
-| M10 | Entrega final (relatório acadêmico e revisão final) | em elaboração nesta fase | Branch `feat/final-delivery` |
+| M10 | Entrega final (relatório acadêmico e revisão final) | concluído em 2026-10-01 | Branch `feat/final-delivery`; merge `c2f3bdb` |
 
 Observação: os commits disponíveis no repositório estão concentrados em 29 e 30/09/2026 (22 commits). O cronograma da seção 19 é a **baseline acadêmica de planejamento** de 6 semanas, e não a medição do tempo real gasto.
 
